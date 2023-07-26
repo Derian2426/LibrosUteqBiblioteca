@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import '@fortawesome/fontawesome-free/css/all.min.css';
 
 const FormularioLibro = () => {
   const [idLibro, setidLibro] = useState(0);
@@ -167,7 +168,7 @@ const FormularioLibro = () => {
     setCoverImage(fileBase64);
   };
 
-  const identificadorArchivo = (posicion,nombreArchivo,nombreLibro) => {
+  const identificadorArchivo = (posicion, nombreArchivo, nombreLibro) => {
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split("T")[0]; // Obtener la fecha actual en formato YYYY-MM-DD
     const nombreConFecha = `${posicion}.${nombreArchivo}_${fechaFormateada}_${nombreLibro}`;
@@ -177,7 +178,7 @@ const FormularioLibro = () => {
   const handleSeleccionArchivoMp4 = async (event, nombreArchivo) => {
     const fileList = event.target.files;
     const fileArray = Array.from(fileList);
-    const identificador = identificadorArchivo(capituloList.length + 1,nombreArchivo,nombreLibro);
+    const identificador = identificadorArchivo(capituloList.length + 1, nombreArchivo, nombreLibro);
     const nuevoCapitulo = {
       idCapitulo: null,
       titulo: nombreArchivo,
@@ -238,128 +239,124 @@ const FormularioLibro = () => {
     });
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Nombre Área:
-        <select value={nombreArea} onChange={handleAreaChange}>
-          <option value="">Seleccionar área</option>
-          {listaArea.map((area) => (
-            <option key={area.idArea} value={area.nombreArea}>
-              {area.nombreArea}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Nombre Subarea:
-        <select value={nombreSubArea} onChange={handleSubAreaChange}>
-          <option value="">Seleccionar área</option>
-          {listaSubArea.map((subarea) => (
-            <option key={subarea.idSubArea} value={subarea.nombreSubArea}>
-              {subarea.nombreSubArea}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Nombre Subarea Especifica:
-        <select
-          value={nombreSubAreaEspecifica}
-          onChange={handleSubAreaEspecificaChange}
-        >
-          <option value="">Seleccionar área</option>
-          {listaSubAreaEspecifica.map((subareaespecifica) => (
-            <option
-              key={subareaespecifica.idSubAreaEspecifica}
-              value={subareaespecifica.nombreSubAreaEspecifica}
-            >
-              {subareaespecifica.nombreSubAreaEspecifica}
-            </option>
-          ))}
-        </select>
-      </label>
-      <label>
-        Nombre del libro:
-        <input
-          type="text"
-          value={nombreLibro}
-          onChange={(event) => setNombreLibro(event.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Fecha de publicación:
-        <input
-          type="date"
-          value={fechaPublicacion}
-          onChange={(event) => setFechaPublicacion(event.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        ISBN:
-        <input
-          type="text"
-          value={isbn}
-          onChange={(event) => setIsbn(event.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Lenguaje:
-        <input
-          type="text"
-          value={lenguaje}
-          onChange={(event) => setLenguaje(event.target.value)}
-        />
-      </label>
-      <br />
-      <label>
-        Cover Image:
-        <input
-          type="file"
-          onChange={handleSeleccionPortada}
-        />
-      </label>
-      <br />
-      <br />
-      <label>
-        PDF Carga:
-        <input type="file" onChange={handleSeleccionArchivo} />
-      </label>
-      <br />
-      {/* Botones adicionales */}
-      {Array.from({ length: inputCount }, (_, index) => (
-        <>
-          <br/>
-          Audio Carga:
-          <input
-            key={index}
-            type="text"
-            value={names[index] || ""}
-            onChange={(event) => handleNameChange(index, event)}
-          />
+    <div >
+      <div className="container" style={{ maxWidth: "1500px", border: "1px dashed green", padding: "10px", fontSize: '14px' }}>
+        <form onSubmit={handleSubmit} className="row g-3 needs-validation" noValidate>
+          <label htmlFor="validationCustom03" className="form-label"
+            style={{ fontSize: '20px', fontWeight: 'bold', color: '#009E50' }}>Ingresar Nuevos Libros</label>
 
-          <label>
-            
-            <input
-              type="file"
-              onChange={
-                (event) => handleSeleccionArchivoMp4(event, names[index]) // Pasar la variable local en lugar de nombreArchivo
-              }
+          <div className="col-md-4">
+            <label htmlFor="validationCustom03" className="form-label">Nombre del Libro:</label>
+            <input className="form-control" type="text" value={nombreLibro}
+              onChange={(event) => setNombreLibro(event.target.value)} />
+          </div>
+          <div className="col-md-2">
+            <label htmlFor="validationCustom03" className="form-label">Nombre Área:</label>
+            <select className="form-select" value={nombreArea} onChange={handleAreaChange}>
+              <option value="">Seleccionar Área</option>
+              {listaArea.map((area) => (
+                <option key={area.idArea} value={area.nombreArea}>
+                  {area.nombreArea}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-md-3">
+            <label htmlFor="validationCustom03" className="form-label">Nombre SubÁrea:</label>
+            <select className="form-select" value={nombreSubArea} onChange={handleSubAreaChange}>
+              <option value="">Seleccionar Sub Área</option>
+              {listaSubArea.map((subarea) => (
+                <option key={subarea.idSubArea} value={subarea.nombreSubArea}>
+                  {subarea.nombreSubArea}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-md-3">
+            <label htmlFor="validationCustom03" className="form-label">Nombre SubÁrea Especifica:</label>
+            <select className="form-select" value={nombreSubAreaEspecifica}
+              onChange={handleSubAreaEspecificaChange} >
+              <option value="">Seleccionar Sub Área Especifica</option>
+              {listaSubAreaEspecifica.map((subareaespecifica) => (
+                <option key={subareaespecifica.idSubAreaEspecifica}
+                  value={subareaespecifica.nombreSubAreaEspecifica}>
+                  {subareaespecifica.nombreSubAreaEspecifica}
+                </option>
+              ))}
+            </select>
+          </div>
+          <div className="col-md-2">
+            <label htmlFor="validationCustom03" className="form-label">Fecha de Publicación:</label>
+            <input className="form-control" type="date" value={fechaPublicacion}
+              onChange={(event) => setFechaPublicacion(event.target.value)}
             />
-          </label>
-        </>
-      ))}
-      <br></br>
-      <button type="button" onClick={handleAddInput}>
-        Agregar nuevo Capitulo
-      </button>
+          </div>
 
-      <button type="submit" onClick={handleSubmit}>
-        Guardar
-      </button>
-    </form>
+          <div className="col-md-2">
+            <label htmlFor="validationCustom03" className="form-label">ISBN:</label>
+            <input className="form-control" type="text" value={isbn} onChange={(event) =>
+              setIsbn(event.target.value)} />
+          </div>
+
+          <div className="col-md-2">
+            <label htmlFor="validationCustom03" className="form-label">Lenguaje:</label>
+            <input className="form-control" type="text" value={lenguaje}
+              onChange={(event) => setLenguaje(event.target.value)} />
+          </div>
+
+          <div className="col-md-3">
+            <label htmlFor="validationCustom03" className="form-label">Cover Image:</label>
+            <input className="form-control" type="file" onChange={handleSeleccionPortada} />
+          </div>
+
+
+          <div className="col-md-3">
+            <label htmlFor="validationCustom03" className="form-label">Carga PDF:</label>
+            <input className="form-control" type="file" onChange={handleSeleccionArchivo} />
+          </div>
+
+          {/* Botones adicionales */}
+          <div className="col-md-4">
+            <label htmlFor="validationCustom03" className="form-label">Carga Audio:</label>
+
+            <button className="btn btn-info" type="button" onClick={handleAddInput}>
+              Agregar nuevo Capitulo del Libro
+            </button>
+
+          </div>
+
+          <div className="col-md-8">
+            <div className="row">
+              {Array.from({ length: inputCount }, (_, index) => (
+                <>
+                  <div className="col-md-6 " >
+
+                    <input className="form-control" key={index} type="text" value={names[index] || ""}
+                      onChange={(event) => handleNameChange(index, event)} />
+                  </div>
+                  <div className="col-md-6 " >
+
+                    <input className="form-control" type="file" onChange={(event) =>
+                      handleSeleccionArchivoMp4(event, names[index])
+                      // Pasar la variable local en lugar de nombreArchivo
+                    } />   </div>
+                </>
+
+              ))}
+            </div>
+          </div>
+
+          <div className="row mt-2">
+            <div className="col-md-12 d-flex justify-content-end">
+              <button className="btn btn-success" type="submit" onClick={handleSubmit}>
+                Guardar
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </div>
+    </div>
   );
 };
 
