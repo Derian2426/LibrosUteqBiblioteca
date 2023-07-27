@@ -8,9 +8,10 @@ const iniciarsesion = () => {
         <div style={{ display: "flex", alignItems: "center", justifyContent: "center", height: "100vh" }}>
             <div className="container"
                 style={{ maxWidth: "500px", border: "1px dashed green", padding: "10px", fontSize: '14px' }}>
-                <div className="text-center" > 
-                    <label htmlFor="validationCustom03" className="form-label"
-                    style={{ fontSize: '34px', color: 'green' }}>INICIAR SESIÓN</label>
+                <div style={{ textAlign: "center" }}>
+                    <a >
+                        <img src="src/imagenes/LOGOCOMPLETOAUDIOLIBROS.png" alt="Inicio" width="400px" height="110px" />
+                    </a>
                 </div>
                 <div className="col-md-12">
                     <label htmlFor="validationCustom03" className="form-label">USUARIO:</label>
