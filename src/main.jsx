@@ -35,7 +35,7 @@ const routes = [
     element: <BusquedaLibros/>,
   },
   {
-    path: "MostrarAudioLibro",
+    path: "MostrarAudioLibro/:data",
     element: <AudioLibro/>,
   },
 ];
@@ -68,7 +68,7 @@ const router = createBrowserRouter([
     element: <BusquedaLibros/>,
   },
   {
-    path: "MostrarAudioLibro",
+    path: "MostrarAudioLibro/:data",
     element: <AudioLibro/>,
   },
 ]);

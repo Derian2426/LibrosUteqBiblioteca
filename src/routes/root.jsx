@@ -1,3 +1,4 @@
+import Tabladatos from "../componentes/datos";
 export default function Root() {
     return (
       <>
@@ -47,6 +48,7 @@ export default function Root() {
           </nav>
         </div>
         <div id="detail"></div>
+        <Tabladatos/>
       </>
     );
   }
