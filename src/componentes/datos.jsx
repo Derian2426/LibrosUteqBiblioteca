@@ -35,14 +35,14 @@ export function Tabladatos() {
         </tr>
       </thead>
       <tbody>
-        {listaSensor.map((dato, index) => (
+      {/* {listaSensor.map((dato, index) => (
           <tr key={index}>
             <th scope="row">{index + 1}</th>
             <td>{dato.nombreLibro}</td>
             <td>{dato.fechaPublicacion}</td>
             <td><button onClick={() => handleButtonClick(dato.idLibro)}>Audio libro</button></td>
           </tr>
-        ))}
+        ))} */} 
       </tbody>
     </Table>
   );

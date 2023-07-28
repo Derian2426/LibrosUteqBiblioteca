@@ -1,54 +1,24 @@
 import Tabladatos from "../componentes/datos";
 export default function Root() {
-    return (
-      <>
-        <div id="sidebar">
-
-          <div>
-            <form id="search-form" role="search">
-              <input
-                id="q"
-                aria-label="Search contacts"
-                placeholder="Search"
-                type="search"
-                name="q"
-              />
-              <div
-                id="search-spinner"
-                aria-hidden
-                hidden={true}
-              />
-              <div
-                className="sr-only"
-                aria-live="polite"
-              ></div>
-            </form>
-            <form method="post">
-              <button type="submit">New</button>
-            </form>
+  return (
+    <>
+      <div id="sidebar">
+        <div className="mt-2" style={{ textAlign: "center" }}>
+          <a >
+            <img src="src/imagenes/LOGOCOMPLETOAUDIOLIBROS.png" alt="Inicio" width="400px" height="110px" />
+          </a>
+          <div className="container align-content-center" style={{ maxWidth: "700px" }}>
+            <div className="card-body">
+              <div className="card-text">
+                Un audiolibro es una grabación de un libro u otra obra que se lee en voz alta.
+                Suelen descargarse como otros archivos de audio digital, como canciones o álbumes.
+                La producción del audio puede realizarse de diferentes formas:
+              </div>
+            </div>
           </div>
-          <nav>
-            <ul>
-              <li>
-                <a href={`/registrarlibros`}>Registrar libros</a>
-              </li>
-              <li>
-                <a href={`/BuscarLibros`}>Busqueda libros</a>
-              </li>
-              <li>
-                <a href={`/IniciarSesion`}>iniciar sesion</a>
-              </li>
-              <li>
-                <a href={`/MostrarAudioLibro`}>Mostrar Libro</a>
-              </li>
-              <li>
-                <a href={`/amor/1`}>Your Friend</a>
-              </li>
-            </ul>
-          </nav>
         </div>
-        <div id="detail"></div>
-        <Tabladatos/>
-      </>
-    );
-  }
+      </div>
+      <Tabladatos />
+    </>
+  );
+}

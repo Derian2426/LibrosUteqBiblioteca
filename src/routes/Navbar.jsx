@@ -7,7 +7,7 @@ const Navbar = () => {
   return (
     <div>
       <nav className="navbar navbar-expand-lg "
-        style={{ backgroundColor: '#white', border: '2px solid green' }}>
+        style={{ backgroundColor: 'white', border: '2px solid green' }}>
         <div className="container-fluid">
           <a class="navbar-brand" href="/">
             <img src="src/imagenes/a11ytools.png" dir="auto" alt="Inicio" width="160px" height="45px" />
@@ -15,6 +15,30 @@ const Navbar = () => {
           <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span className="navbar-toggler-icon"></span>
           </button>
+          <div>
+            <nav className="navbar navbar-expand-lg">
+              <div className="container-fluid" style={{ fontSize: '16px', fontWeight: 'bold', marginBottom: '10px' }}>
+                <div className="navbar-collapse collapse"
+                  id="navbarSupportedContent" >
+                  <ul className="navbar-nav me-auto mb-2 mb-lg-0" >
+                    <li className="nav-item">
+                      <a className="nav-link" aria-current="page" style={{ color: '#1B7505' }}
+                        href={`/BuscarLibros`}>Búsqueda de Libros</a>
+                    </li>
+                    <div class="vr"></div>
+                    <li className="nav-item">
+                      <a className="nav-link" aria-current="page" style={{ color: '#1B7505' }}
+                        href={`/IniciarSesion`}>Iniciar sesión</a>
+                    </li>
+
+                  </ul>
+
+                </div>
+
+              </div>
+            </nav>
+          </div>
+
 
         </div>
       </nav>
@@ -92,15 +116,15 @@ const Navbar = () => {
                 <div className="row mt-2">
                   <h5 className="mb-2"> Extenciones para mejorar la accesibilidad </h5>
                   <div className="btn-group d-flex justify-content-between" role="group">
-                    <a className="btn bg-danger" 
-                    href="https://chrome.google.com/webstore/detail/dyslexia-friendly/miepjgfkkommhllbbjaedffcpkncboeo" 
-                    target="_blank">Dislexia</a>
-                    <a className="btn btn-primary" 
-                    href="https://chrome.google.com/webstore/detail/read-aloud-a-text-to-spee/hdhinadidafjejdhmfkjgnolgimiaplp/related?hl=es" 
-                    target="_blank">Texto a Voz</a>
-                    <a className="btn btn-success" 
-                    href="https://chrome.google.com/webstore/detail/zoom-page-we/bcdjhkphgmiapajkphennjfgoehpodpk" 
-                    target="_blank">Zoom+</a>
+                    <a className="btn bg-danger"
+                      href="https://chrome.google.com/webstore/detail/dyslexia-friendly/miepjgfkkommhllbbjaedffcpkncboeo"
+                      target="_blank">Dislexia</a>
+                    <a className="btn btn-primary"
+                      href="https://chrome.google.com/webstore/detail/read-aloud-a-text-to-spee/hdhinadidafjejdhmfkjgnolgimiaplp/related?hl=es"
+                      target="_blank">Texto a Voz</a>
+                    <a className="btn btn-success"
+                      href="https://chrome.google.com/webstore/detail/zoom-page-we/bcdjhkphgmiapajkphennjfgoehpodpk"
+                      target="_blank">Zoom+</a>
                   </div>
                 </div>
               </div>
@@ -115,8 +139,8 @@ const Navbar = () => {
       <footer className="footer  fixed-bottom bg-light text-center text-lg-start mt-5">
         {/* Copyright */}
         <div className="text-center text-light p-3" style={{ backgroundColor: '#025A27' }}>
-          © 2023 Copyright:
-          <a className="text-light" href="https://www.uteq.edu.ec/"> Universidad Técnica Estatal de Quevedo</a>
+          © 2023 Copyright: {' '}
+          <a className="text-light" href="https://www.uteq.edu.ec/">Universidad Técnica Estatal de Quevedo</a>
         </div>
       </footer>
     </div>
