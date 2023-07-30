@@ -13,23 +13,20 @@ const busquedaLibros = () => {
                     <img src="src/imagenes/LogoAudioLibros.png" alt="Inicio" width="400px" height="110px" />
                 </a>
             </div>
-            <li className="nav-item">
-                    <a className="nav-link" aria-current="page" style={{ color: '#1B7505' }}
-                        href={`/MostrarAudioLibro/:data`}>MOSTRAR LIBRO</a>
-                </li>
-            <div className="container" style={{ maxWidth: "700px", border: "1px dashed green", padding: "20px", fontSize: '14px' }}>
+
+            <div className="container" style={{ maxWidth: "900px", border: "1px dashed green", padding: "20px", fontSize: '14px' }}>
 
                 <form className="row g-3 needs-validation" noValidate>
 
                     {/* Primera linea */}
 
-                    <div className="col-md-8">
-                        <label htmlFor="validationCustom03" className="form-label" >Libro:</label>
-                        <input type="text" className="form-control" id="validationCustom01" placeholder="Buscar libro" required />
+                    <div className="col-md-6">
+                        <label htmlFor="validationCustom03" className="form-label" >Autor:</label>
+                        <input type="text" className="form-control" id="validationCustom01" placeholder="Buscar autor" required />
                         <div className="valid-feedback">
                         </div>
                     </div>
-                    <div className="col-md-4">
+                    <div className="col-md-2">
                         <label htmlFor="validationCustom03" className="form-label">Año:</label>
                         <select className="form-select" id="validationCustom04" required>
                             <option value="" defaultValue disabled>2020</option>
@@ -41,10 +38,8 @@ const busquedaLibros = () => {
                         </div>
                     </div>
 
-                    {/* Segunda linea */}
-
-                    <div className="col-md-2">
-                        <label htmlFor="validationCustom03" className="form-label">Recursos:</label>
+                    <div className="col-md-4">
+                        <label htmlFor="validationCustom03" className="form-label">Idioma:</label>
                         <select className="form-select" id="validationCustom04" required placeholder="Selecciona una opción">
                             <option value="" defaultValue disabled></option>
                             <option value="."></option>
@@ -52,6 +47,8 @@ const busquedaLibros = () => {
                         <div className="invalid-feedback">
                         </div>
                     </div>
+                    {/* Segunda linea */}
+
                     <div className="col-md-3">
                         <label htmlFor="validationCustom03" className="form-label">Área de Conocimiento:</label>
                         <select className="form-select" id="validationCustom04" required placeholder="Selecciona una opción">
@@ -61,7 +58,7 @@ const busquedaLibros = () => {
                         <div className="invalid-feedback">
                         </div>
                     </div>
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <label htmlFor="validationCustom03" className="form-label ">Subárea Conocimiento:</label>
                         <select className="form-select" id="validationCustom04" required placeholder="Selecciona una opción">
                             <option defaultValue disabled></option>
@@ -71,7 +68,7 @@ const busquedaLibros = () => {
                         </div>
                     </div>
 
-                    <div className="col-md-3">
+                    <div className="col-md-4">
                         <label htmlFor="validationCustom05" className="form-label">Subárea especifica:</label>
                         <select className="form-select" id="validationCustom04" required placeholder="Selecciona una opción">
                             <option defaultValue disabled ></option>
@@ -80,8 +77,8 @@ const busquedaLibros = () => {
                         <div className="invalid-feedback">
                         </div>
                     </div>
-                    <div className="col-1">
-                        <label htmlFor="validationCustom03" className="form-label" style={{ opacity: 0 }}>.</label>
+                    <div className="col-md-1">
+                        <label htmlFor="validationCustom03" className="form-label" style={{ opacity: 0 }}>Boton</label>
                         <button className="btn btn-success" >
                             <i className="fa-solid fa-magnifying-glass"></i>
                         </button>
@@ -102,6 +99,7 @@ const busquedaLibros = () => {
                                     <th>SubÁrea de conocimiento</th>
                                     <th>SubÁrea Especifica</th>
                                     <th>Año</th>
+                                    <th>Acciones</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -111,21 +109,19 @@ const busquedaLibros = () => {
                                     <td>.</td>
                                     <td>.</td>
                                     <td>.</td>
+                                    <td>
+                                        <a className="nav-link" aria-current="page" style={{ color: '#1B7505' }}
+                                            href={`/MostrarAudioLibro/:data`}>MOSTRAR LIBRO</a>
+                                    </td>
                                 </tr>
-                                <tr>
-                                    <td>.</td>
-                                    <td>.</td>
-                                    <td>.</td>
-                                    <td>.</td>
-                                    <td>.</td>
-                                </tr>
+
 
                             </tbody>
                         </Table>
 
                     </div>
                 </form>
-              
+
 
             </div>
 

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap/dist/js/bootstrap.bundle.min.js';
 import '@fortawesome/fontawesome-free/css/all.min.css';
@@ -8,13 +8,14 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 
 const iniciarsesion = () => {
     const [sesionExitosa, setSesionExitosa] = useState(false);
+    const navigate = useNavigate();
 
     const handleIniciarSesion = () => {
-        <Link to="/registrarlibros"></Link>
-        // codigo
+        navigate("/registrarlibros");
         setSesionExitosa(true);
         setTimeout(() => {
             setSesionExitosa(false);
+
         }, 1000);
     };
 
