@@ -346,32 +346,38 @@ const FormularioLibro = () => {
                 <input className="form-control" type="file" onChange={handleSeleccionArchivo} />
               </div>
 
-              {/* Botones adicionales */}
-              <div className="col-md-4">
-                <button className="btn btn-info" type="button" onClick={handleAddInput}>
-                  Agregar nuevo Capitulo del Libro
-                </button>
-
-              </div>
-
-              <div className="col-md-8">
+              {/* CONTENEDOR AGREGAR AUDIOS DE LOS LIBROS*/}
+              <div className="container shadow mt-3 " style={{ maxWidth: "920px", border: "1px dashed green", padding: "5px" }}>
+                {/* Botones adicionales */}
                 <div className="row">
-                  {Array.from({ length: inputCount }, (_, index) => (
-                    <>
-                      <div className="col-md-6 " >
+                  <div className="col-md-4">
+                    <button className="btn btn-info" type="button" onClick={handleAddInput}>
+                      Agregar nuevo Capitulo del Libro
+                    </button>
 
-                        <input className="form-control" key={index} type="text" value={names[index] || ""}
-                          onChange={(event) => handleNameChange(index, event)} />
-                      </div>
-                      <div className="col-md-6 " >
+                  </div>
 
-                        <input className="form-control" type="file" onChange={(event) =>
-                          handleSeleccionArchivoMp4(event, names[index])
-                          // Pasar la variable local en lugar de nombreArchivo
-                        } />   </div>
-                    </>
+                  <div className="col-md-8">
 
-                  ))}
+                    {Array.from({ length: inputCount }, (_, index) => (
+                      <>
+                        <div className="card mb-1" style={{padding: "5px" }}>
+                          <div className="row">
+                            <div className="col-md-6 " >
+                              <input className="form-control" key={index} type="text" value={names[index] || ""}
+                                onChange={(event) => handleNameChange(index, event)} />
+                            </div>
+                            <div className="col-md-6 " >
+                              <input className="form-control" type="file" onChange={(event) =>
+                                handleSeleccionArchivoMp4(event, names[index])
+                                // Pasar la variable local en lugar de nombreArchivo
+                              } />   </div>
+                          </div>
+                        </div>
+                      </>
+                    ))}
+
+                  </div>
                 </div>
               </div>
 

@@ -10,9 +10,13 @@ const busquedaLibros = () => {
         <div>
             <div className="mt-2" style={{ textAlign: "center" }}>
                 <a >
-                    <img src="src/imagenes/LOGOCOMPLETOAUDIOLIBROS.png" alt="Inicio" width="400px" height="110px" />
+                    <img src="src/imagenes/LogoAudioLibros.png" alt="Inicio" width="400px" height="110px" />
                 </a>
             </div>
+            <li className="nav-item">
+                    <a className="nav-link" aria-current="page" style={{ color: '#1B7505' }}
+                        href={`/MostrarAudioLibro/:data`}>MOSTRAR LIBRO</a>
+                </li>
             <div className="container" style={{ maxWidth: "700px", border: "1px dashed green", padding: "20px", fontSize: '14px' }}>
 
                 <form className="row g-3 needs-validation" noValidate>
@@ -83,47 +87,48 @@ const busquedaLibros = () => {
                         </button>
                     </div>
                     <div className="container mt-2" style={{
-                border: "1px dashed green", padding: "10px", fontSize: '14px'
-              }}>
-                  <label htmlFor="validationCustom05" className="form-label text-center"
-                style={{
-                  fontSize: '18px', fontWeight: 'bold', color: '#009E50',
-                  marginBottom: '10px'
-                }}>Lista de los Libros encontrados</label>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                    <th>Libro</th>
-                      <th>Área de conocimiento</th>
-                      <th>SubÁrea de conocimiento</th>
-                      <th>SubÁrea Especifica</th>
-                      <th>Año</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>.</td>
-                      <td>.</td>
-                      <td>.</td>
-                      <td>.</td>
-                      <td>.</td>
-                    </tr>
-                    <tr>
-                      <td>.</td>
-                      <td>.</td>
-                      <td>.</td>
-                      <td>.</td>
-                      <td>.</td>
-                    </tr>
+                        border: "1px dashed green", padding: "10px", fontSize: '14px'
+                    }}>
+                        <label htmlFor="validationCustom05" className="form-label text-center"
+                            style={{
+                                fontSize: '18px', fontWeight: 'bold', color: '#009E50',
+                                marginBottom: '10px'
+                            }}>Lista de los Libros encontrados</label>
+                        <Table striped bordered hover>
+                            <thead>
+                                <tr>
+                                    <th>Libro</th>
+                                    <th>Área de conocimiento</th>
+                                    <th>SubÁrea de conocimiento</th>
+                                    <th>SubÁrea Especifica</th>
+                                    <th>Año</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>.</td>
+                                    <td>.</td>
+                                    <td>.</td>
+                                    <td>.</td>
+                                    <td>.</td>
+                                </tr>
+                                <tr>
+                                    <td>.</td>
+                                    <td>.</td>
+                                    <td>.</td>
+                                    <td>.</td>
+                                    <td>.</td>
+                                </tr>
 
-                  </tbody>
-                </Table>
+                            </tbody>
+                        </Table>
 
-              </div>
+                    </div>
                 </form>
-
+              
 
             </div>
+
         </div>
     )
 }

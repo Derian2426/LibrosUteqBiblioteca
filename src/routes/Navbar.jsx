@@ -23,7 +23,7 @@ const Navbar = () => {
                   <ul className="navbar-nav me-auto mb-2 mb-lg-0" >
                     <li className="nav-item">
                       <a className="nav-link" aria-current="page" style={{ color: '#1B7505' }}
-                        href={`/BuscarLibros`}>Búsqueda de Libros</a>
+                        href={`/BuscarLibros`}>Búsqueda de libros</a>
                     </li>
                     <div class="vr"></div>
                     <li className="nav-item">

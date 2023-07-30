@@ -5,7 +5,7 @@ export default function Root() {
       <div id="sidebar">
         <div className="mt-2" style={{ textAlign: "center" }}>
           <a >
-            <img src="src/imagenes/LOGOCOMPLETOAUDIOLIBROS.png" alt="Inicio" width="400px" height="110px" />
+            <img src="src/imagenes/LogoAudioLibros.png"alt="Inicio" width="400px" height="110px" />
           </a>
           <div className="container align-content-center" style={{ maxWidth: "700px" }}>
             <div className="card-body">

@@ -7,10 +7,42 @@ import { useParams } from "react-router-dom";
 
 const audioLibro = () => {
   const [libro, setLibro] = useState({});
-  const [listaCapitulos, setListaCapitulos] = useState([]);
+
   const { data } = useParams();
   const [audioData, setAudioData] = useState([]);
 
+  const jsonData = `[
+    {
+        "idCapitulo": 21,
+        "titulo": "Capitulo 1",
+        "nombreArchivo": "1.Capitulo 1_2023-07-28_Libro de Jimmy.mp3",
+        "rutaArchivo": "Libro de Jimmy",
+        "ordenArchivo": 1,
+        "numeroDescarga": null,
+        "fechaCreacion": "2023-07-29"
+    },
+    {
+        "idCapitulo": 22,
+        "titulo": "Capitulo 2",
+        "nombreArchivo": "2.Capitulo 2_2023-07-28_Libro de Jimmy.mp3",
+        "rutaArchivo": "Libro de Jimmy",
+        "ordenArchivo": 2,
+        "numeroDescarga": null,
+        "fechaCreacion": "2023-07-29"
+    },
+    {
+        "idCapitulo": 23,
+        "titulo": "Capitulo 3",
+        "nombreArchivo": "3.Capitulo 3_2023-07-28_Libro de Jimmy.mp3",
+        "rutaArchivo": "Libro de Jimmy",
+        "ordenArchivo": 3,
+        "numeroDescarga": null,
+        "fechaCreacion": "2023-07-29"
+    }
+]`;
+
+
+  const [listaCapitulos, setListaCapitulos] = useState([jsonData]);
   useEffect(() => {
     obtenerDatos(`http://localhost:8282/libro/${data}`)
       .then((data) => {
@@ -84,37 +116,25 @@ const audioLibro = () => {
   return (
     <div>
       <div style={{ textAlign: "center" }}>
-        <a>
-          <img
-            src="src/imagenes/LOGOCOMPLETOAUDIOLIBROS.png"
-            alt="Inicio"
-            width="400px"
-            height="110px"
-          />
+        <a >
+          <img src='LogoAudioLibros.png' alt="Inicio" width="400px" height="110px" />
         </a>
       </div>
-      <div
-        className="container shadow"
-        style={{
-          maxWidth: "700px",
-          border: "1px dashed green",
-          padding: "20px",
-          fontSize: "14px",
-        }}
+
+        {/* CONTENEDOR PRINCIPAL*/}
+      <div className="container shadow" style={{maxWidth: "800px", border: "1px dashed green",
+          padding: "20px", fontSize: "14px",}}
       >
         <form className="row g-3 needs-validation" noValidate>
-          {/* Primera linea */}
-          <div
-            className="col-md-3"
-            style={{ maxWidth: "220px", margin: "auto" }}
-          >
-            <img
-              src="src/imagenes/a11ytools.png"
-              className="d-block w-100 shadow"
-              alt="Imagen 1"
-            />
+          {/* Primera Columna */}
+          <div className="col-md-3" style={{ maxWidth: "220px", margin: "auto" }}>
+          <div className="card mb-1" style={{padding: "5px" }}>
+            <img src="src/imagenes/a11ytools.png" className="d-block w-100 shadow"alt="Imagen 1"/>
           </div>
-          <div className="col-md-4">
+          </div>
+            {/* Segunda Columna */}
+          <div className="col-md-3">
+          <div className="card mb-1" style={{padding: "5px" }}>
             <label
               htmlFor="validationCustom05"
               className="form-label"
@@ -189,12 +209,17 @@ const audioLibro = () => {
             </label>
             <div className="valid-feedback"></div>
           </div>
+          </div>
+          
+          {/* Tercera Columna */}
+          <div className="col-md-6">
           <div className="container">
             <div className="row">
-            {listaCapitulos.map((capitulo, index) => (
-                  <Capitulo key={index} capitulo={capitulo} audioSrc={audioData[index]} />
-                ))}
+              {listaCapitulos.map((capitulo, index) => (
+                <Capitulo key={index} capitulo={capitulo} audioSrc={audioData[index]} />
+              ))}
             </div>
+          </div>
           </div>
         </form>
       </div>
@@ -203,14 +228,17 @@ const audioLibro = () => {
 };
 const Capitulo = ({ capitulo, audioSrc }) => {
   return (
+    <div className="card mb-1" style={{padding: "5px" }}>
     <div className="col-md-5">
-      <h6 className="msg-pnl-search text-right">
-        Capítulo {capitulo.titulo} - {capitulo.titulo}
-      </h6>
-      <div className="audio-player-container">
-        <ReactAudioPlayer src={audioSrc} autoPlay={false} controls />
+      <label htmlFor="validationCustom05" className="form-label"> Capítulo</label>
+     
+      <div className="audio-player-container" >
+        <ReactAudioPlayer src={audioSrc} autoPlay={false} controls 
+         style={{ width: '330px', height: '25px' }}/>
       </div>
     </div>
+     </div>
   );
 };
 export default audioLibro;
+
