@@ -1,11 +1,13 @@
 import Tabladatos from "../componentes/datos";
+
 export default function Root() {
   return (
-    <>
-      <div id="sidebar">
-        <div className="mt-2" style={{ textAlign: "center" }}>
+    <div style={{ textAlign: 'center', marginTop: '80px', flex: 1 }}>
+      <div className="container">
+        <div style={{ textAlign: "center", marginTop: '80px' }}>
+
           <a >
-            <img src="src/imagenes/LogoAudioLibros.png"alt="Inicio" width="400px" height="110px" />
+            <img className="StyleImg" src="src/imagenes/LogoAudioLibros.png" alt="Inicio" />
           </a>
           <div className="container align-content-center" style={{ maxWidth: "700px" }}>
             <div className="card-body">
@@ -16,9 +18,11 @@ export default function Root() {
               </div>
             </div>
           </div>
+          <Tabladatos />
         </div>
       </div>
-      <Tabladatos />
-    </>
+    </div>
+
   );
+
 }

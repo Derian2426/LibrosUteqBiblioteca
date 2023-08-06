@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Table } from 'react-bootstrap';
+import Footer from './footer';
 
 const FormularioLibro = () => {
   const [idLibro, setidLibro] = useState(0);
@@ -35,7 +36,7 @@ const FormularioLibro = () => {
     setInputCount(inputCount + 1);
   };
   useEffect(() => {
-    obtenerDatos("http://localhost:8282/areaConocimiento")
+    obtenerDatos("http://localhost:8080/areaConocimiento")
       .then((data) => {
         console.log(data);
         setListaArea(data);
@@ -92,7 +93,7 @@ const FormularioLibro = () => {
     const libroString = JSON.stringify(capituloFileList);
     formData.append("libroRequest", libroString);
     try {
-      const response = await fetch("http://localhost:8282/upload", {
+      const response = await fetch("http://localhost:8080/upload", {
         method: "POST",
         body: formData,
       });
@@ -117,7 +118,7 @@ const FormularioLibro = () => {
     setNombreArea(event.target.value);
     try {
       const data = await obtenerDatos(
-        `http://localhost:8282/subAreaConocimiento/${selectedArea.idArea}`
+        `http://localhost:8080/subAreaConocimiento/${selectedArea.idArea}`
       );
       if (data && Object.keys(data).length > 0) {
         setListaSubArea(data);
@@ -136,7 +137,7 @@ const FormularioLibro = () => {
     setNombreSubArea(event.target.value);
     try {
       const data = await obtenerDatos(
-        `http://localhost:8282/subAreaEspecificas/${selectedSubArea.idSubArea}`
+        `http://localhost:8080/subAreaEspecificas/${selectedSubArea.idSubArea}`
       );
       if (data && Object.keys(data).length > 0) {
         setListaSubAreaEspecifica(data);
@@ -199,12 +200,12 @@ const FormularioLibro = () => {
       numeroDescarga: null,
       fechaCreacion: fechaPublicacion,
       usuario: {
-        idUsuario: 2,
-        nombre: "sad",
-        apellido: "hasvd",
-        email: "hasvd",
-        fechaNacimiento: "2000-07-26",
-        password: "12",
+        idUsuario: 1,
+        nombre: "John",
+        apellido: "Doe34",
+        email: "johndoe@example.com",
+        fechaNacimiento: "2000-01-01",
+        password: "password123",
       },
       libro: {
         idLibro,
@@ -252,44 +253,53 @@ const FormularioLibro = () => {
     });
 
   return (
-    <div>
-      <nav className="navbar navbar-expand-lg">
-        <div className="container-fluid d-flex justify-content-start">
-          <button className="btn btn-success btn-sm" type="submit"
+    <div style={{ marginTop: '80px' }}>
+    <nav className=" Mycontainer-div mt-2 navbar navbar-expand-lg">
+      <div className="d-flex flex-wrap justify-content-center">
+        <div className="btnCero">
+          <button className="btn btn-success btn-sm mx-2" type="submit"
             data-bs-toggle="modal" data-bs-target="#ModalAgregarLibros">
             Registrar Libros
-          </button>
-          <button className="btn btn-success btn-sm mx-1" type="submit"
+          </button></div>
+        <div className="btnCero">
+          <button className="btn btn-success btn-sm mx-2" type="submit"
             data-bs-toggle="modal" data-bs-target="#ModalAgregarArea">
             Registro Nuevas Áreas
-          </button>
+          </button></div>
+        <div className="btnCero">
+          <button className="btn btn-success btn-sm mx-2" type="submit"
+            data-bs-toggle="modal" data-bs-target="#ModalAgregarSubArea">
+            Registro Nuevas Sub Áreas
+          </button></div>
+        <div className="btnCero">
+          <button className="btn btn-success btn-sm mx-2" type="submit"
+            data-bs-toggle="modal" data-bs-target="#ModalAgregarSubAreaEspecifica">
+            Registro Nuevas Sub Áreas Especificas
+          </button></div>
+      </div>
+    </nav>
 
-        </div>
-      </nav>
+    {/* MODAL AGREGAR NUEVO LIBRO*/}
 
-      {/* MODAL AGREGAR NUEVO LIBRO*/}
-      <div className="modal fade" id="ModalAgregarLibros" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-content" style={{ maxWidth: "950px" }}>
-
-          <div className="modal-header"
-            style={{ padding: '8px' }}>
-            <label htmlFor="validationCustom03" className="form-label"
-              style={{ fontSize: '20px', fontWeight: 'bold', color: '#009E50' }}>
-              Agregar Nuevo Libro</label>
+    <div className="modal fade" id="ModalAgregarLibros" tabindex="-1"
+      aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div className="modal-dialog modal-content" style={{ maxWidth: "950px", marginRight: "auto", marginLeft: "auto" }}>
+       
+          <div className="modal-header" style={{ padding: '2px' }}>
+            <label htmlFor="validationCustom03" className="form-label modalStyle">Agregar Nuevo Libro</label>
             <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
-            ></button>
+            style={{ marginRight: '10px' }}></button>
           </div>
-
-          <div className="container mt-1">
+         
+          <div className="Mycontainer-div mt-2" style={{maxWidth: "930px",padding:"10px", marginBottom: '10px'}}>
             <form onSubmit={handleSubmit} className="row g-3 needs-validation" noValidate>
               <div className="col-md-12">
-                <label htmlFor="validationCustom03" className="form-label">Nombre del Libro:</label>
+                <label htmlFor="validationCustom03" className="form-label mb-1">Nombre del Libro:</label>
                 <input className="form-control" type="text" value={nombreLibro}
                   onChange={(event) => setNombreLibro(event.target.value)} />
               </div>
               <div className="col-md-3">
-                <label htmlFor="validationCustom03" className="form-label">Nombre Área:</label>
+                <label htmlFor="validationCustom03" className="form-label mb-1">Nombre Área:</label>
                 <select className="form-select" value={nombreArea} onChange={handleAreaChange}>
                   <option value="">Seleccionar Área</option>
                   {listaArea.map((area) => (
@@ -300,7 +310,7 @@ const FormularioLibro = () => {
                 </select>
               </div>
               <div className="col-md-3">
-                <label htmlFor="validationCustom03" className="form-label">Nombre SubÁrea:</label>
+                <label htmlFor="validationCustom03" className="form-label mb-1">Nombre SubÁrea:</label>
                 <select className="form-select" value={nombreSubArea} onChange={handleSubAreaChange}>
                   <option value="">Seleccionar Sub Área</option>
                   {listaSubArea.map((subarea) => (
@@ -311,7 +321,7 @@ const FormularioLibro = () => {
                 </select>
               </div>
               <div className="col-md-3">
-                <label htmlFor="validationCustom03" className="form-label">Nombre SubÁrea Especifica:</label>
+                <label htmlFor="validationCustom03" className="form-label mb-1">Nombre SubÁrea Especifica:</label>
                 <select className="form-select" value={nombreSubAreaEspecifica}
                   onChange={handleSubAreaEspecificaChange} >
                   <option value="">Seleccionar Sub Área Especifica</option>
@@ -324,76 +334,78 @@ const FormularioLibro = () => {
                 </select>
               </div>
               <div className="col-md-3">
-                <label htmlFor="validationCustom03" className="form-label">Fecha de Publicación:</label>
+                <label htmlFor="validationCustom03" className="form-label mb-1">Fecha de Publicación:</label>
                 <input className="form-control" type="date" value={fechaPublicacion}
                   onChange={(event) => setFechaPublicacion(event.target.value)}
                 />
               </div>
 
               <div className="col-md-2">
-                <label htmlFor="validationCustom03" className="form-label">ISBN:</label>
+                <label htmlFor="validationCustom03" className="form-label mb-1">ISBN:</label>
                 <input className="form-control" type="text" value={isbn} onChange={(event) =>
                   setIsbn(event.target.value)} />
               </div>
 
               <div className="col-md-2">
-                <label htmlFor="validationCustom03" className="form-label">Lenguaje:</label>
+                <label htmlFor="validationCustom03" className="form-label mb-1">Lenguaje:</label>
                 <input className="form-control" type="text" value={lenguaje}
                   onChange={(event) => setLenguaje(event.target.value)} />
               </div>
 
               <div className="col-md-4">
-                <label htmlFor="validationCustom03" className="form-label">Cover Image:</label>
+                <label htmlFor="validationCustom03" className="form-label mb-1">Cover Image:</label>
                 <input className="form-control" type="file" onChange={handleSeleccion} />
               </div>
-
 
               <div className="col-md-4">
-                <label htmlFor="validationCustom03" className="form-label">Carga PDF:</label>
+                <label htmlFor="validationCustom03" className="form-label mb-1">Carga PDF:</label>
                 <input className="form-control" type="file" onChange={handleSeleccion} />
               </div>
 
+     
+
               {/* CONTENEDOR AGREGAR AUDIOS DE LOS LIBROS*/}
-              <div className="container shadow mt-3 " style={{ maxWidth: "920px", border: "1px dashed green", padding: "5px" }}>
+              <label htmlFor="validationCustom03" className="form-label">Agregar los capítulos del libro:</label>
+              <div className="Mycontainer-div" style={{
+                maxWidth: "910px", maxHeight: "170px",
+                overflowY: "auto", marginTop: "1px",padding:"10px"
+              }}>
                 {/* Botones adicionales */}
-                <div className="row">
-                  <div className="col-md-4">
-                    <button className="btn btn-info" type="button" onClick={handleAddInput}>
-                      Agregar nuevo Capitulo del Libro
-                    </button>
-
-                  </div>
-
-                  <div className="col-md-8">
-
-                    {Array.from({ length: inputCount }, (_, index) => (
-                      <>
-                        <div className="card mb-1" style={{padding: "5px" }}>
-                          <div className="row">
-                            <div className="col-md-6 " >
-                              <input className="form-control" key={index} type="text" maxLength={99} value={names[index] || ""}
-                                onChange={(event) => handleNameChange(index, event)} />
-                            </div>
-                            <div className="col-md-6 " >
-                              <input className="form-control" type="file" onChange={(event) =>
-                                handleSeleccionArchivoMp4(event, names[index])
-                                // Pasar la variable local en lugar de nombreArchivo
-                              } />   </div>
+                <div className="col-md-12">
+                  {Array.from({ length: inputCount }, (_, index) => (
+                    <>
+                      <div className="card mb-1" style={{ padding: "5px" }}>
+                        <div className="row">
+                          <div className="col-md-6 " >
+                            <input className="form-control" key={index} type="text" maxLength={99} 
+                            value={names[index] || ""} onChange={(event) => handleNameChange(index, event)} />
+                          </div>
+                          <div className="col-md-5 " >
+                            <input className="form-control" type="file" onChange={(event) =>
+                              handleSeleccionArchivoMp4(event, names[index])
+                              // Pasar la variable local en lugar de nombreArchivo
+                            } />
+                          </div>
+                          <div className="col-md-1 " >
+                            <button className="btn btn-success" type="button" onClick={handleAddInput}>
+                              +
+                            </button>
                           </div>
                         </div>
-                      </>
-                    ))}
+                      </div>
+                    </>
+                  ))}
 
-                  </div>
                 </div>
+
               </div>
 
-              <div className="row mt-2 mb-2">
-                <div className="col-md-12 d-flex justify-content-end">
+
+                <div className="col-md-12 d-flex justify-content-end mt-2">
                   <button className="btn btn-success" type="submit" onClick={handleSubmit}>
                     Guardar
                   </button>
-                </div>
+         
               </div>
 
             </form>
@@ -401,195 +413,397 @@ const FormularioLibro = () => {
 
 
 
-        </div>
+        
       </div>
-      {/* MODAL AGREGAR NUEVO LIBRO FIN*/}
+    </div>
+    {/* MODAL AGREGAR NUEVO LIBRO FIN*/}
 
 
 
-      {/* MODAL AGREGAR NUEVA AREA*/}
-      <div className="modal fade" id="ModalAgregarArea" tabindex="-1"
-        aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div className="modal-dialog modal-content" style={{ maxWidth: "900px" }}>
+    {/* MODAL AGREGAR AREA*/}
+    <div className="modal fade" id="ModalAgregarArea" tabindex="-1"
+      aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div className="modal-dialog modal-content"
+        style={{ maxWidth: "550px", marginRight: "auto", marginLeft: "auto" }}>
+        <div className="modal-header" style={{ padding: '2px' }}>
+          <label className="form-label modalStyle " htmlFor="validationCustom03">
+            Registrar Áreas</label>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            style={{ marginRight: '10px' }}></button>
+        </div>
 
-          <div className="modal-header"
-            style={{ padding: '8px' }}>
-            <label htmlFor="validationCustom03" className="form-label"
-              style={{ fontSize: '20px', fontWeight: 'bold', color: '#009E50' }}>
-              Agregar Áreas</label>
-            <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
-            ></button>
-          </div>
-
-          <div className="container mt-12">
-            <form onSubmit={handleSubmit} className="row g-3 needs-validation" noValidate>
-
-              <div className="col-md-4">
-                <div style={{ border: "1px dashed green", padding: "10px", fontSize: '14px' }}>
-                  <label htmlFor="validationCustom03" className="form-label">Nombre Área:</label>
-                  <input type="text" className="form-control" id="validationCustom01" placeholder="Nombre del Área" required />
-                  <div className="row mt-2">
-                    <div className="col-md-12 d-flex justify-content-end">
-                      <button className="btn btn-success" type="submit" onClick={handleSubmit}>
-                        Guardar
-                      </button>
-                    </div>
-                  </div>
-                </div>
+        <div className="container mt-2">
+          <div className="Mycontainer-div-insert" style={{ maxWidth: "880px" }}>
+            <form className="row needs-validation" noValidate>
+              <div className="col-md-9">
+                <label htmlFor="validationCustom03" className="form-label mb-1">Nombre Área:</label>
+                <input type="text" className="form-control" id="validationCustom01"
+                  placeholder="Insertar nombre del área" required />
               </div>
-              <div className="col-md-4">
-                <div style={{ border: "1px dashed green", padding: "10px", fontSize: '14px' }}>
-
-                  <label htmlFor="validationCustom03" className="form-label">Nombre Área:</label>
-                  <select className="form-select" value={nombreArea} onChange={handleAreaChange}>
-                    <option value="">Seleccionar Área</option>
-                    {listaArea.map((area) => (
-                      <option key={area.idArea} value={area.nombreArea}>
-                        {area.nombreArea}
-                      </option>
-                    ))}
-                  </select>
-
-                  <label htmlFor="validationCustom03" className="form-label">Nombre SubÁrea:</label>
-                  <input type="text" className="form-control" id="validationCustom01" placeholder="Nombre del SubÁrea " required />
-
-
-                  <div className="row mt-2">
-                    <div className="col-md-12 d-flex justify-content-end">
-                      <button className="btn btn-success" type="submit" onClick={handleSubmit}>
-                        Guardar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4">
-                <div style={{ border: "1px dashed green", padding: "10px", fontSize: '14px' }}>
-                  <label htmlFor="validationCustom03" className="form-label">Nombre Área:</label>
-                  <select className="form-select" value={nombreArea} onChange={handleAreaChange}>
-                    <option value="">Seleccionar Área</option>
-                    {listaArea.map((area) => (
-                      <option key={area.idArea} value={area.nombreArea}>
-                        {area.nombreArea}
-                      </option>
-                    ))}
-                  </select>
-                  <label htmlFor="validationCustom03" className="form-label">Nombre SubÁrea:</label>
-                  <select className="form-select" value={nombreSubArea} onChange={handleSubAreaChange}>
-                    <option value="">Seleccionar Sub Área</option>
-                    {listaSubArea.map((subarea) => (
-                      <option key={subarea.idSubArea} value={subarea.nombreSubArea}>
-                        {subarea.nombreSubArea}
-                      </option>
-                    ))}
-                  </select>
-
-
-                  <label htmlFor="validationCustom03" className="form-label">Nombre SubÁrea Especifica:</label>
-                  <input type="text" className="form-control" id="validationCustom01" placeholder="Nombre del SubÁrea Especifica" required />
-                  <div className="row mt-2">
-                    <div className="col-md-12 d-flex justify-content-end">
-                      <button className="btn btn-success" type="submit" onClick={handleSubmit}>
-                        Guardar
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-
-              <div className="container mt-2" style={{
-                border: "1px dashed green", padding: "10px", fontSize: '14px'
-              }}>
-                <label htmlFor="validationCustom05" className="form-label text-center"
-                  style={{
-                    fontSize: '18px', fontWeight: 'bold', color: '#009E50',
-                    marginBottom: '10px'
-                  }}>Lista de Áreas</label>
-                <Table striped bordered hover>
-                  <thead>
-                    <tr>
-                      <th>Área</th>
-                      <th>SubÁrea</th>
-                      <th>SubÁrea Especifica</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>.</td>
-                      <td>.</td>
-                      <td>.</td>
-                    </tr>
-                    <tr>
-                      <td>.</td>
-                      <td>.</td>
-                      <td>.</td>
-                    </tr>
-
-                  </tbody>
-                </Table>
-
+              <div className="col-md-2 d-flex align-items-end">
+                <button className="btn btn-success" type="submit">
+                  Guardar
+                </button>
               </div>
             </form>
           </div>
+
+          <div className="Mycontainer-div mt-2" style={{ padding: '5px', marginBottom: '10px' }} >
+            <label htmlFor="validationCustom05" className="form-label text-center"
+              style={{
+                fontSize: '18px', fontWeight: 'bold', color: '#009E50', marginBottom: '10px'
+              }}>Lista Áreas</label>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Área</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>.</td>
+                  <td>.</td>
+                </tr>
+              </tbody>
+            </Table>
+          </div>
         </div>
       </div>
-      {/* MODAL AGREGAR NUEVA AREA FIN*/}
+    </div>
+    {/* MODAL AGREGAR NUEVA AREA FIN*/}
 
 
-      <div className="container mt-2" style={{
-        maxWidth: "1335px",
-        border: "1px dashed green", padding: "10px", fontSize: '14px'
-      }}>
-        <label htmlFor="validationCustom05" className="form-label text-center"
-          style={{
-            fontSize: '18px', fontWeight: 'bold', color: '#009E50',
-            marginBottom: '10px'
-          }}>Lista de los Libros encontrados</label>
-        <Table striped bordered hover>
-          <thead>
-            <tr>
-              <th>Libro</th>
-              <th>Área de conocimiento</th>
-              <th>SubÁrea de conocimiento</th>
-              <th>SubÁrea Especifica</th>
-              <th>Año</th>
-              <th>Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>.</td>
-              <td>.</td>
-              <td>.</td>
-              <td>.</td>
-              <td>.</td>
-              <td>.</td>
-            </tr>
-            <tr>
-              <td>.</td>
-              <td>.</td>
-              <td>.</td>
-              <td>.</td>
-              <td>.</td>
-              <td>
-                <li className="nav-item">
-                  <a className="nav-link" aria-current="page" style={{ color: '#1B7505' }}
-                    href={`/MostrarAudioLibro`}>Mostrar Libro</a>
-                </li>
-              </td>
-            </tr>
+    {/* MODAL AGREGAR SUBAREAS*/}
+    <div className="modal fade" id="ModalAgregarSubArea" tabindex="-1"
+      aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div className="modal-dialog modal-content" style={{ maxWidth: "700px", marginRight: "auto", marginLeft: "auto" }}>
 
-          </tbody>
-        </Table>
+        <div className="modal-header" style={{ padding: '2px' }}>
+          <label htmlFor="validationCustom03" className="form-label modalStyle">
+            Registar Sub Áreas</label>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            style={{ marginRight: '10px' }}></button>
+        </div>
 
+        <div className="container mt-2">
+          <div className="Mycontainer-div-insert" style={{ maxWidth: "880px" }}>
+            <form className="row needs-validation" noValidate>
+              <div className="col-md-5">
+                <label htmlFor="validationCustom03" className="form-label mb-1">Nombre Área:</label>
+                <select className="form-select" value={nombreArea} onChange={handleAreaChange}>
+                  <option value="">Seleccionar Área</option>
+                  {listaArea.map((area) => (
+                    <option key={area.idArea} value={area.nombreArea}>
+                      {area.nombreArea}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-5">
+                <label htmlFor="validationCustom03" className="form-label mb-1">Nombre Sub Área:</label>
+                <input type="text" className="form-control" id="validationCustom01"
+                  placeholder="Insertar nombre del sub área " required />
+              </div>
+              <div className="col-md-1 d-flex align-items-end">
+                <button className="btn btn-success" type="submit" onClick={handleSubmit}>
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+          <div className="Mycontainer-div mt-2" style={{ padding: '5px', marginBottom: '10px' }} >
+            <label htmlFor="validationCustom05" className="form-label text-center"
+              style={{
+                fontSize: '18px', fontWeight: 'bold', color: '#009E50', marginBottom: '10px'
+              }}>Lista Sub Áreas</label>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Sub área</th>
+                  <th>Área</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>.</td>
+                  <td>.</td>
+                  <td>.</td>
+                </tr>
+              </tbody>
+            </Table>
+
+          </div>
+        </div>
       </div>
+    </div>
+    {/* MODAL AGREGAR SUBAREA FIN*/}
+
+
+    {/* MODAL AGREGAR SUBAREAS-ESPECIFICAS*/}
+    <div className="modal fade" id="ModalAgregarSubAreaEspecifica" tabindex="-1"
+      aria-labelledby="exampleModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+      <div className="modal-dialog modal-content" style={{ maxWidth: "1000px", marginRight: "auto", marginLeft: "auto" }}>
+        <div className="modal-header" style={{ padding: '2px' }}>
+          <label htmlFor="validationCustom03" className="form-label modalStyle">
+            Agregar Sub Áreas Especificas</label>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
+            style={{ marginRight: '10px' }}></button>
+        </div>
+        <div className="container mt-2">
+          <div className="Mycontainer-div-insert" >
+            <form className="row needs-validation" noValidate>
+              <div className="col-md-3">
+                <label htmlFor="validationCustom03" className="form-label mb-1">Nombre Área:</label>
+                <select className="form-select" value={nombreArea} onChange={handleAreaChange}>
+                  <option value="">Seleccionar Área</option>
+                  {listaArea.map((area) => (
+                    <option key={area.idArea} value={area.nombreArea}>
+                      {area.nombreArea}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-3">
+                <label htmlFor="validationCustom03" className="form-label mb-1">Nombre Sub Área:</label>
+                <select className="form-select" value={nombreSubArea} onChange={handleSubAreaChange}>
+                  <option value="">Seleccionar Sub Área</option>
+                  {listaSubArea.map((subarea) => (
+                    <option key={subarea.idSubArea} value={subarea.nombreSubArea}>
+                      {subarea.nombreSubArea}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="col-md-4">
+                <label htmlFor="validationCustom03" className="form-label mb-1">Nombre SubÁrea Especifica:</label>
+                <input type="text" className="form-control" id="validationCustom01" placeholder="Insertar nombre sub área especifica" required />
+              </div>
+              <div className="col-md-1 d-flex align-items-end">
+                <button className="btn btn-success" type="submit" onClick={handleSubmit}>
+                  Guardar
+                </button>
+              </div>
+            </form>
+          </div>
+          <div className="Mycontainer-div mt-1" style={{ padding: '5px', marginBottom: '10px' }} >
+            <label htmlFor="validationCustom05" className="form-label text-center"
+              style={{
+                fontSize: '18px', fontWeight: 'bold', color: '#009E50', marginBottom: '10px'
+              }}>Lista Sub Áreas Especifica</label>
+            <Table striped bordered hover>
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Sub área especifica</th>
+                  <th>Sub área</th>
+                  <th>Área</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>.</td>
+                  <td>.</td>
+                  <td>.</td>
+                </tr>
+                <tr>
+                  <td>.</td>
+                  <td>.</td>
+                  <td>.</td>
+                </tr>
+              </tbody>
+            </Table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    {/* MODAL AGREGAR SUBAREAS-ESPECIFICAS FIN*/}
 
 
 
 
+    {/* MODAL AGREGAR NUEVA TODAS AREA*/}
+    <div className="modal fade" id="ModalAgregarArea2" tabindex="-1"
+      aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div className="modal-dialog modal-content" style={{ maxWidth: "900px" }}>
+
+        <div className="modal-header"
+          style={{ padding: '8px' }}>
+          <label htmlFor="validationCustom03" className="form-label"
+            style={{ fontSize: '20px', fontWeight: 'bold', color: '#009E50' }}>
+            Agregar Áreas</label>
+          <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close"
+          ></button>
+        </div>
+
+        <div className="container mt-12">
+          <form onSubmit={handleSubmit} className="row g-3 needs-validation" noValidate>
+
+            <div className="col-md-4">
+              <div style={{ border: "1px dashed green", padding: "10px", fontSize: '14px' }}>
+                <label htmlFor="validationCustom03" className="form-label">Nombre Área:</label>
+                <input type="text" className="form-control" id="validationCustom01" placeholder="Nombre del Área" required />
+                <div className="row mt-2">
+                  <div className="col-md-12 d-flex justify-content-end">
+                    <button className="btn btn-success" type="submit" onClick={handleSubmit}>
+                      Guardar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div style={{ border: "1px dashed green", padding: "10px", fontSize: '14px' }}>
+
+                <label htmlFor="validationCustom03" className="form-label">Nombre Área:</label>
+                <select className="form-select" value={nombreArea} onChange={handleAreaChange}>
+                  <option value="">Seleccionar Área</option>
+                  {listaArea.map((area) => (
+                    <option key={area.idArea} value={area.nombreArea}>
+                      {area.nombreArea}
+                    </option>
+                  ))}
+                </select>
+
+                <label htmlFor="validationCustom03" className="form-label">Nombre SubÁrea:</label>
+                <input type="text" className="form-control" id="validationCustom01" placeholder="Nombre del SubÁrea " required />
+
+
+                <div className="row mt-2">
+                  <div className="col-md-12 d-flex justify-content-end">
+                    <button className="btn btn-success" type="submit" onClick={handleSubmit}>
+                      Guardar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="col-md-4">
+              <div style={{ border: "1px dashed green", padding: "10px", fontSize: '14px' }}>
+                <label htmlFor="validationCustom03" className="form-label">Nombre Área:</label>
+                <select className="form-select" value={nombreArea} onChange={handleAreaChange}>
+                  <option value="">Seleccionar Área</option>
+                  {listaArea.map((area) => (
+                    <option key={area.idArea} value={area.nombreArea}>
+                      {area.nombreArea}
+                    </option>
+                  ))}
+                </select>
+                <label htmlFor="validationCustom03" className="form-label">Nombre SubÁrea:</label>
+                <select className="form-select" value={nombreSubArea} onChange={handleSubAreaChange}>
+                  <option value="">Seleccionar Sub Área</option>
+                  {listaSubArea.map((subarea) => (
+                    <option key={subarea.idSubArea} value={subarea.nombreSubArea}>
+                      {subarea.nombreSubArea}
+                    </option>
+                  ))}
+                </select>
+
+
+                <label htmlFor="validationCustom03" className="form-label">Nombre SubÁrea Especifica:</label>
+                <input type="text" className="form-control" id="validationCustom01" placeholder="Nombre del SubÁrea Especifica" required />
+                <div className="row mt-2">
+                  <div className="col-md-12 d-flex justify-content-end">
+                    <button className="btn btn-success" type="submit" onClick={handleSubmit}>
+                      Guardar
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+            <div className="container mt-2" style={{
+              border: "1px dashed green", padding: "10px", fontSize: '14px'
+            }}>
+              <label htmlFor="validationCustom05" className="form-label text-center"
+                style={{
+                  fontSize: '18px', fontWeight: 'bold', color: '#009E50',
+                  marginBottom: '10px'
+                }}>Lista de Áreas</label>
+              <Table striped bordered hover>
+                <thead>
+                  <tr>
+                    <th>Área</th>
+                    <th>SubÁrea</th>
+                    <th>SubÁrea Especifica</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>.</td>
+                    <td>.</td>
+                    <td>.</td>
+                  </tr>
+                  <tr>
+                    <td>.</td>
+                    <td>.</td>
+                    <td>.</td>
+                  </tr>
+
+                </tbody>
+              </Table>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+    {/* MODAL AGREGAR NUEVA AREA FIN*/}
+
+
+    <div className="Mycontainer-div mt-2" style={{ maxWidth: "1335px" }}>
+      <label htmlFor="validationCustom05" className="form-label text-center"
+        style={{
+          fontSize: '18px', fontWeight: 'bold', color: '#009E50',
+          marginBottom: '10px'
+        }}>Lista de los Libros encontrados</label>
+      <Table striped bordered hover>
+        <thead>
+          <tr>
+            <th>Libro</th>
+            <th>Área de conocimiento</th>
+            <th>SubÁrea de conocimiento</th>
+            <th>SubÁrea Especifica</th>
+            <th>Año</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+          </tr>
+          <tr>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+            <td>.</td>
+            <td>
+              <li className="nav-item">
+                <a className="nav-link" aria-current="page" style={{ color: '#1B7505' }}
+                  href={`/MostrarAudioLibro`}>Mostrar Libro</a>
+              </li>
+            </td>
+          </tr>
+
+        </tbody>
+      </Table>
 
     </div>
+
+
+
+    <Footer />
+
+  </div>
   );
 };
 

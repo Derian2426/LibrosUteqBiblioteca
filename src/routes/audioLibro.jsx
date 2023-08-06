@@ -13,11 +13,11 @@ const audioLibro = () => {
 
 
   useEffect(() => {
-    obtenerDatos(`http://localhost:8282/libro/${data}`)
+    obtenerDatos(`http://localhost:8080/libro/${data}`)
       .then((data) => {
         setLibro(data);
         return enviarPeticionConEncabezadoJSON(
-          `http://localhost:8282/capitulo`,
+          `http://localhost:8080/capitulo`,
           data
         );
       })
@@ -70,7 +70,7 @@ const audioLibro = () => {
     return response.json();
   };
   async function obtenerAudioDesdeServidor(jsonData) {
-    const response = await fetch("http://localhost:8282/files", {
+    const response = await fetch("http://localhost:8080/files", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -83,112 +83,113 @@ const audioLibro = () => {
     return await response.blob();
   }
   return (
-    <div>
+    <div style={{ marginTop: '80px' }}>
       <div style={{ textAlign: "center" }}>
         <a >
           <img src='LogoAudioLibros.png' alt="Inicio" width="400px" height="110px" />
         </a>
       </div>
 
-        {/* CONTENEDOR PRINCIPAL*/}
-      <div className="container shadow" style={{maxWidth: "800px", border: "1px dashed green",
-          padding: "20px", fontSize: "14px",}}
+      {/* CONTENEDOR PRINCIPAL*/}
+      <div className="Mycontainer-div" style={{
+        maxWidth: "1000px",padding:"10px"
+      }}
       >
         <form className="row g-3 needs-validation" noValidate>
           {/* Primera Columna */}
-          <div className="col-md-3" style={{ maxWidth: "220px", margin: "auto" }}>
-          <div className="card mb-1" style={{padding: "5px" }}>
-            <img src="src/imagenes/a11ytools.png" className="d-block w-100 shadow"alt="Imagen 1"/>
-          </div>
-          </div>
-            {/* Segunda Columna */}
-          <div className="col-md-3">
-          <div className="card mb-1" style={{padding: "5px" }}>
-            <label
-              htmlFor="validationCustom05"
-              className="form-label"
-              style={{
-                fontSize: "14px",
-                fontWeight: "bold",
-                textAlign: "left",
-                display: "block",
-              }}
-            >
-              Nombre del audio libro
-            </label>
-            <label
-              htmlFor="validationCustom05"
-              className="form-label"
-              style={{
-                fontSize: "10px",
-                fontWeight: "bold",
-                textAlign: "left",
-                display: "block",
-              }}
-            >
-              {libro.nombreLibro}
-            </label>
-            <label
-              htmlFor="validationCustom05"
-              className="form-label"
-              style={{
-                fontSize: "14px",
-                fontWeight: "bold",
-                textAlign: "left",
-                display: "block",
-              }}
-            >
-              Subárea de conocimiento
-            </label>
-            <label
-              htmlFor="validationCustom05"
-              className="form-label"
-              style={{
-                fontSize: "10px",
-                fontWeight: "bold",
-                textAlign: "left",
-                display: "block",
-              }}
-            >
-              Derecho
-            </label>
-            <label
-              htmlFor="validationCustom05"
-              className="form-label"
-              style={{
-                fontSize: "14px",
-                fontWeight: "bold",
-                textAlign: "left",
-                display: "block",
-              }}
-            >
-              Año de Publicacion
-            </label>
-            <label
-              htmlFor="validationCustom05"
-              className="form-label"
-              style={{
-                fontSize: "10px",
-                fontWeight: "bold",
-                textAlign: "left",
-                display: "block",
-              }}
-            >
-              2021
-            </label>
-            <div className="valid-feedback"></div>
-          </div>
-          </div>
-          
-          {/* Tercera Columna */}
-          <div className="col-md-6">
-          <div className="container">
-            <div className="row">
-              {listaCapitulos.map((capitulo, index) => (
-                <Capitulo key={index} capitulo={capitulo} audioSrc={audioData[index]} />
-              ))}
+          <div className="col-md-3 Mycontainer-div" style={{ maxWidth: "220px"}}>
+            <div className="card mb-1" style={{ padding: "5px" }}>
+              <img src="src/imagenes/a11ytools.png" className="d-block w-100 shadow" alt="Imagen 1" />
             </div>
           </div>
+          {/* Segunda Columna */}
+          <div className="col-md-3 Mycontainer-div">
+            <div className=" mb-1" style={{ padding: "5px" }}>
+              <label
+                htmlFor="validationCustom05"
+                className="form-label"
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  display: "block",
+                }}
+              >
+                Área de conocimiento
+              </label>
+              <label
+                htmlFor="validationCustom05"
+                className="form-label"
+                style={{
+                  fontSize: "10px",
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  display: "block",
+                }}
+              >
+                {libro.nombreLibro}
+              </label>
+              <label
+                htmlFor="validationCustom05"
+                className="form-label"
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  display: "block",
+                }}
+              >
+                Subárea de conocimiento
+              </label>
+              <label
+                htmlFor="validationCustom05"
+                className="form-label"
+                style={{
+                  fontSize: "10px",
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  display: "block",
+                }}
+              >
+                Derecho
+              </label>
+              <label
+                htmlFor="validationCustom05"
+                className="form-label"
+                style={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  display: "block",
+                }}
+              >
+                Año de Publicacion
+              </label>
+              <label
+                htmlFor="validationCustom05"
+                className="form-label"
+                style={{
+                  fontSize: "10px",
+                  fontWeight: "bold",
+                  textAlign: "left",
+                  display: "block",
+                }}
+              >
+                2021
+              </label>
+              <div className="valid-feedback"></div>
+            </div>
+          </div>
+
+          {/* Tercera Columna */}
+          <div className="col-md-6 Mycontainer-div" style={{padding:"10px" }}>
+            <div className="container">
+              <div className="row">
+                {listaCapitulos.map((capitulo, index) => (
+                  <Capitulo key={index} capitulo={capitulo} audioSrc={audioData[index]} />
+                ))}
+              </div>
+            </div>
           </div>
         </form>
       </div>
@@ -197,16 +198,15 @@ const audioLibro = () => {
 };
 const Capitulo = ({ capitulo, audioSrc }) => {
   return (
-    <div className="card mb-1" style={{padding: "5px" }}>
-    <div className="col-md-5">
-      <label htmlFor="validationCustom05" className="form-label"> havdashvhsad</label>
-     
-      <div className="audio-player-container" >
-        <ReactAudioPlayer src={audioSrc} autoPlay={false} controls 
-         style={{ width: '330px', height: '25px' }}/>
+
+    < div className="Mycontainer-div mb-1" style={{ padding: "4px" }}>
+      <div className="card-body" style={{ padding: "4px" }}>
+        <label htmlFor="validationCustom05" className="form-label">Capítulo</label>
+        <div style={{ width: '100%' }}>
+          <ReactAudioPlayer src={audioSrc} autoPlay={false} controls style={{ width: '100%', height: '25px' }} />
+        </div>
       </div>
-    </div>
-     </div>
+    </div >
   );
 };
 export default audioLibro;

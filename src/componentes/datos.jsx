@@ -8,7 +8,7 @@ export function Tabladatos() {
     window.location.href = `/MostrarAudioLibro/${idLibro}`;
   };
   useEffect(() => {
-    obtenerDatos("http://localhost:8282/libro")
+    obtenerDatos("http://localhost:8080/libro")
       .then((data) => {
         setListaSensor(data);
       })
@@ -25,16 +25,8 @@ export function Tabladatos() {
   };
 
   return (
-    <div
-      className="container mt-3"
-      style={{
-        maxWidth: "1320px",
-        border: "1px dashed green",
-        padding: "20px",
-        fontSize: "14px",
-      }}
-    >
-      <Table>
+<div className="Mycontainer-div mt-3" style={{maxWidth:'1320px'}}>
+      <Table style={{ width: '100%' }} >
         <thead>
           <tr>
             <th scope="col">N.º</th>

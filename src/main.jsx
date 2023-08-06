@@ -10,38 +10,12 @@ import Principal from "./routes/Navbar";
 import BusquedaLibros from "./routes/busquedaLibros";
 import IniciarSesion from "./routes/iniciarsesion";
 import AudioLibro from "./routes/audioLibro";
+import footer from "./routes/footer";
 import Botonera from "./routes/botones";
 import FileUpload from "./routes/audios";
+import Footer from "./routes/footer";
 const routes = [
-  {
-    path: "registrarlibros",
-    element: <FormularioLibro/>,
-  },
-  ,
-  {
-    path: "amor/:contactId",
-    element: <App />,
-  },
-  {
-    path: "botones",
-    element: <Botonera/>,
-  },
-  {
-    path: "IniciarSesion",
-    element: <IniciarSesion/>,
-  },
-  {
-    path: "BuscarLibros",
-    element: <BusquedaLibros/>,
-  },
-  {
-    path: "MostrarAudioLibro/:data",
-    element: <AudioLibro/>,
-  },
-];
-
-const router = createBrowserRouter([
-  {
+{
     path: "/",
     element: <Root/>,
     errorElement: <ErrorPage/>
@@ -71,19 +45,22 @@ const router = createBrowserRouter([
     path: "MostrarAudioLibro/:data",
     element: <AudioLibro/>,
   },
-]);
+  {
+    path: "PantallaInicio/:data",
+    element: <Principal/>,
+  },
+  {
+    path: "Mostrarfooter/:data",
+    element: <Footer/>,
+  },
+];
+
+const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <Principal/>
     <RouterProvider router={router}>
-    <Routes>
-      {routes.map((route)=>(
-        <Route key={Route.path} 
-      path={route.path} 
-      element={route.element} />
-      ))}
-    </Routes>
     </RouterProvider>
   </React.StrictMode>
 );

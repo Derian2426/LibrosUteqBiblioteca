@@ -1,0 +1,92 @@
+.containerMyStyle {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.cardMyStyle {
+    max-width: 500px;
+    border-radius: 5px;
+    padding: 20px;
+    font-size: 14px;
+    box-shadow: 0px 2px 15px rgba(3, 116, 3, 0.651);
+    background-color: rgba(22, 94, 4, 0.068);
+}
+
+.successAlertMyStyle {
+    padding: 5px;
+    font-size: 16px;
+    border-radius: 5px;
+}
+
+.form-Mycontrol {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    border-color: rgb(1, 124, 11);
+    padding: 10px;
+    width: 100%;
+    font-size: 14px;
+    background-color: rgba(241, 248, 239, 0.267);
+    transition: border-color 0.3s ease;
+
+}
+
+.form-Mycontrol:focus,
+.content:focus-within .form-Mycontrol {
+    outline: none;
+    border-color: green;
+    box-shadow: 0px 2px 10px rgba(1, 150, 1, 0.712);
+}
+
+.Mycontainer-div {
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(3, 116, 3, 0.651);
+    border: 1px solid rgba(0, 128, 0, 0.418);
+    padding: 20px;
+    font-size: 14px;
+    justify-content: center;
+    margin: 0 auto;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+.Mycontainer-div-insert {
+    border-radius: 5px;
+    box-shadow: 0px 2px 5px rgba(3, 116, 3, 0.651);
+    border: 1px solid rgba(0, 128, 0, 0.418);
+    padding: 12px;
+    justify-content: center;
+    margin: 0 auto;
+    justify-content: center;
+    overflow-x: auto;
+}
+
+.StyleImg {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+    transition: width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+    .StyleImg {
+        max-width: 150px;
+        width: 100%;
+        height: auto;
+    }
+}
+
+.modalStyle {
+    font-Size: 20px;
+    font-Weight: bold;
+    color: #009E50;
+    margin-Left: 10px;
+}
+
+.btnCero {
+    margin-top: 2px;
+}
+
