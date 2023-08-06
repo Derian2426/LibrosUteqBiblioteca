@@ -25,30 +25,39 @@ export function Tabladatos() {
   };
 
   return (
-    <div className="container mt-3" style={{ maxWidth: "1320px", border: "1px dashed green", padding: "20px", fontSize: '14px' }}>
-
+    <div
+      className="container mt-3"
+      style={{
+        maxWidth: "1320px",
+        border: "1px dashed green",
+        padding: "20px",
+        fontSize: "14px",
+      }}
+    >
       <Table>
         <thead>
           <tr>
             <th scope="col">N.º</th>
             <th scope="col">Nombre del libro</th>
-            <th scope="col">Autor</th>
             <th scope="col">Fecha de Publicación</th>
-            <th scope="col">Género</th>
             <th scope="col">Idioma</th>
-            <th scope="col">Duración</th>
             <th scope="col">Acciones</th>
           </tr>
         </thead>
         <tbody>
-          {/* {listaSensor.map((dato, index) => (
-          <tr key={index}>
-            <th scope="row">{index + 1}</th>
-            <td>{dato.nombreLibro}</td>
-            <td>{dato.fechaPublicacion}</td>
-            <td><button onClick={() => handleButtonClick(dato.idLibro)}>Audio libro</button></td>
-          </tr>
-        ))} */}
+          {listaSensor.map((dato, index) => (
+            <tr key={index}>
+              <th scope="row">{index + 1}</th>
+              <td>{dato.nombreLibro}</td>
+              <td>{dato.fechaPublicacion}</td>
+              <td>{dato.lenguaje}</td>
+              <td>
+                <button onClick={() => handleButtonClick(dato.idLibro)}>
+                  Audio libro
+                </button>
+              </td>
+            </tr>
+          ))}
         </tbody>
       </Table>
     </div>

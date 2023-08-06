@@ -159,20 +159,25 @@ const FormularioLibro = () => {
     );
     setNombreSubAreaEspecifica(event.target.value);
   };
-  const handleSeleccionArchivo = async (event) => {
+  const handleSeleccion = async (event) => {
+    const identificador = identificadorArchivo(
+      1,
+      nombreLibro,
+      ""
+    );
     const archivoSeleccionado = event.target.files[0];
-    const fileBase64 = await readFileAsBase64(archivoSeleccionado);
-    setPdfLibro(fileBase64);
+    const extensionArchivo = '.' + archivoSeleccionado.name.split('.').pop();
+    const nuevoArchivo = new File([archivoSeleccionado], identificador + extensionArchivo, {
+      type: archivoSeleccionado.type,
+    });
+    setPdfLibro(identificador+extensionArchivo);
+    setFiles((prevFiles) => prevFiles.concat(nuevoArchivo));
   };
-  const handleSeleccionPortada = async (event) => {
-    const archivoSeleccionado = event.target.files[0];
-    const fileBase64 = await readFileAsBase64(archivoSeleccionado);
-    setCoverImage(fileBase64);
-  };
+  
 
   const identificadorArchivo = (posicion, nombreArchivo, nombreLibro) => {
     const fechaActual = new Date();
-    const fechaFormateada = fechaActual.toISOString().split("T")[0]; // Obtener la fecha actual en formato YYYY-MM-DD
+    const fechaFormateada = fechaActual.toISOString().split("T")[0];
     const nombreConFecha = `${posicion}.${nombreArchivo}_${fechaFormateada}_${nombreLibro}`;
     return nombreConFecha;
   };
@@ -227,7 +232,9 @@ const FormularioLibro = () => {
     setCapituloList([...capituloList, nuevoCapitulo]);
 
     const archivosModificados = fileArray.map((file) => {
-      const nuevoArchivo = new File([file], identificador + ".mp3", {
+      let extensionArchivo = '.';
+      extensionArchivo=extensionArchivo+file.name.split('.').pop();
+      const nuevoArchivo = new File([file], identificador + extensionArchivo, {
         type: file.type,
       });
       return nuevoArchivo;
@@ -337,13 +344,13 @@ const FormularioLibro = () => {
 
               <div className="col-md-4">
                 <label htmlFor="validationCustom03" className="form-label">Cover Image:</label>
-                <input className="form-control" type="file" onChange={handleSeleccionPortada} />
+                <input className="form-control" type="file" onChange={handleSeleccion} />
               </div>
 
 
               <div className="col-md-4">
                 <label htmlFor="validationCustom03" className="form-label">Carga PDF:</label>
-                <input className="form-control" type="file" onChange={handleSeleccionArchivo} />
+                <input className="form-control" type="file" onChange={handleSeleccion} />
               </div>
 
               {/* CONTENEDOR AGREGAR AUDIOS DE LOS LIBROS*/}
@@ -364,7 +371,7 @@ const FormularioLibro = () => {
                         <div className="card mb-1" style={{padding: "5px" }}>
                           <div className="row">
                             <div className="col-md-6 " >
-                              <input className="form-control" key={index} type="text" value={names[index] || ""}
+                              <input className="form-control" key={index} type="text" maxLength={99} value={names[index] || ""}
                                 onChange={(event) => handleNameChange(index, event)} />
                             </div>
                             <div className="col-md-6 " >

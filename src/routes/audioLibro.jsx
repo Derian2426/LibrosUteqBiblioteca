@@ -7,42 +7,11 @@ import { useParams } from "react-router-dom";
 
 const audioLibro = () => {
   const [libro, setLibro] = useState({});
-
+  const [listaCapitulos, setListaCapitulos] = useState([]);
   const { data } = useParams();
   const [audioData, setAudioData] = useState([]);
 
-  const jsonData = `[
-    {
-        "idCapitulo": 21,
-        "titulo": "Capitulo 1",
-        "nombreArchivo": "1.Capitulo 1_2023-07-28_Libro de Jimmy.mp3",
-        "rutaArchivo": "Libro de Jimmy",
-        "ordenArchivo": 1,
-        "numeroDescarga": null,
-        "fechaCreacion": "2023-07-29"
-    },
-    {
-        "idCapitulo": 22,
-        "titulo": "Capitulo 2",
-        "nombreArchivo": "2.Capitulo 2_2023-07-28_Libro de Jimmy.mp3",
-        "rutaArchivo": "Libro de Jimmy",
-        "ordenArchivo": 2,
-        "numeroDescarga": null,
-        "fechaCreacion": "2023-07-29"
-    },
-    {
-        "idCapitulo": 23,
-        "titulo": "Capitulo 3",
-        "nombreArchivo": "3.Capitulo 3_2023-07-28_Libro de Jimmy.mp3",
-        "rutaArchivo": "Libro de Jimmy",
-        "ordenArchivo": 3,
-        "numeroDescarga": null,
-        "fechaCreacion": "2023-07-29"
-    }
-]`;
 
-
-  const [listaCapitulos, setListaCapitulos] = useState([jsonData]);
   useEffect(() => {
     obtenerDatos(`http://localhost:8282/libro/${data}`)
       .then((data) => {
@@ -57,7 +26,7 @@ const audioLibro = () => {
       })
       .catch((error) => setError(error))
       .finally(() => setIsLoading(false));
-  }, [data]);
+  }, []);
 
   useEffect(() => {
     const obtenerAudios = async () => {
@@ -145,7 +114,7 @@ const audioLibro = () => {
                 display: "block",
               }}
             >
-              Área de conocimiento
+              Nombre del audio libro
             </label>
             <label
               htmlFor="validationCustom05"
@@ -230,7 +199,7 @@ const Capitulo = ({ capitulo, audioSrc }) => {
   return (
     <div className="card mb-1" style={{padding: "5px" }}>
     <div className="col-md-5">
-      <label htmlFor="validationCustom05" className="form-label"> Capítulo</label>
+      <label htmlFor="validationCustom05" className="form-label"> havdashvhsad</label>
      
       <div className="audio-player-container" >
         <ReactAudioPlayer src={audioSrc} autoPlay={false} controls 
