@@ -154,6 +154,7 @@ const audioLibro = () => {
                 alt="Imagen 1"
               />
             </div>
+            <button type="button" onClick={() => descargarAudiosZip(libro)}>Generar ZIP de Audios</button>
           </div>
           {/* Segunda Columna */}
           <div className="col-md-3 Mycontainer-div">
@@ -324,7 +325,64 @@ const audioLibro = () => {
     </div>
   );
 };
+
+const descargarAudiosZip = async (libro) => {
+  try {
+    const formData = new FormData();
+    formData.append("ruta", libro.nombreLibro);
+    const response = await fetch(`http://localhost:8282/downloadZip`, {
+      method: "POST",
+      body: formData,
+    });
+    if (!response.ok) {
+      throw new Error("Error al obtener el audio desde el servidor");
+    }
+    const blob = await response.blob();
+    const audioUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = audioUrl;
+    link.download = libro.nombreLibro;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(audioUrl);
+  } catch (error) {
+    console.error("Error al obtener el audio desde el servidor:", error);
+  }
+};
+
+
+
+
+const descargarAudioDesdeServidor = async (capitulo) => {
+  try {
+    const formData = new FormData();
+    formData.append("ruta", capitulo.rutaArchivo);
+    formData.append("file", capitulo.nombreArchivo);
+    const response = await fetch(`http://localhost:8282/download`, {
+      method: "POST",
+      body: formData,
+    });
+    if (!response.ok) {
+      throw new Error("Error al obtener el audio desde el servidor");
+    }
+    const blob = await response.blob();
+    const audioUrl = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = audioUrl;
+    link.download = capitulo.nombreArchivo;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(audioUrl);
+  } catch (error) {
+    console.error("Error al obtener el audio desde el servidor:", error);
+  }
+};
 const Capitulo = ({ capitulo, audioSrc }) => {
+  const handleDescargarClick = () => {
+    descargarAudioDesdeServidor(capitulo);
+  };
   return (
     <div className="Mycontainer-div mb-1" style={{ padding: "4px" }}>
       <div className="card-body" style={{ padding: "4px" }}>
@@ -337,7 +395,10 @@ const Capitulo = ({ capitulo, audioSrc }) => {
             autoPlay={false}
             controls
             style={{ width: "100%", height: "25px" }}
-          />
+          ></ReactAudioPlayer>
+          <button type="button" onClick={handleDescargarClick}>
+            Descragar Audio
+          </button>
         </div>
       </div>
     </div>
