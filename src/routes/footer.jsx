@@ -11,11 +11,9 @@ const Footer = () => {
     <div>
       <div>
         <button className="btn rounded-circle" data-bs-toggle="modal" data-bs-target="#myModal"
-          style={{
-            backgroundColor: '#025A27', position: 'fixed', right: '20px', bottom: '70px',
-            width: '50px', height: '50px', fontSize: '21px', zIndex: 10, transition: 'all 300ms ease 0ms'
-          }}
-        >
+          aria-label="Boton para abrir la configuración de accesibilidad"
+          style={{backgroundColor: '#025A27', position: 'fixed', right: '20px', bottom: '70px',
+            width: '50px', height: '50px', fontSize: '21px', zIndex: 10, transition: 'all 300ms ease 0ms'}}>
           <i className="fa-solid fa-gears text-light"></i>
         </button>
       </div>

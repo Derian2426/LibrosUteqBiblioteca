@@ -26,16 +26,17 @@ const iniciarsesion = () => {
                 <div className="cardMyStyle">
                     <div style={{ textAlign: "center", marginBottom: "20px" }}>
                         <a >
-                            <img className="StyleImg" src="src/imagenes/LogoAudioLibros.png" alt="Inicio" width="400px" height="110px" />
+                            <img className="StyleImg" src="src/imagenes/LogoAudioLibros.png" width="400px" height="110px" 
+                            alt="Inicio"/>
                         </a>
                     </div>
                     <div className="col-md-12">
-                        <label htmlFor="validationCustom03" className="form-label">USUARIO:</label>
-                        <input className="form-Mycontrol" type="text" />
+                        <label htmlFor="validationCustom03" className="form-label mb-1" >USUARIO:</label>
+                        <input className="form-Mycontrol" type="text" placeholder="Ingrese su usuario"/>
                     </div>
                     <div className="col-md-12">
-                        <label htmlFor="validationCustom03" className="form-label">CONTRASEÑA:</label>
-                        <input className="form-Mycontrol" type="text" />
+                        <label htmlFor="validationCustom03" className="form-label mb-1">CONTRASEÑA:</label>
+                        <input className="form-Mycontrol" type="text" placeholder="Ingrese su contraseña"/>
                     </div>
                     <div className="d-grid justify-content-center mt-3">
                         <button className="btn btn-success" type="submit"
