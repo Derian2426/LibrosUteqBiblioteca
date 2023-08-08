@@ -128,194 +128,214 @@ const audioLibro = () => {
         className="Mycontainer-div"
         style={{
           maxWidth: "1200px",
-          padding: "8px",
+          padding: "8px"
         }}
       >
-        <form className="row g-3 needs-validation" noValidate>
+        <form className="row g-2 needs-validation" noValidate>
           {/* Primera Columna */}
-          <div
-            className="Mycontainer-div col-md-3"
-            style={{ maxWidth: "210px" }}
-          >
-            <label
-              htmlFor="validationCustom05"
-              className="form-label"
-              style={{
-                fontSize: "14px",
-                fontWeight: "bold",
-                textAlign: "center",
-                display: "block",
-              }}
-            >
+          <div className="Mycontainer-div col-md-6" style={{ maxWidth: "575px" }}>
+            <label htmlFor="validationCustom05" className="form-label"
+              style={{ fontSize: "14px", fontWeight: "bold", textAlign: "center", display: "block", }}>
               {libro.nombreLibro}
             </label>
-            <div className="card mb-1">
-              <img
-                src={imageUrl}
-                className="d-block w-100 shadow"
-                alt="Imagen 1"
-              />
-            </div>
-            <div className="d-flex flex-wrap justify-content-center">
-            <button className="audio-button" type="button"  style={{height: "25px" }}>
-              <FontAwesomeIcon icon={faDownload} /> Descargar PDF</button>
-              <button className="audio-button mt-2" type="button"
-               style={{height: "25px" }} onClick={() => descargarAudiosZip(libro)}>
-              <FontAwesomeIcon icon={faDownload} /> Generar ZIP de Audios</button>
-              </div>
-          </div>
-          {/* Segunda Columna */}
-          <div className="Mycontainer-div col-md-3">
-            <div className=" mb-1" style={{ padding: "5px"}}>
-              <label
-                htmlFor="validationCustom05"
-                className="form-label"
-                style={{
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  textAlign: "left",
-                  display: "block",
-                }}
-              >
-                Área de conocimiento
-              </label>
-              {libro.subAreasEspecificas &&
-                libro.subAreasEspecificas.subAreasConocimiento &&
-                libro.subAreasEspecificas.subAreasConocimiento
-                  .areaConocimiento && (
-                  <label
-                    htmlFor="validationCustom05"
-                    className="form-label"
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: "bold",
-                      textAlign: "left",
-                      display: "block",
-                    }}
-                  >
-                    {
+            <div
+              className=""
+              style={{
+                maxWidth: "1200px",
+                padding: "8px"
+              }}
+            >
+              <form className="row g-2 needs-validation" noValidate>
+                {/* Primera Columna */}
+                <div
+                  className="col-md-6"
+                  style={{ maxWidth: "575px" }}
+                >
+
+
+
+                  <div className="card mb-1" style={{ padding: "5px" }}>
+                    <img
+                      src={imageUrl}
+                      alt="Imagen 1"
+                    />
+                  </div>
+
+
+
+                  <div className="d-flex flex-wrap justify-content-center">
+                    <button className="audio-button" type="button" style={{ height: "25px" }}>
+                      <FontAwesomeIcon icon={faDownload} /> Descargar PDF</button>
+                    <button className="audio-button mt-2" type="button"
+                      style={{ height: "25px" }} onClick={() => descargarAudiosZip(libro)}>
+                      <FontAwesomeIcon icon={faDownload} /> Generar ZIP de Audios</button>
+                  </div>
+                </div>
+
+
+                {/* Tercera Columna */}
+                <div className="col-md-6" >
+                  <div className=" mb-1" style={{ padding: "5px" }}>
+                    <label
+                      htmlFor="validationCustom05"
+                      className="form-label"
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        display: "block",
+                      }}
+                    >
+                      Área de conocimiento
+                    </label>
+                    {libro.subAreasEspecificas &&
+                      libro.subAreasEspecificas.subAreasConocimiento &&
                       libro.subAreasEspecificas.subAreasConocimiento
-                        .areaConocimiento.nombreArea
-                    }
-                  </label>
-                )}
+                        .areaConocimiento && (
+                        <label
+                          htmlFor="validationCustom05"
+                          className="form-label"
+                          style={{
+                            fontSize: "10px",
+                            fontWeight: "bold",
+                            textAlign: "left",
+                            display: "block",
+                          }}
+                        >
+                          {
+                            libro.subAreasEspecificas.subAreasConocimiento
+                              .areaConocimiento.nombreArea
+                          }
+                        </label>
+                      )}
 
-              <label
-                htmlFor="validationCustom05"
-                className="form-label"
-                style={{
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  textAlign: "left",
-                  display: "block",
-                }}
-              >
-                Subárea de conocimiento
-              </label>
+                    <label
+                      htmlFor="validationCustom05"
+                      className="form-label"
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        display: "block",
+                      }}
+                    >
+                      Subárea de conocimiento
+                    </label>
 
-              {libro.subAreasEspecificas &&
-                libro.subAreasEspecificas.subAreasConocimiento && (
-                  <label
-                    htmlFor="validationCustom05"
-                    className="form-label"
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: "bold",
-                      textAlign: "left",
-                      display: "block",
-                    }}
-                  >
-                    {
-                      libro.subAreasEspecificas.subAreasConocimiento
-                        .nombreSubArea
-                    }
-                  </label>
-                )}
+                    {libro.subAreasEspecificas &&
+                      libro.subAreasEspecificas.subAreasConocimiento && (
+                        <label
+                          htmlFor="validationCustom05"
+                          className="form-label"
+                          style={{
+                            fontSize: "10px",
+                            fontWeight: "bold",
+                            textAlign: "left",
+                            display: "block",
+                          }}
+                        >
+                          {
+                            libro.subAreasEspecificas.subAreasConocimiento
+                              .nombreSubArea
+                          }
+                        </label>
+                      )}
 
-              <label
-                htmlFor="validationCustom05"
-                className="form-label"
-                style={{
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  textAlign: "left",
-                  display: "block",
-                }}
-              >
-                Subárea especifica de conocimiento
-              </label>
+                    <label
+                      htmlFor="validationCustom05"
+                      className="form-label"
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        display: "block",
+                      }}
+                    >
+                      Subárea especifica de conocimiento
+                    </label>
 
-              {libro.subAreasEspecificas &&
-                libro.subAreasEspecificas.nombreSubAreaEspecifica && (
-                  <label
-                    htmlFor="validationCustom05"
-                    className="form-label"
-                    style={{
-                      fontSize: "10px",
-                      fontWeight: "bold",
-                      textAlign: "left",
-                      display: "block",
-                    }}
-                  >
-                    {libro.subAreasEspecificas.nombreSubAreaEspecifica}
-                  </label>
-                )}
+                    {libro.subAreasEspecificas &&
+                      libro.subAreasEspecificas.nombreSubAreaEspecifica && (
+                        <label
+                          htmlFor="validationCustom05"
+                          className="form-label"
+                          style={{
+                            fontSize: "10px",
+                            fontWeight: "bold",
+                            textAlign: "left",
+                            display: "block",
+                          }}
+                        >
+                          {libro.subAreasEspecificas.nombreSubAreaEspecifica}
+                        </label>
+                      )}
 
-              <label
-                htmlFor="validationCustom05"
-                className="form-label"
-                style={{
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  textAlign: "left",
-                  display: "block",
-                }}
-              >
-                Año de Publicacion
-              </label>
-              <label
-                htmlFor="validationCustom05"
-                className="form-label"
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  textAlign: "left",
-                  display: "block",
-                }}
-              >
-                {libro.fechaPublicacion}
-              </label>
+                    <label
+                      htmlFor="validationCustom05"
+                      className="form-label"
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        display: "block",
+                      }}
+                    >
+                      Año de Publicacion
+                    </label>
+                    <label
+                      htmlFor="validationCustom05"
+                      className="form-label"
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        display: "block",
+                      }}
+                    >
+                      {libro.fechaPublicacion}
+                    </label>
 
-              <label
-                htmlFor="validationCustom05"
-                className="form-label"
-                style={{
-                  fontSize: "14px",
-                  fontWeight: "bold",
-                  textAlign: "left",
-                  display: "block",
-                }}
-              >
-                ISBN
-              </label>
-              <label
-                htmlFor="validationCustom05"
-                className="form-label"
-                style={{
-                  fontSize: "10px",
-                  fontWeight: "bold",
-                  textAlign: "left",
-                  display: "block",
-                }}
-              >
-                {libro.isbn}
-              </label>
-              <div className="valid-feedback"></div>
+                    <label
+                      htmlFor="validationCustom05"
+                      className="form-label"
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        display: "block",
+                      }}
+                    >
+                      ISBN
+                    </label>
+                    <label
+                      htmlFor="validationCustom05"
+                      className="form-label"
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        display: "block",
+                      }}
+                    >
+                      {libro.isbn}
+                    </label>
+                    <div className="valid-feedback"></div>
+                  </div>
+
+
+                </div>
+              </form>
             </div>
+
+
+
+
+
           </div>
+
 
           {/* Tercera Columna */}
-          <div className="col-md-6 Mycontainer-div" style={{ padding: "10px", maxHeight: "340px" }}>
+          <div className="col-md-6 Mycontainer-div" style={{ padding: "10px" }}>
             <div className="container">
               <div className="row">
                 {listaCapitulos.map((capitulo, index) => (
@@ -406,9 +426,9 @@ const Capitulo = ({ capitulo, audioSrc }) => {
             controls
             style={{ width: "73%", height: "25px" }}
           ></ReactAudioPlayer>
-           <button className="audio-button" type="button"  
-          style={{height: "25px" }}onClick={handleDescargarClick}>
-           <FontAwesomeIcon icon={faDownload} /> Descargar Audio
+          <button className="audio-button" type="button"
+            style={{ height: "25px" }} onClick={handleDescargarClick}>
+            <FontAwesomeIcon icon={faDownload} /> Descargar Audio
           </button>
         </div>
       </div>
