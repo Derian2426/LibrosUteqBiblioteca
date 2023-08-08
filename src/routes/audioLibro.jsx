@@ -3,7 +3,10 @@ import ReactAudioPlayer from "react-audio-player";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDownload } from '@fortawesome/free-solid-svg-icons';
 import { useParams } from "react-router-dom";
+import Footer from './footer';
 
 const audioLibro = () => {
   const [libro, setLibro] = useState({});
@@ -13,11 +16,11 @@ const audioLibro = () => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    obtenerDatos(`http://localhost:8282/libro/${data}`)
+    obtenerDatos(`http://localhost:8080/libro/${data}`)
       .then((data) => {
         setLibro(data);
         return enviarPeticionConEncabezadoJSON(
-          `http://localhost:8282/capitulo`,
+          `http://localhost:8080/capitulo`,
           data
         );
       })
@@ -72,7 +75,7 @@ const audioLibro = () => {
     return response.json();
   };
   async function obtenerAudioDesdeServidor(jsonData) {
-    const response = await fetch("http://localhost:8282/files", {
+    const response = await fetch("http://localhost:8080/files", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -87,7 +90,7 @@ const audioLibro = () => {
 
   const obtenerImagenDesdeServidor = async (jsonData) => {
     try {
-      const response = await fetch("http://localhost:8282/files/portada", {
+      const response = await fetch("http://localhost:8080/files/portada", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -124,15 +127,15 @@ const audioLibro = () => {
       <div
         className="Mycontainer-div"
         style={{
-          maxWidth: "1000px",
-          padding: "10px",
+          maxWidth: "1200px",
+          padding: "8px",
         }}
       >
         <form className="row g-3 needs-validation" noValidate>
           {/* Primera Columna */}
           <div
-            className="col-md-3 Mycontainer-div"
-            style={{ maxWidth: "220px" }}
+            className="Mycontainer-div col-md-3"
+            style={{ maxWidth: "210px" }}
           >
             <label
               htmlFor="validationCustom05"
@@ -140,25 +143,30 @@ const audioLibro = () => {
               style={{
                 fontSize: "14px",
                 fontWeight: "bold",
-                textAlign: "left",
-                display: "block",
                 textAlign: "center",
+                display: "block",
               }}
             >
               {libro.nombreLibro}
             </label>
-            <div className="card mb-1" style={{ padding: "5px" }}>
+            <div className="card mb-1">
               <img
                 src={imageUrl}
                 className="d-block w-100 shadow"
                 alt="Imagen 1"
               />
             </div>
-            <button type="button" onClick={() => descargarAudiosZip(libro)}>Generar ZIP de Audios</button>
+            <div className="d-flex flex-wrap justify-content-center">
+            <button className="audio-button" type="button"  style={{height: "25px" }}>
+              <FontAwesomeIcon icon={faDownload} /> Descargar PDF</button>
+              <button className="audio-button mt-2" type="button"
+               style={{height: "25px" }} onClick={() => descargarAudiosZip(libro)}>
+              <FontAwesomeIcon icon={faDownload} /> Generar ZIP de Audios</button>
+              </div>
           </div>
           {/* Segunda Columna */}
-          <div className="col-md-3 Mycontainer-div">
-            <div className=" mb-1" style={{ padding: "5px" }}>
+          <div className="Mycontainer-div col-md-3">
+            <div className=" mb-1" style={{ padding: "5px"}}>
               <label
                 htmlFor="validationCustom05"
                 className="form-label"
@@ -307,7 +315,7 @@ const audioLibro = () => {
           </div>
 
           {/* Tercera Columna */}
-          <div className="col-md-6 Mycontainer-div" style={{ padding: "10px" }}>
+          <div className="col-md-6 Mycontainer-div" style={{ padding: "10px", maxHeight: "340px" }}>
             <div className="container">
               <div className="row">
                 {listaCapitulos.map((capitulo, index) => (
@@ -319,9 +327,11 @@ const audioLibro = () => {
                 ))}
               </div>
             </div>
+
           </div>
         </form>
       </div>
+      <Footer />
     </div>
   );
 };
@@ -330,7 +340,7 @@ const descargarAudiosZip = async (libro) => {
   try {
     const formData = new FormData();
     formData.append("ruta", libro.nombreLibro);
-    const response = await fetch(`http://localhost:8282/downloadZip`, {
+    const response = await fetch(`http://localhost:8080/downloadZip`, {
       method: "POST",
       body: formData,
     });
@@ -359,7 +369,7 @@ const descargarAudioDesdeServidor = async (capitulo) => {
     const formData = new FormData();
     formData.append("ruta", capitulo.rutaArchivo);
     formData.append("file", capitulo.nombreArchivo);
-    const response = await fetch(`http://localhost:8282/download`, {
+    const response = await fetch(`http://localhost:8080/download`, {
       method: "POST",
       body: formData,
     });
@@ -389,18 +399,20 @@ const Capitulo = ({ capitulo, audioSrc }) => {
         <label htmlFor="validationCustom05" className="form-label">
           {capitulo.titulo}
         </label>
-        <div style={{ width: "100%" }}>
+        <div style={{ width: "100%", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <ReactAudioPlayer
             src={audioSrc}
             autoPlay={false}
             controls
-            style={{ width: "100%", height: "25px" }}
+            style={{ width: "73%", height: "25px" }}
           ></ReactAudioPlayer>
-          <button type="button" onClick={handleDescargarClick}>
-            Descragar Audio
+           <button className="audio-button" type="button"  
+          style={{height: "25px" }}onClick={handleDescargarClick}>
+           <FontAwesomeIcon icon={faDownload} /> Descargar Audio
           </button>
         </div>
       </div>
+
     </div>
   );
 };

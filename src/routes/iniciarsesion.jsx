@@ -8,6 +8,7 @@ import { faCheckCircle } from '@fortawesome/free-solid-svg-icons';
 import '../App.css'
 import Footer from './footer';
 
+
 const iniciarsesion = () => {
     const [sesionExitosa, setSesionExitosa] = useState(false);
     const navigate = useNavigate();
