@@ -36,7 +36,7 @@ const FormularioLibro = () => {
     setInputCount(inputCount + 1);
   };
   useEffect(() => {
-    obtenerDatos("http://localhost:8080/areaConocimiento")
+    obtenerDatos("http://localhost:8282/areaConocimiento")
       .then((data) => {
         console.log(data);
         setListaArea(data);
@@ -93,7 +93,7 @@ const FormularioLibro = () => {
     const libroString = JSON.stringify(capituloFileList);
     formData.append("libroRequest", libroString);
     try {
-      const response = await fetch("http://localhost:8080/upload", {
+      const response = await fetch("http://localhost:8282/upload", {
         method: "POST",
         body: formData,
       });
@@ -118,7 +118,7 @@ const FormularioLibro = () => {
     setNombreArea(event.target.value);
     try {
       const data = await obtenerDatos(
-        `http://localhost:8080/subAreaConocimiento/${selectedArea.idArea}`
+        `http://localhost:8282/subAreaConocimiento/${selectedArea.idArea}`
       );
       if (data && Object.keys(data).length > 0) {
         setListaSubArea(data);
@@ -137,7 +137,7 @@ const FormularioLibro = () => {
     setNombreSubArea(event.target.value);
     try {
       const data = await obtenerDatos(
-        `http://localhost:8080/subAreaEspecificas/${selectedSubArea.idSubArea}`
+        `http://localhost:8282/subAreaEspecificas/${selectedSubArea.idSubArea}`
       );
       if (data && Object.keys(data).length > 0) {
         setListaSubAreaEspecifica(data);

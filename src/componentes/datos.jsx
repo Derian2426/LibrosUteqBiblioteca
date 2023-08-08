@@ -8,7 +8,7 @@ export function Tabladatos() {
     window.location.href = `/MostrarAudioLibro/${idLibro}`;
   };
   useEffect(() => {
-    obtenerDatos("http://localhost:8080/libro")
+    obtenerDatos("http://localhost:8282/libro")
       .then((data) => {
         setListaSensor(data);
       })
