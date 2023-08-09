@@ -3,16 +3,13 @@ import ReactDOM from "react-dom/client";
 import App from "./App";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
-import Contact from "./routes/registroLibro";
 import { createBrowserRouter, Route, RouterProvider, Routes } from "react-router-dom";
 import FormularioLibro from "./routes/registroLibro";
 import Principal from "./routes/Navbar";
 import BusquedaLibros from "./routes/busquedaLibros";
 import IniciarSesion from "./routes/iniciarsesion";
 import AudioLibro from "./routes/audioLibro";
-import footer from "./routes/footer";
 import Botonera from "./routes/botones";
-import FileUpload from "./routes/audios";
 import Footer from "./routes/footer";
 const routes = [
 {

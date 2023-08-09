@@ -10,7 +10,7 @@ import '../App.css'
 export function Tabladatos() {
 
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 2;
+  const itemsPerPage = 3;
 
   const [listaSensor, setListaSensor] = useState([]);
   const handleButtonClick = async (idLibro) => {
@@ -42,7 +42,7 @@ export function Tabladatos() {
 
   return (
     <div className="Mycontainer-div mt-3" style={{ maxWidth: '1320px' }}>
-      <Table style={{ width: '100%' }} >
+      <Table >
         <thead>
           <tr>
             <th scope="col">N.º</th>
@@ -61,7 +61,7 @@ export function Tabladatos() {
               <td>{dato.lenguaje}</td>
               <td>
                 <button className="audio-button" onClick={() => handleButtonClick(dato.idLibro)}>
-                <FontAwesomeIcon icon={faVolumeUp} />
+                <FontAwesomeIcon icon={faVolumeUp}/>
                 </button>
               </td>
             </tr>

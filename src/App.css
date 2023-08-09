@@ -82,7 +82,7 @@
 .modalStyle {
     font-Size: 20px;
     font-Weight: bold;
-    color: #009E50;
+    color: #070707;
     margin-Left: 10px;
 }
 
@@ -90,32 +90,34 @@
     margin-top: 2px;
 }
 
-.pagination .previous,
+.pagination .previous{
+  width: 50%;
+  justify-content: end;
+  display: flex;
+}
 .pagination .next {
   display: flex;
-  align-items: center;
-  justify-content: center;
+  justify-content: start;
   width: 50%;
 }
-
 .pagination li {
     display: inline-block;
     margin: 0 4px; 
+    color: #ffffff;
   }
-  
   .pagination a {
-    display: block;
-    padding: 4px 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    text-decoration: none;
-    color: #333;
+    display: inline-flex;
+    padding: 4px 8px;
+    border: 1px solid #025A27;
+    border-radius: 10px;
+    background-color: #025a27da;
+    color: #ffffff;
+    font-size: 14px;
   }
-  
   .pagination .active a {
-    background-color: #0355259c;
+    background-color: #CC9F2D;
     color: #fff;
-    border-color: #0355259c;
+    border-color: #f8f9fa;
   }
 
   .audio-button {
@@ -123,23 +125,21 @@
     align-items: center;
     justify-content: center;
     padding: 4px 8px;
-    border: 1px solid #007bff; /* Color celeste */
+    border: 1px solid #025A27;
     border-radius: 20px;
-    background-color: transparent;
-    color: #007bff;
+    background-color: #025A27;
+    color: #ffffff;
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
   }
   
   .audio-button:hover {
-    background-color: #007bff;
-    color: #fff;
-    border-color: #0056b3;
+    background-color: #CC9F2D;
+    color: #fafcfb;
+    border-color: #f8f9fa;
   }
-
-  .centered-button {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  @font-face {
+    font-family: 'Times New Roman';
+    src: url('./font/Times-Roman.ttf') format('truetype');
   }
