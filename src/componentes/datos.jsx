@@ -1,48 +1,33 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faVolumeUp } from '@fortawesome/free-solid-svg-icons';
-import '@fortawesome/fontawesome-free/css/all.min.css';
-import '../App.css'
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
+import "@fortawesome/fontawesome-free/css/all.min.css";
+import "../App.css";
+import { LibroContext } from "../context/LibrosContext";
 
 export function Tabladatos() {
-
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 3;
-
-  const [listaSensor, setListaSensor] = useState([]);
   const handleButtonClick = async (idLibro) => {
     window.location.href = `/MostrarAudioLibro/${idLibro}`;
   };
-  useEffect(() => {
-    obtenerDatos("http://localhost:8080/libro")
-      .then((data) => {
-        setListaSensor(data);
-      })
-      .catch((error) => console.error(error));
-  }, []);
+  const { listaLibro } = useContext(LibroContext);
 
-  const obtenerDatos = (url) => {
-    return fetch(url)
-      .then((response) => response.json())
-      .then((json) => {
-        return json;
-      })
-      .catch((error) => console.error(error));
-  };
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
   };
 
-  const paginatedData = listaSensor.slice(
+  const paginatedData = listaLibro.slice(
     currentPage * itemsPerPage,
-    (currentPage + 1) * itemsPerPage);
+    (currentPage + 1) * itemsPerPage
+  );
 
   return (
-    <div className="Mycontainer-div mt-3" style={{ maxWidth: '1320px' }}>
-      <Table >
+    <div className="Mycontainer-div mt-3" style={{ maxWidth: "1320px" }}>
+      <Table>
         <thead>
           <tr>
             <th scope="col">N.º</th>
@@ -60,8 +45,11 @@ export function Tabladatos() {
               <td>{dato.fechaPublicacion}</td>
               <td>{dato.lenguaje}</td>
               <td>
-                <button className="audio-button" onClick={() => handleButtonClick(dato.idLibro)}>
-                <FontAwesomeIcon icon={faVolumeUp}/>
+                <button
+                  className="audio-button"
+                  onClick={() => handleButtonClick(dato.idLibro)}
+                >
+                  <FontAwesomeIcon icon={faVolumeUp} />
                 </button>
               </td>
             </tr>
@@ -69,19 +57,19 @@ export function Tabladatos() {
         </tbody>
       </Table>
       <ReactPaginate
-        previousLabel={'<'}
-        nextLabel={'>'}
-        breakLabel={'...'}
-        breakClassName={'break-me'}
-        pageCount={Math.ceil(listaSensor.length / itemsPerPage)}
+        previousLabel={"<"}
+        nextLabel={">"}
+        breakLabel={"..."}
+        breakClassName={"break-me"}
+        pageCount={Math.ceil(listaLibro.length / itemsPerPage)}
         marginPagesDisplayed={2}
         pageRangeDisplayed={5}
         onPageChange={handlePageChange}
-        containerClassName={'pagination'}
-        activeClassName={'active'}
-        previousClassName={'previous'}
-        nextClassName={'next'} >
-      </ReactPaginate>
+        containerClassName={"pagination"}
+        activeClassName={"active"}
+        previousClassName={"previous"}
+        nextClassName={"next"}
+      ></ReactPaginate>
     </div>
   );
 }

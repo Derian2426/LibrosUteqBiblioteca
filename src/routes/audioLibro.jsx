@@ -16,11 +16,11 @@ const audioLibro = () => {
   const [imageUrl, setImageUrl] = useState("");
 
   useEffect(() => {
-    obtenerDatos(`http://localhost:8080/libro/${data}`)
+    obtenerDatos(`http://localhost:8282/libro/${data}`)
       .then((data) => {
         setLibro(data);
         return enviarPeticionConEncabezadoJSON(
-          `http://localhost:8080/capitulo`,
+          `http://localhost:8282/capitulo`,
           data
         );
       })
@@ -75,7 +75,7 @@ const audioLibro = () => {
     return response.json();
   };
   async function obtenerAudioDesdeServidor(jsonData) {
-    const response = await fetch("http://localhost:8080/files", {
+    const response = await fetch("http://localhost:8282/files", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -90,7 +90,7 @@ const audioLibro = () => {
 
   const obtenerImagenDesdeServidor = async (jsonData) => {
     try {
-      const response = await fetch("http://localhost:8080/files/portada", {
+      const response = await fetch("http://localhost:8282/files/portada", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -293,7 +293,7 @@ const descargarAudiosZip = async (libro) => {
   try {
     const formData = new FormData();
     formData.append("ruta", libro.nombreLibro);
-    const response = await fetch(`http://localhost:8080/downloadZip`, {
+    const response = await fetch(`http://localhost:8282/downloadZip`, {
       method: "POST",
       body: formData,
     });
@@ -319,7 +319,7 @@ const descargarAudioDesdeServidor = async (capitulo) => {
     const formData = new FormData();
     formData.append("ruta", capitulo.rutaArchivo);
     formData.append("file", capitulo.nombreArchivo);
-    const response = await fetch(`http://localhost:8080/download`, {
+    const response = await fetch(`http://localhost:8282/download`, {
       method: "POST",
       body: formData,
     });

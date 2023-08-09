@@ -1,8 +1,40 @@
 import React from 'react'
 import { Table } from 'react-bootstrap';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import axios from 'axios';
+
+
+
+
+
+
+
+
 
 const agregarArea = () => {
+  const [data, setData] = useState({});
+  const [response, setResponse] = useState(null);
+  const [idArea, setidArea] = useState(0);
+  const [nombreArea, setNombreArea] = useState("");
+
+
+  const postData = async () => {
+    try {
+      const areaConocimiento = {
+        nombreArea
+      };
+      const areaString = JSON.stringify(areaConocimiento);
+      const response = await axios.post('http://localhost:8282/areaConocimiento', areaString, {
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      setResponse(response.data);
+    } catch (error) {
+      console.error('Error:', error);
+    }
+  };
   return (
     <div className="modal fade" id="ModalAgregarArea" tabindex="-1"
     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -25,10 +57,11 @@ const agregarArea = () => {
             <hr style={{ margin: "2px 0" }}/>
               <label htmlFor="validationCustom03" className="form-label mb-1">Nombre Área:</label>
               <input type="text" className="form-control" id="validationCustom01"
-                placeholder="Nombre del Área" required />
+                placeholder="Nombre del Área" required value={nombreArea}
+                onChange={(event) => setNombreArea(event.target.value)} />
             </div>
             <div className="col-md-6 d-flex align-items-end">
-              <button className="btn btn-success" type="submit">
+              <button className="btn btn-success" type="button" onClick={()=>postData}>
                 Guardar
               </button>
             </div>
