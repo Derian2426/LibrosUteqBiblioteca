@@ -31,7 +31,7 @@ const routes = [
     element: <BusquedaLibros />,
   },
   {
-    path: "MostrarAudioLibro/:data",
+    path: "audiolibro/:data",
     element: <AudioLibro />,
   },
 ];
