@@ -86,7 +86,7 @@ export const AgregarSubAreaEspecifica = () => {
         } else {
           setNombreSubArea("");
           setNombreArea("");
-          setListaSubAreaEspecifica("");
+          setNombreSubAreaEspecifica("");
           setIdArea(0);
           setIdSubArea(0);
           setListaSubAreaEspecifica([...listaSubAreaEspecifica, request]);

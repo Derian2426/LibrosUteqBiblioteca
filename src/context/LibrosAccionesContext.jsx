@@ -24,6 +24,8 @@ export function LibroAccionesContextProvider(props) {
   const [inputCount, setInputCount] = useState(1);
   const [capituloList, setCapituloList] = useState([]);
   const [listaLibro, setListaLibro] = useState([]);
+  const [listaTipoAutor, setListaTipoAutor] = useState([]);
+  const [listaAutor, setListaAutor] = useState([]);
   const libroUrl = config.libroUrl;
   useEffect(() => {
     obtenerDatos(libroUrl + "/areaConocimiento")
@@ -54,6 +56,20 @@ export function LibroAccionesContextProvider(props) {
       })
       .catch((error) => console.error(error));
   }, []);
+  useEffect(() => {
+    obtenerDatos(libroUrl + "/tipoAutor")
+      .then((data) => {
+        setListaTipoAutor(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+  useEffect(() => {
+    obtenerDatos(libroUrl + "/autor")
+      .then((data) => {
+        setListaAutor(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
   const postDataJson = async (jsonData, url) => {
     try {
       const peticionPost = await postData(libroUrl + url, jsonData);
@@ -74,6 +90,10 @@ export function LibroAccionesContextProvider(props) {
         listaSubAreaEspecifica,
         setListaSubAreaEspecifica,
         listaLibro,
+        listaTipoAutor,
+        setListaTipoAutor,
+        listaAutor,
+        setListaAutor,
       }}
     >
       {props.children}

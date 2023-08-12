@@ -7,6 +7,8 @@ import { DialogoAgregarArea } from "./agregarArea";
 import { AgregarSubArea } from "./agregarSubArea";
 import { AgregarSubAreaEspecifica } from "./agregarSubAreaEspecificas";
 import { LibroListEdit } from "./librosEditList";
+import { DialogoAgregarTipoAutor } from "./agregarTipoAutor";
+import { DialogoAutor } from "./agregarAutor";
 
 const FormularioLibro = () => {
   const [idLibro, setidLibro] = useState(0);
@@ -263,7 +265,7 @@ const FormularioLibro = () => {
             <div className="btnCero">
               <button
                 className="btn btn-success btn-sm mx-2"
-                type="submit"
+                type="button"
                 data-bs-toggle="modal"
                 data-bs-target="#ModalAgregarLibros"
               >
@@ -273,7 +275,7 @@ const FormularioLibro = () => {
             <div className="btnCero">
               <button
                 className="btn btn-success btn-sm mx-2"
-                type="submit"
+                type="button"
                 data-bs-toggle="modal"
                 data-bs-target="#ModalAgregarArea"
               >
@@ -283,7 +285,7 @@ const FormularioLibro = () => {
             <div className="btnCero">
               <button
                 className="btn btn-success btn-sm mx-2"
-                type="submit"
+                type="button"
                 data-bs-toggle="modal"
                 data-bs-target="#ModalAgregarSubArea"
               >
@@ -293,11 +295,31 @@ const FormularioLibro = () => {
             <div className="btnCero">
               <button
                 className="btn btn-success btn-sm mx-2"
-                type="submit"
+                type="button"
                 data-bs-toggle="modal"
                 data-bs-target="#ModalAgregarSubAreaEspecifica"
               >
                 Registro Nuevas Sub Áreas Especificas
+              </button>
+            </div>
+            <div className="btnCero">
+              <button
+                className="btn btn-success btn-sm mx-2"
+                type="button"
+                data-bs-toggle="modal"
+                data-bs-target="#ModalAgregarTipoAutor"
+              >
+                Registrar Tipo de Autor
+              </button>
+            </div>
+            <div className="btnCero">
+              <button
+                className="btn btn-success btn-sm mx-2"
+                type="submit"
+                data-bs-toggle="modal"
+                data-bs-target="#ModalAgregarAutor"
+              >
+                Registro Nuevos Autores
               </button>
             </div>
           </div>
@@ -586,6 +608,8 @@ const FormularioLibro = () => {
         <AgregarSubArea />
         <AgregarSubAreaEspecifica />
         <LibroListEdit />
+        <DialogoAgregarTipoAutor />
+        <DialogoAutor />
         <Footer />
       </div>
     </LibroAccionesContextProvider>
