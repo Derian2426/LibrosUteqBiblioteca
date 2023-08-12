@@ -11,7 +11,7 @@ const Navbar = () => {
         style={{ backgroundColor: "white", border: "2px solid green" }}
       >
         <div className="container-fluid">
-          <a class="navbar-brand" href="/">
+          <a className="navbar-brand" href="/">
             <img
               id="logoPrincipal"
               src="../src/imagenes/a11ytools.png"
@@ -45,7 +45,7 @@ const Navbar = () => {
                   Búsqueda de libros
                 </a>
               </li>
-              <div class="vr"></div>
+              <div className="vr"></div>
               <li className="nav-item">
                 <a
                   className="nav-link"

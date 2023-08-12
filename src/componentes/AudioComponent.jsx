@@ -2,6 +2,7 @@ import ReactAudioPlayer from "react-audio-player";
 import { descargarAudioDesdeServidor } from "../downloadArchivos";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import config from "../configuracion";
 
 export const Capitulo = ({ capitulo, audioSrc }) => {
   const handleDescargarClick = () => {
