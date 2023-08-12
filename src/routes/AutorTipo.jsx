@@ -1,59 +1,48 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import "bootstrap/dist/css/bootstrap.min.css";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import { useContext, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 
-export const DialogoAutor = () => {
-  const [idAutor, setIdAutor] = useState(0);
-  const [nombre, setNombre] = useState("");
-  const [apellido, setApellido] = useState("");
-  const { listaAutor, setListaAutor, postDataJson } =
+export const DialogoAutorTipo = () => {
+  const { listaArea, postDataJson, setListaArea } =
     useContext(LibroAccionesContext);
-
+  const [nombreArea, setNombreArea] = useState("");
   const handleRegistroClick = async () => {
     try {
-      if (nombre != "" && apellido != "") {
-        setNombre(nombre.trim());
-        setApellido(apellido.trim());
-        const autorRegistro = {
-          idAutor,
-          nombre,
-          apellido,
+      if (nombreArea != "") {
+        setNombreArea(nombreArea.trim());
+        const areaConocimiento = {
+          "idArea":0,
+          nombreArea,
         };
-        const autorString = JSON.stringify(autorRegistro);
-        const request = await postDataJson(autorString, "/autor");
-        if (request.idAutor < 0) {
-          toast.error(request.nombre + ", se encuentra registrado", {
+        const areaString = JSON.stringify(areaConocimiento);
+        const request = await postDataJson(areaString,"/areaConocimiento");
+        if (request.idArea < 0) {
+          toast.error(request.nombreArea + ", se encuentra registrado", {
             autoClose: 1000,
           });
         } else {
-          setNombre("");
-          setApellido("");
-          setListaAutor([...listaAutor, request]);
-          toast.success(`${request.nombre} registrada con éxito`, {
+          setNombreArea("");
+          setListaArea([...listaArea, request]);
+          toast.success(`${request.nombreArea} registrada con éxito`, {
             autoClose: 1000,
           });
         }
       } else {
-        toast.error("Existen campos sin seleccionar o sin llenar.", {
-          autoClose: 1000,
-        });
+        toast.error("Ingrese el nombre del Área", { autoClose: 1000 });
       }
     } catch (error) {
-      toast.error("Ocurrió un error durante el registro" + error, {
-        autoClose: 5000,
-      });
+      toast.error("Ocurrió un error durante el registro", { autoClose: 1000 });
     } finally {
     }
   };
-
   return (
     <div
       className="modal fade"
-      id="ModalAgregarAutor"
+      id="ModalAgregarArea"
       tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
@@ -70,7 +59,7 @@ export const DialogoAutor = () => {
             className="form-label modalStyle "
             htmlFor="validationCustom03"
           >
-            Registrar Autor
+            Registrar Áreas
           </label>
           <button
             type="button"
@@ -84,32 +73,18 @@ export const DialogoAutor = () => {
         <div className="container mt-2">
           <div className="Mycontainer-div-insert" style={{ maxWidth: "880px" }}>
             <form className="row needs-validation" noValidate>
-              <div className="col-md-4">
+              <div className="col-md-9">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
-                  Nombre Autor:
+                  Nombre Área:
                 </label>
                 <input
                   type="text"
                   className="form-control"
                   id="validationCustom01"
-                  placeholder="Ingrese el nombre"
+                  placeholder="Insertar nombre del área"
                   required
-                  value={nombre}
-                  onChange={(event) => setNombre(event.target.value)}
-                />
-              </div>
-              <div className="col-md-4">
-                <label htmlFor="validationCustom03" className="form-label mb-1">
-                  Apellido Autor:
-                </label>
-                <input
-                  type="text"
-                  className="form-control"
-                  id="validationCustom01"
-                  placeholder="Ingrese el aplellido"
-                  required
-                  value={apellido}
-                  onChange={(event) => setApellido(event.target.value)}
+                  value={nombreArea}
+                  onChange={(event) => setNombreArea(event.target.value)}
                 />
               </div>
               <div className="col-md-2 d-flex align-items-end">
@@ -138,22 +113,20 @@ export const DialogoAutor = () => {
                 marginBottom: "10px",
               }}
             >
-              Lista de Autores
+              Lista Áreas
             </label>
             <Table striped bordered hover>
               <thead>
                 <tr>
                   <th>N°</th>
-                  <th>Nombre Autor</th>
-                  <th>Apellido Autor</th>
+                  <th>Área</th>
                 </tr>
               </thead>
               <tbody>
-                {listaAutor.map((dato, index) => (
+                {listaArea.map((dato, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td>{dato.nombre}</td>
-                    <td>{dato.apellido}</td>
+                    <td>{dato.nombreArea}</td>
                   </tr>
                 ))}
               </tbody>

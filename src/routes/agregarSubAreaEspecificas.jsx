@@ -114,7 +114,7 @@ export const AgregarSubAreaEspecifica = () => {
     <div
       className="modal fade"
       id="ModalAgregarSubAreaEspecifica"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
       data-bs-backdrop="static"

@@ -55,7 +55,7 @@ export const LibroListEdit = () => {
                   className="nav-link"
                   aria-current="page"
                   style={{ color: "#1B7505" }}
-                  href={`/MostrarAudioLibro`}
+                  href={`/audiolibro/`+dato.idLibro}
                 >
                   Mostrar Libro
                 </a>
