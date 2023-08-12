@@ -12,11 +12,11 @@ export const postData = async (url, jsonData) => {
       },
     });
     if (response.status !== 200) {
-      throw new Error("Error al enviar la petición.");
+      return response.data;
     }
     return response.data;
   } catch (error) {
-    throw new Error("Error al enviar la petición: " + error.message);
+    throw new Error("Error al enviar la petición.");
   }
 };
 

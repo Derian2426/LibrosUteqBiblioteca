@@ -7,17 +7,23 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const DialogoAgregarArea = () => {
-  const [loading, setLoading] = useState(false);
-  const { listaArea, postDataAreaConocimiento, setListaArea } =
+  const { listaArea, postDataJson, setListaArea } =
     useContext(LibroAccionesContext);
   const [nombreArea, setNombreArea] = useState("");
   const handleRegistroClick = async () => {
-    setLoading(true);
     try {
       if (nombreArea != "") {
-        const request = await postDataAreaConocimiento(nombreArea.trim());
-        if (request.idArea === 0) {
-          toast.error(request.nombreArea+", se encuentra registrado", { autoClose: 1000 });
+        setNombreArea(nombreArea.trim());
+        const areaConocimiento = {
+          "idArea":0,
+          nombreArea,
+        };
+        const areaString = JSON.stringify(areaConocimiento);
+        const request = await postDataJson(areaString,"/areaConocimiento");
+        if (request.idArea < 0) {
+          toast.error(request.nombreArea + ", se encuentra registrado", {
+            autoClose: 1000,
+          });
         } else {
           setNombreArea("");
           setListaArea([...listaArea, request]);
@@ -25,13 +31,12 @@ export const DialogoAgregarArea = () => {
             autoClose: 1000,
           });
         }
-      }else{
+      } else {
         toast.error("Ingrese el nombre del Área", { autoClose: 1000 });
       }
     } catch (error) {
       toast.error("Ocurrió un error durante el registro", { autoClose: 1000 });
     } finally {
-      setLoading(false);
     }
   };
   return (

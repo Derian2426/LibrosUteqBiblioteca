@@ -15,9 +15,6 @@ export function LibroAccionesContextProvider(props) {
   const [pdfDescarga, setPdfDescarga] = useState("");
   const [idSubAreaEspecifica, setIdSubAreaEspecifica] = useState(0);
   const [nombreSubAreaEspecifica, setNombreSubAreaEspecifica] = useState("");
-  const [idSubArea, setIdSubArea] = useState(0);
-  const [nombreSubArea, setNombreSubArea] = useState("");
-  const [idArea, setIdArea] = useState(0);
 
   const [listaArea, setListaArea] = useState([]);
   const [listaSubArea, setListaSubArea] = useState([]);
@@ -26,6 +23,7 @@ export function LibroAccionesContextProvider(props) {
   const [names, setNames] = useState([]);
   const [inputCount, setInputCount] = useState(1);
   const [capituloList, setCapituloList] = useState([]);
+  const [listaLibro, setListaLibro] = useState([]);
   const libroUrl = config.libroUrl;
   useEffect(() => {
     obtenerDatos(libroUrl + "/areaConocimiento")
@@ -34,25 +32,49 @@ export function LibroAccionesContextProvider(props) {
       })
       .catch((error) => console.error(error));
   }, []);
-  const postDataAreaConocimiento = async (nombreArea) => {
+  useEffect(() => {
+    obtenerDatos(libroUrl + "/subAreaConocimiento")
+      .then((data) => {
+        setListaSubArea(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+
+  useEffect(() => {
+    obtenerDatos(libroUrl + "/subAreaEspecificas")
+      .then((data) => {
+        setListaSubAreaEspecifica(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+  useEffect(() => {
+    obtenerDatos(libroUrl + "/libro")
+      .then((data) => {
+        setListaLibro(data);
+      })
+      .catch((error) => console.error(error));
+  }, []);
+  const postDataJson = async (jsonData, url) => {
     try {
-      const areaConocimiento = {
-        nombreArea,
-      };
-      const areaString = JSON.stringify(areaConocimiento);
-      const peticionPost = await postData(
-        libroUrl + "/areaConocimiento",
-        areaString
-      );
+      const peticionPost = await postData(libroUrl + url, jsonData);
       return peticionPost;
     } catch (error) {
-      return {"idArea":0,"nombreArea":nombreArea};
+      return jsonData;
     }
   };
 
   return (
     <LibroAccionesContext.Provider
-      value={{ listaArea, postDataAreaConocimiento,setListaArea }}
+      value={{
+        listaArea,
+        postDataJson,
+        setListaArea,
+        setListaSubArea,
+        listaSubArea,
+        listaSubAreaEspecifica,
+        setListaSubAreaEspecifica,
+        listaLibro,
+      }}
     >
       {props.children}
     </LibroAccionesContext.Provider>
