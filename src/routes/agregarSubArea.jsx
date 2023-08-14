@@ -83,7 +83,7 @@ export const AgregarSubArea = () => {
         <ToastContainer />
         <div className="modal-header" style={{ padding: "2px" }}>
           <label htmlFor="validationCustom03" className="form-label modalStyle">
-            Registar Sub Áreas
+            Registrar Sub Áreas
           </label>
           <button
             type="button"
@@ -122,7 +122,7 @@ export const AgregarSubArea = () => {
                   type="text"
                   className="form-control"
                   id="validationCustom01"
-                  placeholder="Insertar nombre del sub área "
+                  placeholder="Ingrese nombre del sub área "
                   required
                   value={nombreSubArea}
                   onChange={(event) => setNombreSubArea(event.target.value)}
@@ -139,22 +139,18 @@ export const AgregarSubArea = () => {
               </div>
             </form>
           </div>
-          <div
-            className="Mycontainer-div mt-2"
-            style={{ padding: "5px", marginBottom: "10px" }}
-          >
-            <label
-              htmlFor="validationCustom05"
-              className="form-label text-center"
-              style={{
-                fontSize: "18px",
-                fontWeight: "bold",
-                color: "#009E50",
-                marginBottom: "10px",
-              }}
-            >
-              Lista Sub Áreas
+
+
+           <div className="Mycontainer-div-list mt-2">
+            <label htmlFor="validationCustom05" className="form-label" 
+            style={{marginLeft: "7px", marginBottom: "2px"}}>
+              Lista de Sub Áreas
             </label>
+          </div>
+          <div
+            className="Mycontainer-div mt-1"
+            style={{ padding: "5px", maxHeight: "340px", marginBottom: "10px" }}
+          >
             <Table striped bordered hover>
               <thead>
                 <tr>

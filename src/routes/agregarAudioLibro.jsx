@@ -42,6 +42,10 @@ export const DialogoRegistroLibro = () => {
     setInputCount(inputCount + 1);
   };
 
+  const handledeleteInput = () => {
+    setInputCount(inputCount - 1);
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -81,7 +85,7 @@ export const DialogoRegistroLibro = () => {
     const libroString = JSON.stringify(capituloFileList);
     formData.append("libroRequest", libroString);
     try {
-      const response = await fetch(libroUrl+"/upload", {
+      const response = await fetch(libroUrl + "/upload", {
         method: "POST",
         body: formData,
       });
@@ -104,7 +108,7 @@ export const DialogoRegistroLibro = () => {
     setNombreArea(event.target.value);
     try {
       const data = await obtenerDatos(
-        libroUrl+`/subAreaConocimiento/${selectedArea.idArea}`
+        libroUrl + `/subAreaConocimiento/${selectedArea.idArea}`
       );
       if (data && Object.keys(data).length > 0) {
         setListaSubArea(data);
@@ -123,7 +127,7 @@ export const DialogoRegistroLibro = () => {
     setNombreSubArea(event.target.value);
     try {
       const data = await obtenerDatos(
-        libroUrl+`/subAreaEspecificas/${selectedSubArea.idSubArea}`
+        libroUrl + `/subAreaEspecificas/${selectedSubArea.idSubArea}`
       );
       if (data && Object.keys(data).length > 0) {
         setListaSubAreaEspecifica(data);
@@ -233,7 +237,7 @@ export const DialogoRegistroLibro = () => {
     <div
       className="modal fade"
       id="ModalAgregarLibros"
-      tabindex="-1"
+      tabIndex="-1"
       aria-labelledby="exampleModalLabel"
       aria-hidden="true"
       data-bs-backdrop="static"
@@ -397,9 +401,15 @@ export const DialogoRegistroLibro = () => {
             </div>
 
             {/* CONTENEDOR AGREGAR AUDIOS DE LOS LIBROS*/}
-            <label htmlFor="validationCustom03" className="form-label">
-              Agregar los capítulos del libro:
-            </label>
+            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+              <label htmlFor="validationCustom03" className="form-label"
+                style={{ textAlign: "left", marginRight: "10px" }}>
+                Agregar los capítulos del libro:
+              </label>
+              <button className="btn btn-success" type="button" onClick={handleAddInput}
+                style={{ textAlign: "right" }}> Agregar nuevo capítulo
+              </button>
+            </div>
             <div
               className="Mycontainer-div"
               style={{
@@ -441,9 +451,8 @@ export const DialogoRegistroLibro = () => {
                           <button
                             className="btn btn-success"
                             type="button"
-                            onClick={handleAddInput}
-                          >
-                            +
+                            onClick={handledeleteInput}>
+                            -
                           </button>
                         </div>
                       </div>

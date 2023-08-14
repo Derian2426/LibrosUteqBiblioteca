@@ -40,7 +40,7 @@ export function Tabladatos() {
         <tbody>
           {paginatedData.map((dato, index) => (
             <tr key={index}>
-              <th scope="row">{index + 1}</th>
+              <th scope="row">{currentPage * itemsPerPage + index + 1}</th>
               <td>{dato.nombreLibro}</td>
               <td>{dato.fechaPublicacion}</td>
               <td>{dato.lenguaje}</td>

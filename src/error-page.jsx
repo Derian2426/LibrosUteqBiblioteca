@@ -5,12 +5,17 @@ export default function ErrorPage() {
   console.error(error);
 
   return (
-    <div id="error-page">
-      <h1>Oops!</h1>
-      <p>Sorry, an unexpected error has occurred.</p>
-      <p>
-        <i>{error.statusText || error.message}</i>
-      </p>
+    <div style={{ marginTop: '80px' }}>
+      <div id="error-page">
+        <div style={{ textAlign: "center" }}>
+          <a >
+            <img style={{height: "300px"}} src="src/imagenes/ErrorAudioLibros.png" alt="Logo Error" />
+          </a>
+          <p>
+            <i>{error.statusText || error.message}</i>
+          </p>
+        </div>
+      </div>
     </div>
   );
 }

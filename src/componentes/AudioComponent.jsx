@@ -31,10 +31,10 @@ export const Capitulo = ({ capitulo, audioSrc }) => {
           <button
             className="audio-button"
             type="button"
-            style={{ height: "25px" }}
+            style={{height: "25px"}}
             onClick={handleDescargarClick}
           >
-            <FontAwesomeIcon icon={faDownload} /> Descargar Audio
+            <FontAwesomeIcon icon={faDownload} style={{ marginRight: "5px" }}/> Descargar Audio
           </button>
         </div>
       </div>

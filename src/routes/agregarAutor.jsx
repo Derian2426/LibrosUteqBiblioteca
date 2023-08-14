@@ -62,7 +62,7 @@ export const DialogoAutor = () => {
     >
       <div
         className="modal-dialog modal-content"
-        style={{ maxWidth: "550px", marginRight: "auto", marginLeft: "auto" }}
+        style={{ maxWidth: "710px", marginRight: "auto", marginLeft: "auto" }}
       >
         <ToastContainer />
         <div className="modal-header" style={{ padding: "2px" }}>
@@ -82,9 +82,9 @@ export const DialogoAutor = () => {
         </div>
 
         <div className="container mt-2">
-          <div className="Mycontainer-div-insert" style={{ maxWidth: "880px" }}>
+          <div className="Mycontainer-div-insert" style={{ maxWidth: "900px" }}>
             <form className="row needs-validation" noValidate>
-              <div className="col-md-4">
+              <div className="col-md-5">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
                   Nombre Autor:
                 </label>
@@ -98,7 +98,7 @@ export const DialogoAutor = () => {
                   onChange={(event) => setNombre(event.target.value)}
                 />
               </div>
-              <div className="col-md-4">
+              <div className="col-md-5">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
                   Apellido Autor:
                 </label>
@@ -106,13 +106,13 @@ export const DialogoAutor = () => {
                   type="text"
                   className="form-control"
                   id="validationCustom01"
-                  placeholder="Ingrese el aplellido"
+                  placeholder="Ingrese el apellido"
                   required
                   value={apellido}
                   onChange={(event) => setApellido(event.target.value)}
                 />
               </div>
-              <div className="col-md-2 d-flex align-items-end">
+              <div className="col-md-1 d-flex align-items-end">
                 <button
                   className="btn btn-success"
                   type="button"
@@ -124,22 +124,16 @@ export const DialogoAutor = () => {
             </form>
           </div>
 
-          <div
-            className="Mycontainer-div mt-2"
-            style={{ padding: "5px", marginBottom: "10px" }}
-          >
-            <label
-              htmlFor="validationCustom05"
-              className="form-label text-center"
-              style={{
-                fontSize: "18px",
-                fontWeight: "bold",
-                color: "#009E50",
-                marginBottom: "10px",
-              }}
-            >
+          <div className="Mycontainer-div-list mt-2">
+            <label htmlFor="validationCustom05" className="form-label" 
+            style={{marginLeft: "7px", marginBottom: "2px"}}>
               Lista de Autores
             </label>
+          </div>
+          <div
+            className="Mycontainer-div mt-1"
+            style={{ padding: "5px", marginBottom: "10px", maxHeight: "340px" }}
+          >
             <Table striped bordered hover>
               <thead>
                 <tr>

@@ -123,7 +123,7 @@ export const AgregarSubAreaEspecifica = () => {
       <div
         className="modal-dialog modal-content"
         style={{
-          maxWidth: "1000px",
+          maxWidth: "925px",
           marginRight: "auto",
           marginLeft: "auto",
         }}
@@ -190,7 +190,7 @@ export const AgregarSubAreaEspecifica = () => {
                   className="form-control"
                   id="validationCustom01"
                   value={nombreSubAreaEspecifica}
-                  placeholder="Insertar nombre sub área especifica"
+                  placeholder="Ingrese nombre sub área especifica"
                   required
                   onChange={(event) =>
                     setNombreSubAreaEspecifica(event.target.value)
@@ -208,22 +208,17 @@ export const AgregarSubAreaEspecifica = () => {
               </div>
             </form>
           </div>
+          <div className="Mycontainer-div-list mt-2">
+            <label htmlFor="validationCustom05" className="form-label" 
+            style={{marginLeft: "7px", marginBottom: "2px"}}>
+              Lista de Sub Áreas Especificas
+            </label>
+          </div>
           <div
             className="Mycontainer-div mt-1"
-            style={{ padding: "5px", marginBottom: "10px" }}
+            style={{ padding: "5px", marginBottom: "10px",
+            maxHeight: "340px" }}
           >
-            <label
-              htmlFor="validationCustom05"
-              className="form-label text-center"
-              style={{
-                fontSize: "18px",
-                fontWeight: "bold",
-                color: "#009E50",
-                marginBottom: "10px",
-              }}
-            >
-              Lista Sub Áreas Especifica
-            </label>
             <Table striped bordered hover>
               <thead>
                 <tr>

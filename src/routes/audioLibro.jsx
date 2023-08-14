@@ -22,6 +22,7 @@ const audioLibro = () => {
   const { data } = useParams();
   const [audioData, setAudioData] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
+  const [isLoading, setIsLoading] = useState(false); {/*setIsLoading */}
   const url = config.libroUrl;
 
   useEffect(() => {
@@ -118,7 +119,7 @@ const audioLibro = () => {
               {libro.nombreLibro}
             </label>
             <div style={{ maxWidth: "1200px", padding: "8px" }}>
-              <form className="row g-2 needs-validation" noValidate>
+              <div className="row g-2 needs-validation" noValidate>
                 {/* Imagen*/}
                 <div className="col-md-6" style={{ maxWidth: "575px" }}>
                   <div className="card mb-1" style={{ padding: "5px" }}>
@@ -301,7 +302,7 @@ const audioLibro = () => {
                     <div className="valid-feedback"></div>
                   </div>
                 </div>
-              </form>
+              </div>
             </div>
           </div>
 

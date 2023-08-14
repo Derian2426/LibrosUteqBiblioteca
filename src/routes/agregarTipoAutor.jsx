@@ -53,7 +53,7 @@ export const DialogoAgregarTipoAutor = () => {
     >
       <div
         className="modal-dialog modal-content"
-        style={{ maxWidth: "550px", marginRight: "auto", marginLeft: "auto" }}
+        style={{ maxWidth: "490px", marginRight: "auto", marginLeft: "auto" }}
       >
         <ToastContainer />
         <div className="modal-header" style={{ padding: "2px" }}>
@@ -83,7 +83,7 @@ export const DialogoAgregarTipoAutor = () => {
                   type="text"
                   className="form-control"
                   id="validationCustom01"
-                  placeholder="Insertar nombre del área"
+                  placeholder="Ingrese tipo autor"
                   required
                   value={tipoAutor}
                   onChange={(event) => setNombreTipoAutor(event.target.value)}
@@ -100,23 +100,16 @@ export const DialogoAgregarTipoAutor = () => {
               </div>
             </form>
           </div>
-
-          <div
-            className="Mycontainer-div mt-2"
-            style={{ padding: "5px", marginBottom: "10px" }}
-          >
-            <label
-              htmlFor="validationCustom05"
-              className="form-label text-center"
-              style={{
-                fontSize: "18px",
-                fontWeight: "bold",
-                color: "#009E50",
-                marginBottom: "10px",
-              }}
-            >
-              Lista Tipo Autor
+          <div className="Mycontainer-div-list mt-2">
+            <label htmlFor="validationCustom05" className="form-label" 
+            style={{marginLeft: "7px", marginBottom: "2px"}}>
+              Lista tipo autor
             </label>
+          </div>
+          <div
+            className="Mycontainer-div mt-1"
+            style={{ padding: "5px", marginBottom: "10px", maxHeight: "340px" }}
+          >
             <Table striped bordered hover>
               <thead>
                 <tr>

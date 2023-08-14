@@ -1,12 +1,27 @@
 import React from "react";
 import { Table } from "react-bootstrap";
+import { useContext, useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
-import { useContext } from "react";
 import "react-toastify/dist/ReactToastify.css";
+import ReactPaginate from "react-paginate";
 
 export const LibroListEdit = () => {
+
+  const [currentPage, setCurrentPage] = useState(0);
+  const itemsPerPage = 7;
+
   const { listaLibro } = useContext(LibroAccionesContext);
+
+  const handlePageChange = ({ selected }) => {
+    setCurrentPage(selected);
+  };
+
+  const paginatedData = listaLibro.slice(
+    currentPage * itemsPerPage,
+    (currentPage + 1) * itemsPerPage
+  );
+
   return (
     <div className="Mycontainer-div mt-2" style={{ maxWidth: "1335px" }}>
       <label
@@ -19,7 +34,7 @@ export const LibroListEdit = () => {
           marginBottom: "10px",
         }}
       >
-        Lista de los Libros encontrados
+        Lista de Libros
       </label>
       <Table striped bordered hover>
         <thead>
@@ -34,9 +49,9 @@ export const LibroListEdit = () => {
           </tr>
         </thead>
         <tbody>
-          {listaLibro.map((dato, index) => (
+          {paginatedData.map((dato, index) => (
             <tr key={index}>
-              <th scope="row">{index + 1}</th>
+              <th scope="row">{currentPage * itemsPerPage + index + 1}</th>
               <td>{dato.nombreLibro}</td>
               <td>
                 {
@@ -64,6 +79,20 @@ export const LibroListEdit = () => {
           ))}
         </tbody>
       </Table>
+      <ReactPaginate
+        previousLabel={"<"}
+        nextLabel={">"}
+        breakLabel={"..."}
+        breakClassName={"break-me"}
+        pageCount={Math.ceil(listaLibro.length / itemsPerPage)}
+        marginPagesDisplayed={2}
+        pageRangeDisplayed={5}
+        onPageChange={handlePageChange}
+        containerClassName={"pagination"}
+        activeClassName={"active"}
+        previousClassName={"previous"}
+        nextClassName={"next"}
+      ></ReactPaginate>
     </div>
   );
 };
