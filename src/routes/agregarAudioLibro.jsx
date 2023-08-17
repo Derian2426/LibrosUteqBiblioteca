@@ -34,15 +34,45 @@ export const DialogoRegistroLibro = () => {
   const [listTipoAutor, setListTipoAutor] = useState([]);
   const [tipoAutor, setTipoAutor] = useState("");
   const [idTAutor, setIdTAutor] = useState(0);
-  const { listaArea, postDataJson, listaAutor, listaTipoAutor } =
+  const { listaArea, listaAutor, listaTipoAutor } =
     useContext(LibroAccionesContext);
   const [previousRecordHasData, setPreviousRecordHasData] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([true]);
   const [changeText, setChangeText] = useState([false]);
 
-  const handledeleteInput = () => {
-    // aca
+  const handledeleteInput = (event,index) => {
+    if (inputCount === 1) {
+      toast.warning("Debe al menos tener un registro o carga de archivo", {
+        autoClose: 5000,
+      });
+      return;
+    }
     setInputCount(inputCount - 1);
+  };
+  const vaciarCampos = () => {
+    setIdAutor(0);
+    setNombre("");
+    setIdTAutor(0);
+    setTipoAutor("");
+    setNombreLibro("");
+    setListTipoAutor([]);
+    setIdArea(0);
+    setNombreArea("");
+    setListaSubArea([]);
+    setNombreSubArea("");
+    setIdSubArea(0);
+    setListaSubAreaEspecifica([]);
+    setNombreSubAreaEspecifica("");
+    setIdSubAreaEspecifica(0);
+    setPreviousRecordHasData(false);
+    setSelectedFiles([true]);
+    setChangeText([false]);
+    setCapituloList([]);
+    setFiles([]);
+    setIsbn("");
+    setFechaPublicacion("");
+    setLenguaje("");
+    setInputCount(1);
   };
 
   const handleSubmit = async (event) => {
@@ -98,63 +128,80 @@ export const DialogoRegistroLibro = () => {
                         });
                       } else {
                         if (capituloList.length > 0 && files.length > 0) {
-                          const selectedArea = listaArea.find(
-                            (area) => area.nombreArea === nombreArea
-                          );
-                          setIdArea(selectedArea ? selectedArea.idArea : 0);
-                          const formData = new FormData();
-                          files.forEach((file) => {
-                            formData.append("file", file);
-                          });
-                          const capituloFileList = {
-                            libro: {
-                              idLibro,
-                              nombreLibro,
-                              fechaPublicacion,
-                              isbn,
-                              lenguaje,
-                              coverImage,
-                              pdfLibro,
-                              pdfDescarga,
-                              subAreasEspecificas: {
-                                idSubAreaEspecifica,
-                                nombreSubAreaEspecifica,
-                                subAreasConocimiento: {
-                                  idSubArea,
-                                  nombreSubArea,
-                                  areaConocimiento: {
-                                    idArea,
-                                    nombreArea,
+                          if (!previousRecordHasData) {
+                            toast.warning(
+                              "Debe agregar un archivo al registro anterior antes de agregar uno nuevo."
+                            );
+                          } else {
+                            const selectedArea = listaArea.find(
+                              (area) => area.nombreArea === nombreArea
+                            );
+                            setIdArea(selectedArea ? selectedArea.idArea : 0);
+                            const formData = new FormData();
+                            files.forEach((file) => {
+                              formData.append("file", file);
+                            });
+                            const capituloFileList = {
+                              libro: {
+                                idLibro,
+                                nombreLibro,
+                                fechaPublicacion,
+                                isbn,
+                                lenguaje,
+                                coverImage,
+                                pdfLibro,
+                                pdfDescarga,
+                                subAreasEspecificas: {
+                                  idSubAreaEspecifica,
+                                  nombreSubAreaEspecifica,
+                                  subAreasConocimiento: {
+                                    idSubArea,
+                                    nombreSubArea,
+                                    areaConocimiento: {
+                                      idArea,
+                                      nombreArea,
+                                    },
                                   },
                                 },
                               },
-                            },
-                            capituloFileList: capituloList,
-                          };
-                          const libroString = JSON.stringify(capituloFileList);
-                          formData.append("libroRequest", libroString);
-                          try {
-                            const response = await fetch(libroUrl + "/upload", {
-                              method: "POST",
-                              body: formData,
-                            });
-                            const data = await response.json();
-                            if (response.ok) {
-                              toast.success(data.iformacionEstado, {
-                                autoClose: 5000,
-                              });
-                            } else {
-                              toast.error(data.iformacionEstado, {
-                                autoClose: 5000,
-                              });
-                            }
-                          } catch (error) {
-                            toast.error(
-                              "No se pudo registrar el libro vuelva a intentarlo mas tarde",
-                              {
-                                autoClose: 5000,
+                              capituloFileList: capituloList,
+                            };
+                            const libroString =
+                              JSON.stringify(capituloFileList);
+                            formData.append("libroRequest", libroString);
+                            try {
+                              const response = await fetch(
+                                libroUrl + "/upload",
+                                {
+                                  method: "POST",
+                                  body: formData,
+                                }
+                              );
+                              const data = await response.json();
+                              if (response.ok) {
+                                if (data.valorEstado > 0) {
+                                  toast.success(data.iformacionEstado, {
+                                    autoClose: 5000,
+                                  });
+                                  vaciarCampos();
+                                } else {
+                                  toast.error(data.iformacionEstado, {
+                                    autoClose: 5000,
+                                  });
+                                }
+                              } else {
+                                toast.error(data.iformacionEstado, {
+                                  autoClose: 5000,
+                                });
                               }
-                            );
+                            } catch (error) {
+                              toast.error(
+                                "No se pudo registrar el libro vuelva a intentarlo mas tarde",
+                                {
+                                  autoClose: 5000,
+                                }
+                              );
+                            }
                           }
                         } else {
                           toast.warning(
@@ -355,75 +402,80 @@ export const DialogoRegistroLibro = () => {
         "Por favor, ingresa un nombre de archivo antes de seleccionar uno."
       );
       return;
-    } else {
-      const fileList = event.target.files;
-      const fileArray = Array.from(fileList);
-      const identificador = identificadorArchivo(
-        capituloList.length + 1,
-        nombreArchivo,
-        nombreLibro
-      );
-      const nuevoCapitulo = {
-        idCapitulo: null,
-        titulo: nombreArchivo,
-        nombreArchivo: identificador,
-        rutaArchivo: identificador,
-        ordenArchivo: capituloList.length + 1,
-        numeroDescarga: null,
-        fechaCreacion: fechaPublicacion,
-        usuario: {
-          idUsuario: 1,
-          nombre: "John",
-          apellido: "Doe34",
-          email: "johndoe@example.com",
-          fechaNacimiento: "2000-01-01",
-          password: "password123",
-        },
-        libro: {
-          idLibro,
-          nombreLibro,
-          fechaPublicacion,
-          isbn,
-          lenguaje,
-          coverImage,
-          pdfLibro,
-          pdfDescarga,
-          subAreasEspecificas: {
-            idSubAreaEspecifica,
-            nombreSubAreaEspecifica,
-            subAreasConocimiento: {
-              idSubArea,
-              nombreSubArea,
-              areaConocimiento: {
-                idArea,
-                nombreArea,
-              },
+    }
+    const allowedExtensions = [".mp3", ".wav"];
+    const fileList = event.target.files;
+    const fileArray = Array.from(fileList);
+    const archivoValido = fileArray.every((file) => {
+      const extensionArchivo = "." + file.name.split(".").pop().toLowerCase();
+      return allowedExtensions.includes(extensionArchivo);
+    });
+    if (!archivoValido) {
+      toast.error("Por favor, selecciona un archivo con extensión .mp3 o .wav");
+      return;
+    }
+
+    const identificador = identificadorArchivo(
+      capituloList.length + 1,
+      nombreArchivo,
+      nombreLibro
+    );
+    const nuevoCapitulo = {
+      idCapitulo: null,
+      titulo: nombreArchivo,
+      nombreArchivo: identificador,
+      rutaArchivo: identificador,
+      ordenArchivo: capituloList.length + 1,
+      numeroDescarga: null,
+      fechaCreacion: fechaPublicacion,
+      usuario: {
+        idUsuario: 1,
+        nombre: "John",
+        apellido: "Doe34",
+        email: "johndoe@example.com",
+        fechaNacimiento: "2000-01-01",
+        password: "password123",
+      },
+      libro: {
+        idLibro,
+        nombreLibro,
+        fechaPublicacion,
+        isbn,
+        lenguaje,
+        coverImage,
+        pdfLibro,
+        pdfDescarga,
+        subAreasEspecificas: {
+          idSubAreaEspecifica,
+          nombreSubAreaEspecifica,
+          subAreasConocimiento: {
+            idSubArea,
+            nombreSubArea,
+            areaConocimiento: {
+              idArea,
+              nombreArea,
             },
           },
         },
-      };
-      setCapituloList([...capituloList, nuevoCapitulo]);
-      const archivosModificados = fileArray.map((file) => {
-        let extensionArchivo = ".";
-        extensionArchivo = extensionArchivo + file.name.split(".").pop();
-        const nuevoArchivo = new File(
-          [file],
-          identificador + extensionArchivo,
-          {
-            type: file.type,
-          }
-        );
-        return nuevoArchivo;
+      },
+    };
+    setCapituloList([...capituloList, nuevoCapitulo]);
+    const archivosModificados = fileArray.map((file) => {
+      let extensionArchivo = ".";
+      extensionArchivo = extensionArchivo + file.name.split(".").pop();
+      const nuevoArchivo = new File([file], identificador + extensionArchivo, {
+        type: file.type,
       });
-      setFiles((prevFiles) => prevFiles.concat(archivosModificados));
-      setPreviousRecordHasData(true);
-      const updatedSelectedFiles = [...selectedFiles];
-      updatedSelectedFiles[index] = true;
-      setSelectedFiles(updatedSelectedFiles);
-      const updatedChangeText = [...changeText];
-      updatedChangeText[index] = true;
-      setChangeText(updatedChangeText);
-    }
+      return nuevoArchivo;
+    });
+    setFiles((prevFiles) => prevFiles.concat(archivosModificados));
+    setPreviousRecordHasData(true);
+    const updatedSelectedFiles = [...selectedFiles];
+    updatedSelectedFiles[index] = true;
+    setSelectedFiles(updatedSelectedFiles);
+    const updatedChangeText = [...changeText];
+    updatedChangeText[index] = true;
+    setChangeText(updatedChangeText);
   };
 
   return (
@@ -693,11 +745,12 @@ export const DialogoRegistroLibro = () => {
 
             <div className="col-md-4">
               <label htmlFor="validationCustom03" className="form-label mb-1">
-                Cover Image:
+                Portada del libro:
               </label>
               <input
                 className="form-control"
                 type="file"
+                accept="image/png, image/jpeg"
                 onChange={handleSeleccion}
               />
             </div>
@@ -709,6 +762,7 @@ export const DialogoRegistroLibro = () => {
               <input
                 className="form-control"
                 type="file"
+                accept=".pdf"
                 onChange={handleSeleccion}
               />
             </div>
@@ -772,6 +826,7 @@ export const DialogoRegistroLibro = () => {
                             className="form-control"
                             type="file"
                             disabled={selectedFiles[index]}
+                            accept=".mp3,.wav"
                             onChange={(event) =>
                               handleSeleccionArchivoMp4(
                                 event,
@@ -785,7 +840,7 @@ export const DialogoRegistroLibro = () => {
                           <button
                             className="btn btn-success"
                             type="button"
-                            onClick={handledeleteInput}
+                            onClick={(event)=>handledeleteInput(event,index)}
                           >
                             -
                           </button>
