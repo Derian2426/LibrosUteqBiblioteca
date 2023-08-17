@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import { useContext, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -80,7 +80,6 @@ export const AgregarSubArea = () => {
           marginLeft: "auto",
         }}
       >
-        <ToastContainer />
         <div className="modal-header" style={{ padding: "2px" }}>
           <label htmlFor="validationCustom03" className="form-label modalStyle">
             Registrar Sub Áreas
@@ -140,10 +139,12 @@ export const AgregarSubArea = () => {
             </form>
           </div>
 
-
-           <div className="Mycontainer-div-list mt-2">
-            <label htmlFor="validationCustom05" className="form-label" 
-            style={{marginLeft: "7px", marginBottom: "2px"}}>
+          <div className="Mycontainer-div-list mt-2">
+            <label
+              htmlFor="validationCustom05"
+              className="form-label"
+              style={{ marginLeft: "7px", marginBottom: "2px" }}
+            >
               Lista de Sub Áreas
             </label>
           </div>

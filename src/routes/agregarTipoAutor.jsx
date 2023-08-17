@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import { useContext, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const DialogoAgregarTipoAutor = () => {
@@ -55,7 +55,6 @@ export const DialogoAgregarTipoAutor = () => {
         className="modal-dialog modal-content"
         style={{ maxWidth: "490px", marginRight: "auto", marginLeft: "auto" }}
       >
-        <ToastContainer />
         <div className="modal-header" style={{ padding: "2px" }}>
           <label
             className="form-label modalStyle "

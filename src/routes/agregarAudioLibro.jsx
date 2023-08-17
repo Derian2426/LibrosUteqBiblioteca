@@ -1,7 +1,6 @@
 import React from "react";
-import { Table } from "react-bootstrap";
 import { useContext, useState, useEffect } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -30,74 +29,154 @@ export const DialogoRegistroLibro = () => {
   const [names, setNames] = useState([]);
   const [inputCount, setInputCount] = useState(1);
   const [capituloList, setCapituloList] = useState([]);
-
-  const { listaArea, postDataJson } = useContext(LibroAccionesContext);
-
-  const handleNameChange = (index, event) => {
-    const newNames = [...names];
-    newNames[index] = event.target.value;
-    setNames(newNames);
-  };
-  const handleAddInput = () => {
-    setInputCount(inputCount + 1);
-  };
+  const [nombre, setNombre] = useState("");
+  const [idAutor, setIdAutor] = useState(0);
+  const [listTipoAutor, setListTipoAutor] = useState([]);
+  const [tipoAutor, setTipoAutor] = useState("");
+  const [idTAutor, setIdTAutor] = useState(0);
+  const { listaArea, postDataJson, listaAutor, listaTipoAutor } =
+    useContext(LibroAccionesContext);
+  const [previousRecordHasData, setPreviousRecordHasData] = useState(false);
+  const [selectedFiles, setSelectedFiles] = useState([true]);
+  const [changeText, setChangeText] = useState([false]);
 
   const handledeleteInput = () => {
+    // aca
     setInputCount(inputCount - 1);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
-    const selectedArea = listaArea.find(
-      (area) => area.nombreArea === nombreArea
-    );
-    setIdArea(selectedArea ? selectedArea.idArea : 0);
-    const formData = new FormData();
-    files.forEach((file) => {
-      formData.append("file", file);
-    });
-    const capituloFileList = {
-      libro: {
-        idLibro,
-        nombreLibro,
-        fechaPublicacion,
-        isbn,
-        lenguaje,
-        coverImage,
-        pdfLibro,
-        pdfDescarga,
-        subAreasEspecificas: {
-          idSubAreaEspecifica,
-          nombreSubAreaEspecifica,
-          subAreasConocimiento: {
-            idSubArea,
-            nombreSubArea,
-            areaConocimiento: {
-              idArea,
-              nombreArea,
-            },
-          },
-        },
-      },
-      capituloFileList: capituloList,
-    };
-    const libroString = JSON.stringify(capituloFileList);
-    formData.append("libroRequest", libroString);
-    try {
-      const response = await fetch(libroUrl + "/upload", {
-        method: "POST",
-        body: formData,
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log(data);
+    setNombreLibro(nombreLibro.trim());
+    if (listTipoAutor.length > 0) {
+      if (!nombreLibro) {
+        toast.warning("Ingrese un nombre del libro", {
+          autoClose: 5000,
+        });
       } else {
-        throw new Error("Error en la petición");
+        if (!fechaPublicacion) {
+          toast.warning("Ingrese una Fecha de Publicación", {
+            autoClose: 5000,
+          });
+        } else {
+          if (idArea < 0) {
+            toast.warning("Seleccione un area de conocimiento", {
+              autoClose: 5000,
+            });
+          } else {
+            if (idSubArea < 0) {
+              toast.warning("Ingrese una SubArea de conocimiento", {
+                autoClose: 5000,
+              });
+            } else {
+              if (idSubAreaEspecifica < 0) {
+                toast.warning("Ingrese una SuArea Especifica de conocimiento", {
+                  autoClose: 5000,
+                });
+              } else {
+                if (!isbn) {
+                  toast.warning("Ingrese el ISBN", {
+                    autoClose: 5000,
+                  });
+                } else {
+                  if (!lenguaje) {
+                    toast.warning(
+                      "Ingrese una SuArea Especifica de conocimiento",
+                      {
+                        autoClose: 5000,
+                      }
+                    );
+                  } else {
+                    if (!pdfLibro) {
+                      toast.warning("Escoja un portada para su libro", {
+                        autoClose: 5000,
+                      });
+                    } else {
+                      if (!pdfLibro) {
+                        toast.warning("Escoja un PDF para su libro", {
+                          autoClose: 5000,
+                        });
+                      } else {
+                        if (capituloList.length > 0 && files.length > 0) {
+                          const selectedArea = listaArea.find(
+                            (area) => area.nombreArea === nombreArea
+                          );
+                          setIdArea(selectedArea ? selectedArea.idArea : 0);
+                          const formData = new FormData();
+                          files.forEach((file) => {
+                            formData.append("file", file);
+                          });
+                          const capituloFileList = {
+                            libro: {
+                              idLibro,
+                              nombreLibro,
+                              fechaPublicacion,
+                              isbn,
+                              lenguaje,
+                              coverImage,
+                              pdfLibro,
+                              pdfDescarga,
+                              subAreasEspecificas: {
+                                idSubAreaEspecifica,
+                                nombreSubAreaEspecifica,
+                                subAreasConocimiento: {
+                                  idSubArea,
+                                  nombreSubArea,
+                                  areaConocimiento: {
+                                    idArea,
+                                    nombreArea,
+                                  },
+                                },
+                              },
+                            },
+                            capituloFileList: capituloList,
+                          };
+                          const libroString = JSON.stringify(capituloFileList);
+                          formData.append("libroRequest", libroString);
+                          try {
+                            const response = await fetch(libroUrl + "/upload", {
+                              method: "POST",
+                              body: formData,
+                            });
+                            const data = await response.json();
+                            if (response.ok) {
+                              toast.success(data.iformacionEstado, {
+                                autoClose: 5000,
+                              });
+                            } else {
+                              toast.error(data.iformacionEstado, {
+                                autoClose: 5000,
+                              });
+                            }
+                          } catch (error) {
+                            toast.error(
+                              "No se pudo registrar el libro vuelva a intentarlo mas tarde",
+                              {
+                                autoClose: 5000,
+                              }
+                            );
+                          }
+                        } else {
+                          toast.warning(
+                            "Agrege al menos un audio para el registro",
+                            {
+                              autoClose: 5000,
+                            }
+                          );
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
       }
-    } catch (error) {
-      console.error(error);
+    } else {
+      toast.warning("Seleccione autores", {
+        autoClose: 5000,
+      });
     }
   };
   const handleAreaChange = async (event) => {
@@ -119,6 +198,77 @@ export const DialogoRegistroLibro = () => {
       console.error(error);
     }
   };
+  const handleAutorChange = async (event) => {
+    const selectedAutor = listaAutor.find(
+      (autor) => autor.nombre === event.target.value
+    );
+    setIdAutor(selectedAutor ? selectedAutor.idAutor : 0);
+    setNombre(event.target.value);
+  };
+  const handleTipoAutorChange = async (event) => {
+    const selectedTipoAutor = listaTipoAutor.find(
+      (autor) => autor.tipoAutor === event.target.value
+    );
+    setIdTAutor(selectedTipoAutor ? selectedTipoAutor.idAutor : 0);
+    setTipoAutor(event.target.value);
+  };
+
+  const handleSeleccionTipoAutor = () => {
+    try {
+      const autorSeleccion = {
+        idAutor,
+        nombre,
+        idTAutor,
+        tipoAutor,
+      };
+      if (idAutor > 0) {
+        if (idTAutor > 0) {
+          const autorExistente = listTipoAutor.find(
+            (item) => item.idAutor === autorSeleccion.idAutor
+          );
+          if (autorExistente) {
+            toast.warning("Este autor ya ha sido seleccionado", {
+              autoClose: 5000,
+            });
+          } else {
+            setListTipoAutor([...listTipoAutor, autorSeleccion]);
+            setIdAutor(0);
+            setNombre("");
+            setTipoAutor("");
+            setIdTAutor(0);
+          }
+        } else {
+          toast.warning("No ha seleccionado un tipo de autor", {
+            autoClose: 5000,
+          });
+        }
+      } else {
+        toast.warning("No ha seleccionado un autor", {
+          autoClose: 5000,
+        });
+      }
+    } catch (error) {
+      toast.error("Ocurrió un error durante el registro" + error, {
+        autoClose: 5000,
+      });
+    }
+  };
+  const handleEliminarTipoAutor = (idAutor) => {
+    try {
+      const nuevaListaTipoAutor = listTipoAutor.filter(
+        (item) => item.idAutor !== idAutor
+      );
+      setListTipoAutor(nuevaListaTipoAutor);
+      toast.success("Registro eliminado exitosamente", {
+        autoClose: 2000,
+      });
+    } catch (error) {
+      toast.error("Ocurrió un error al intentar eliminar el registro" + error, {
+        autoClose: 5000,
+      });
+    }
+  };
+
   const handleSubAreaChange = async (event) => {
     const selectedSubArea = listaSubArea.find(
       (subarea) => subarea.nombreSubArea === event.target.value
@@ -171,66 +321,109 @@ export const DialogoRegistroLibro = () => {
     const nombreConFecha = `${posicion}.${nombreArchivo}_${fechaFormateada}_${nombreLibro}`;
     return nombreConFecha;
   };
+  const handleNameChange = (index, event) => {
+    const newNames = [...names];
+    newNames[index] = event.target.value;
+    setNames(newNames);
+    if (event.target.value) {
+      const updatedSelectedFiles = [...selectedFiles];
+      updatedSelectedFiles[index] = false;
+      setSelectedFiles(updatedSelectedFiles);
+    } else {
+      const updatedSelectedFiles = [...selectedFiles];
+      updatedSelectedFiles[index] = true;
+      setSelectedFiles(updatedSelectedFiles);
+    }
+  };
+  const handleAddInput = () => {
+    if (!previousRecordHasData) {
+      toast.error(
+        "Debe agregar datos al registro anterior antes de agregar uno nuevo."
+      );
+      return;
+    }
+    setInputCount(inputCount + 1);
+    setPreviousRecordHasData(false);
+    const updatedNextSelectedFiles = [...selectedFiles];
+    updatedNextSelectedFiles[inputCount] = true;
+    setSelectedFiles(updatedNextSelectedFiles);
+  };
 
-  const handleSeleccionArchivoMp4 = async (event, nombreArchivo) => {
-    const fileList = event.target.files;
-    const fileArray = Array.from(fileList);
-    const identificador = identificadorArchivo(
-      capituloList.length + 1,
-      nombreArchivo,
-      nombreLibro
-    );
-    const nuevoCapitulo = {
-      idCapitulo: null,
-      titulo: nombreArchivo,
-      nombreArchivo: identificador,
-      rutaArchivo: identificador,
-      ordenArchivo: capituloList.length + 1,
-      numeroDescarga: null,
-      fechaCreacion: fechaPublicacion,
-      usuario: {
-        idUsuario: 1,
-        nombre: "John",
-        apellido: "Doe34",
-        email: "johndoe@example.com",
-        fechaNacimiento: "2000-01-01",
-        password: "password123",
-      },
-      libro: {
-        idLibro,
-        nombreLibro,
-        fechaPublicacion,
-        isbn,
-        lenguaje,
-        coverImage,
-        pdfLibro,
-        pdfDescarga,
-        subAreasEspecificas: {
-          idSubAreaEspecifica,
-          nombreSubAreaEspecifica,
-          subAreasConocimiento: {
-            idSubArea,
-            nombreSubArea,
-            areaConocimiento: {
-              idArea,
-              nombreArea,
+  const handleSeleccionArchivoMp4 = async (event, nombreArchivo, index) => {
+    if (!nombreArchivo) {
+      toast.error(
+        "Por favor, ingresa un nombre de archivo antes de seleccionar uno."
+      );
+      return;
+    } else {
+      const fileList = event.target.files;
+      const fileArray = Array.from(fileList);
+      const identificador = identificadorArchivo(
+        capituloList.length + 1,
+        nombreArchivo,
+        nombreLibro
+      );
+      const nuevoCapitulo = {
+        idCapitulo: null,
+        titulo: nombreArchivo,
+        nombreArchivo: identificador,
+        rutaArchivo: identificador,
+        ordenArchivo: capituloList.length + 1,
+        numeroDescarga: null,
+        fechaCreacion: fechaPublicacion,
+        usuario: {
+          idUsuario: 1,
+          nombre: "John",
+          apellido: "Doe34",
+          email: "johndoe@example.com",
+          fechaNacimiento: "2000-01-01",
+          password: "password123",
+        },
+        libro: {
+          idLibro,
+          nombreLibro,
+          fechaPublicacion,
+          isbn,
+          lenguaje,
+          coverImage,
+          pdfLibro,
+          pdfDescarga,
+          subAreasEspecificas: {
+            idSubAreaEspecifica,
+            nombreSubAreaEspecifica,
+            subAreasConocimiento: {
+              idSubArea,
+              nombreSubArea,
+              areaConocimiento: {
+                idArea,
+                nombreArea,
+              },
             },
           },
         },
-      },
-    };
-    setCapituloList([...capituloList, nuevoCapitulo]);
-
-    const archivosModificados = fileArray.map((file) => {
-      let extensionArchivo = ".";
-      extensionArchivo = extensionArchivo + file.name.split(".").pop();
-      const nuevoArchivo = new File([file], identificador + extensionArchivo, {
-        type: file.type,
+      };
+      setCapituloList([...capituloList, nuevoCapitulo]);
+      const archivosModificados = fileArray.map((file) => {
+        let extensionArchivo = ".";
+        extensionArchivo = extensionArchivo + file.name.split(".").pop();
+        const nuevoArchivo = new File(
+          [file],
+          identificador + extensionArchivo,
+          {
+            type: file.type,
+          }
+        );
+        return nuevoArchivo;
       });
-      return nuevoArchivo;
-    });
-
-    setFiles((prevFiles) => prevFiles.concat(archivosModificados));
+      setFiles((prevFiles) => prevFiles.concat(archivosModificados));
+      setPreviousRecordHasData(true);
+      const updatedSelectedFiles = [...selectedFiles];
+      updatedSelectedFiles[index] = true;
+      setSelectedFiles(updatedSelectedFiles);
+      const updatedChangeText = [...changeText];
+      updatedChangeText[index] = true;
+      setChangeText(updatedChangeText);
+    }
   };
 
   return (
@@ -288,6 +481,126 @@ export const DialogoRegistroLibro = () => {
                 onChange={(event) => setNombreLibro(event.target.value)}
               />
             </div>
+            <div class="accordion" id="accordionExample">
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                  >
+                    Seleccionar Autores
+                  </button>
+                </h2>
+                <div
+                  id="collapseOne"
+                  class="accordion-collapse collapse show"
+                  data-bs-parent="#accordionExample"
+                >
+                  <div class="accordion-body">
+                    <div className="col-md-12">
+                      <div className="card mb-1" style={{ padding: "5px" }}>
+                        <div className="row">
+                          <div className="col-md-5 ">
+                            <label
+                              htmlFor="validationCustom03"
+                              className="form-label mb-1"
+                            >
+                              Autores:
+                            </label>
+                            <select
+                              className="form-select"
+                              value={nombre}
+                              onChange={handleAutorChange}
+                            >
+                              <option value="">Seleccionar Autor</option>
+                              {listaAutor.map((autor) => (
+                                <option
+                                  key={autor.idAutor}
+                                  value={autor.nombre}
+                                >
+                                  {autor.nombre + " " + autor.apellido}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="col-md-4 ">
+                            <label
+                              htmlFor="validationCustom03"
+                              className="form-label mb-1"
+                            >
+                              Tipo Autor:
+                            </label>
+                            <select
+                              className="form-select"
+                              value={tipoAutor}
+                              onChange={handleTipoAutorChange}
+                            >
+                              <option value="">Seleccionar tipo autor</option>
+                              {listaTipoAutor.map((tipo) => (
+                                <option
+                                  key={tipo.idAutor}
+                                  value={tipo.tipoAutor}
+                                >
+                                  {tipo.tipoAutor}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          <div className="col-md-3 ">
+                            <button
+                              className="btn btn-success"
+                              type="button"
+                              onClick={handleSeleccionTipoAutor}
+                              style={{ textAlign: "right", marginTop: "25px" }}
+                            >
+                              Agregar Autor
+                            </button>
+                          </div>
+                          <div
+                            className="col-md-12 "
+                            style={{ marginTop: "5px" }}
+                          >
+                            <table class="table table-striped">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Autor</th>
+                                  <th scope="col">Tipo</th>
+                                  <th scope="col">Acciones</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {listTipoAutor.map((dato, index) => (
+                                  <tr key={index}>
+                                    <td>{dato.nombre}</td>
+                                    <td>{dato.tipoAutor}</td>
+                                    <td>
+                                      <button
+                                        className="btn btn-danger"
+                                        type="button"
+                                        onClick={() =>
+                                          handleEliminarTipoAutor(dato.idAutor)
+                                        }
+                                      >
+                                        X
+                                      </button>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <div className="col-md-3">
               <label htmlFor="validationCustom03" className="form-label mb-1">
                 Nombre Área:
@@ -362,7 +675,7 @@ export const DialogoRegistroLibro = () => {
                 className="form-control"
                 type="text"
                 value={isbn}
-                onChange={(event) => setIsbn(event.target.value)}
+                onChange={(event) => setIsbn(event.target.value.trim())}
               />
             </div>
 
@@ -374,7 +687,7 @@ export const DialogoRegistroLibro = () => {
                 className="form-control"
                 type="text"
                 value={lenguaje}
-                onChange={(event) => setLenguaje(event.target.value)}
+                onChange={(event) => setLenguaje(event.target.value.trim())}
               />
             </div>
 
@@ -401,13 +714,28 @@ export const DialogoRegistroLibro = () => {
             </div>
 
             {/* CONTENEDOR AGREGAR AUDIOS DE LOS LIBROS*/}
-            <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-              <label htmlFor="validationCustom03" className="form-label"
-                style={{ textAlign: "left", marginRight: "10px" }}>
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <label
+                htmlFor="validationCustom03"
+                className="form-label"
+                style={{ textAlign: "left", marginRight: "10px" }}
+              >
                 Agregar los capítulos del libro:
               </label>
-              <button className="btn btn-success" type="button" onClick={handleAddInput}
-                style={{ textAlign: "right" }}> Agregar nuevo capítulo
+              <button
+                className="btn btn-success"
+                type="button"
+                onClick={handleAddInput}
+                style={{ textAlign: "right" }}
+              >
+                {" "}
+                Agregar nuevo capítulo
               </button>
             </div>
             <div
@@ -432,18 +760,24 @@ export const DialogoRegistroLibro = () => {
                             key={index}
                             type="text"
                             maxLength={99}
+                            disabled={changeText[index]}
                             value={names[index] || ""}
-                            onChange={(event) => handleNameChange(index, event)}
+                            onChange={(event) => {
+                              handleNameChange(index, event);
+                            }}
                           />
                         </div>
                         <div className="col-md-5 ">
                           <input
                             className="form-control"
                             type="file"
-                            onChange={
-                              (event) =>
-                                handleSeleccionArchivoMp4(event, names[index])
-                              // Pasar la variable local en lugar de nombreArchivo
+                            disabled={selectedFiles[index]}
+                            onChange={(event) =>
+                              handleSeleccionArchivoMp4(
+                                event,
+                                names[index],
+                                index
+                              )
                             }
                           />
                         </div>
@@ -451,7 +785,8 @@ export const DialogoRegistroLibro = () => {
                           <button
                             className="btn btn-success"
                             type="button"
-                            onClick={handledeleteInput}>
+                            onClick={handledeleteInput}
+                          >
                             -
                           </button>
                         </div>

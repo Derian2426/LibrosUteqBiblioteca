@@ -3,7 +3,7 @@ import { Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import { useContext, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 export const DialogoAgregarArea = () => {
@@ -15,7 +15,7 @@ export const DialogoAgregarArea = () => {
       if (nombreArea != "") {
         setNombreArea(nombreArea.trim());
         const areaConocimiento = {
-          "idArea": 0,
+          idArea: 0,
           nombreArea,
         };
         const areaString = JSON.stringify(areaConocimiento);
@@ -51,9 +51,13 @@ export const DialogoAgregarArea = () => {
     >
       <div
         className="modal-dialog modal-content"
-        style={{ maxWidth: "480px", marginRight: "auto", marginLeft: "auto", maxHeight: "700px" }}
+        style={{
+          maxWidth: "480px",
+          marginRight: "auto",
+          marginLeft: "auto",
+          maxHeight: "700px",
+        }}
       >
-        <ToastContainer />
         <div className="modal-header" style={{ padding: "2px" }}>
           <label
             className="form-label modalStyle "
@@ -99,8 +103,11 @@ export const DialogoAgregarArea = () => {
             </form>
           </div>
           <div className="Mycontainer-div-list mt-2">
-            <label htmlFor="validationCustom05" className="form-label" 
-            style={{marginLeft: "7px", marginBottom: "2px"}}>
+            <label
+              htmlFor="validationCustom05"
+              className="form-label"
+              style={{ marginLeft: "7px", marginBottom: "2px" }}
+            >
               Lista de Áreas
             </label>
           </div>

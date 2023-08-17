@@ -9,6 +9,7 @@ import { LibroListEdit } from "./librosEditList";
 import { DialogoAgregarTipoAutor } from "./agregarTipoAutor";
 import { DialogoAutor } from "./agregarAutor";
 import { DialogoRegistroLibro } from "./agregarAudioLibro";
+import { ToastContainer } from "react-toastify";
 const FormularioLibro = () => {
   return (
     <LibroAccionesContextProvider>
@@ -84,6 +85,7 @@ const FormularioLibro = () => {
         <DialogoAgregarTipoAutor />
         <DialogoAutor />
         <DialogoRegistroLibro />
+        <ToastContainer />
         <Footer />
       </div>
     </LibroAccionesContextProvider>

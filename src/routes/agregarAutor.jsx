@@ -2,7 +2,7 @@ import React from "react";
 import { Table } from "react-bootstrap";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import { useContext, useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -64,7 +64,6 @@ export const DialogoAutor = () => {
         className="modal-dialog modal-content"
         style={{ maxWidth: "710px", marginRight: "auto", marginLeft: "auto" }}
       >
-        <ToastContainer />
         <div className="modal-header" style={{ padding: "2px" }}>
           <label
             className="form-label modalStyle "
