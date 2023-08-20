@@ -40,7 +40,7 @@ export const DialogoRegistroLibro = () => {
   const [selectedFiles, setSelectedFiles] = useState([true]);
   const [changeText, setChangeText] = useState([false]);
 
-  const handledeleteInput = (event,index) => {
+  const handledeleteInput = (event, index) => {
     if (inputCount === 1) {
       toast.warning("Debe al menos tener un registro o carga de archivo", {
         autoClose: 5000,
@@ -165,6 +165,7 @@ export const DialogoRegistroLibro = () => {
                                 },
                               },
                               capituloFileList: capituloList,
+                              listTipoAutor: listTipoAutor,
                             };
                             const libroString =
                               JSON.stringify(capituloFileList);
@@ -263,15 +264,17 @@ export const DialogoRegistroLibro = () => {
   const handleSeleccionTipoAutor = () => {
     try {
       const autorSeleccion = {
-        idAutor,
-        nombre,
-        idTAutor,
-        tipoAutor,
+        idAutorLibro:0,
+        libro:{},
+        autor:{idAutor,
+        nombre},
+        tipoAutor:{idAutor:idTAutor,
+        tipoAutor},
       };
       if (idAutor > 0) {
         if (idTAutor > 0) {
           const autorExistente = listTipoAutor.find(
-            (item) => item.idAutor === autorSeleccion.idAutor
+            (item) => item.autor.idAutor === autorSeleccion.idAutor
           );
           if (autorExistente) {
             toast.warning("Este autor ya ha sido seleccionado", {
@@ -627,8 +630,8 @@ export const DialogoRegistroLibro = () => {
                               <tbody>
                                 {listTipoAutor.map((dato, index) => (
                                   <tr key={index}>
-                                    <td>{dato.nombre}</td>
-                                    <td>{dato.tipoAutor}</td>
+                                    <td>{dato.autor.nombre}</td>
+                                    <td>{dato.tipoAutor.tipoAutor}</td>
                                     <td>
                                       <button
                                         className="btn btn-danger"
@@ -840,7 +843,7 @@ export const DialogoRegistroLibro = () => {
                           <button
                             className="btn btn-success"
                             type="button"
-                            onClick={(event)=>handledeleteInput(event,index)}
+                            onClick={(event) => handledeleteInput(event, index)}
                           >
                             -
                           </button>

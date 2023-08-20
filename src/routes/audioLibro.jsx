@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { Table } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
@@ -22,13 +22,19 @@ const audioLibro = () => {
   const { data } = useParams();
   const [audioData, setAudioData] = useState([]);
   const [imageUrl, setImageUrl] = useState("");
-  const [isLoading, setIsLoading] = useState(false); {/*setIsLoading */}
+  const [isLoading, setIsLoading] = useState(false);
+  const [listaAutores, setListaAutores] = useState([]);
   const url = config.libroUrl;
 
   useEffect(() => {
     obtenerDatos(url + `/libro/${data}`)
       .then((data) => {
         setLibro(data);
+        enviarPeticionConEncabezadoJSON(url + "/autoresLibro", data)
+          .then((data) => {
+            setListaAutores(data);
+          })
+          .catch((error) => console.error(error));
         return enviarPeticionConEncabezadoJSON(url + `/capitulo`, data);
       })
       .then((listaRequest) => {
@@ -298,6 +304,45 @@ const audioLibro = () => {
                       }}
                     >
                       {libro.isbn}
+                    </label>
+                    <label
+                      htmlFor="validationCustom05"
+                      className="form-label"
+                      style={{
+                        fontSize: "14px",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        display: "block",
+                      }}
+                    >
+                      Autor/es
+                    </label>
+                    <label
+                      htmlFor="validationCustom05"
+                      className="form-label"
+                      style={{
+                        fontSize: "10px",
+                        fontWeight: "bold",
+                        textAlign: "left",
+                        display: "block",
+                      }}
+                    >
+                      <Table>
+                        <thead>
+                          <tr className="table-info">
+                            <th scope="col">Autor</th>
+                            <th scope="col">Tipo Autor</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {listaAutores.map((dato, index) => (
+                            <tr key={index}>
+                              <td>{dato.autor.nombre}</td>
+                              <td>{dato.tipoAutor.tipoAutor}</td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </Table>
                     </label>
                     <div className="valid-feedback"></div>
                   </div>
