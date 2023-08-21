@@ -73,6 +73,8 @@ export const DialogoRegistroLibro = () => {
     setFechaPublicacion("");
     setLenguaje("");
     setInputCount(1);
+    setPdfLibro("");
+    
   };
 
   const handleSubmit = async (event) => {
@@ -264,12 +266,10 @@ export const DialogoRegistroLibro = () => {
   const handleSeleccionTipoAutor = () => {
     try {
       const autorSeleccion = {
-        idAutorLibro:0,
-        libro:{},
-        autor:{idAutor,
-        nombre},
-        tipoAutor:{idAutor:idTAutor,
-        tipoAutor},
+        idAutorLibro: 0,
+        libro: {},
+        autor: { idAutor, nombre },
+        tipoAutor: { idAutor: idTAutor, tipoAutor },
       };
       if (idAutor > 0) {
         if (idTAutor > 0) {
@@ -755,6 +755,7 @@ export const DialogoRegistroLibro = () => {
                 type="file"
                 accept="image/png, image/jpeg"
                 onChange={handleSeleccion}
+                title={pdfLibro}
               />
             </div>
 
