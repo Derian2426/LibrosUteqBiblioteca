@@ -11,10 +11,10 @@ import { toast } from "react-toastify";
 import { postData } from "../peticionesHttp";
 import config from "../configuracion";
 import { ToastContainer } from "react-toastify";
-
-
+import { LoadingDialog } from "../LoadingDialog";
 
 const iniciarsesion = () => {
+  const [loading, setLoading] = useState(false);
   const [sesionExitosa, setSesionExitosa] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -24,6 +24,7 @@ const iniciarsesion = () => {
 
   const handleIniciarSesion = async () => {
     try {
+      setLoading(true);
       let user = { email, password };
       const peticionPost = await postData(Url + "/login", user);
       setToken(peticionPost.token);
@@ -33,14 +34,17 @@ const iniciarsesion = () => {
           autoClose: 5000,
         });
         window.localStorage.setItem("loggerUser", JSON.stringify(peticionPost));
+        setLoading(false);
         navigate("/registrarlibros");
       } else {
+        setLoading(false);
         toast.warning("Error en inicio de sesión, verifique las credenciales", {
           autoClose: 5000,
         });
       }
     } catch (error) {
-      toast.warning("Error en inicio de sesión"+ error, {
+      setLoading(false);
+      toast.warning("Error en inicio de sesión" + error, {
         autoClose: 5000,
       });
     }
@@ -48,6 +52,7 @@ const iniciarsesion = () => {
   return (
     <div>
       <ToastContainer />
+      <LoadingDialog loading={loading} />
       <div className="containerMyStyle">
         <div className="cardMyStyle">
           <div style={{ textAlign: "center", marginBottom: "20px" }}>

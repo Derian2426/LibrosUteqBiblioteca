@@ -1,7 +1,6 @@
 import { createContext, useEffect, useState } from "react";
 import config from "../configuracion";
 import { obtenerDatos, postData } from "../peticionesHttp";
-import axios from "axios";
 
 export const LibroAccionesContext = createContext();
 export function LibroAccionesContextProvider(props) {
@@ -94,6 +93,7 @@ export function LibroAccionesContextProvider(props) {
         setListaTipoAutor,
         listaAutor,
         setListaAutor,
+        obtenerDatos,
       }}
     >
       {props.children}

@@ -1,8 +1,13 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
+import { useEffect, useState } from "react";
 
 const Navbar = () => {
+  const [usuarioSesion, setUsuarioSesion] = useState();
+  useEffect(() => {
+    setUsuarioSesion(localStorage.getItem("loggerUser"));
+  }, []);
   return (
     <div className="container-fluid">
       <nav
@@ -46,16 +51,46 @@ const Navbar = () => {
                 </a>
               </li>
               <div className="vr"></div>
-              <li className="nav-item">
-                <a
-                  className="nav-link"
-                  aria-current="page"
-                  style={{ color: "#1B7505" }}
-                  href={`/IniciarSesion`}
-                >
-                  Iniciar sesión
-                </a>
-              </li>
+              {usuarioSesion ? (
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    style={{ color: "#1B7505" }}
+                    href={`/registrarlibros`}
+                  >
+                    Registrar Libro
+                  </a>
+                </li>
+              ) : null}
+              <div className="vr"></div>
+              {usuarioSesion ? (
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    style={{ color: "#1B7505" }}
+                    href={`/IniciarSesion`}
+                    onClick={() => {
+                      localStorage.removeItem("loggerUser");
+                      setUsuarioSesion(null);
+                    }}
+                  >
+                    Cerrar sesión
+                  </a>
+                </li>
+              ) : (
+                <li className="nav-item">
+                  <a
+                    className="nav-link"
+                    aria-current="page"
+                    style={{ color: "#1B7505" }}
+                    href={`/IniciarSesion`}
+                  >
+                    Iniciar sesión
+                  </a>
+                </li>
+              )}
             </ul>
           </div>
         </div>

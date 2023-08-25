@@ -3,13 +3,19 @@ import { descargarAudioDesdeServidor } from "../downloadArchivos";
 import { faDownload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import config from "../configuracion";
+import { LoadingDialog } from "../LoadingDialog";
+import React, { useState } from "react";
 
 export const Capitulo = ({ capitulo, audioSrc }) => {
-  const handleDescargarClick = () => {
-    descargarAudioDesdeServidor(capitulo, config.libroUrl + "/download");
+  const [loading, setLoading] = useState(false);
+  const handleDescargarClick = async () => {
+    setLoading(true);
+    await descargarAudioDesdeServidor(capitulo, config.libroUrl + "/download");
+    setLoading(false);
   };
   return (
     <div className="Mycontainer-div mb-1" style={{ padding: "4px" }}>
+      <LoadingDialog loading={loading} />
       <div className="card-body" style={{ padding: "4px" }}>
         <label htmlFor="validationCustom05" className="form-label">
           {capitulo.titulo}
@@ -31,10 +37,11 @@ export const Capitulo = ({ capitulo, audioSrc }) => {
           <button
             className="audio-button"
             type="button"
-            style={{height: "25px"}}
+            style={{ height: "25px" }}
             onClick={handleDescargarClick}
           >
-            <FontAwesomeIcon icon={faDownload} style={{ marginRight: "5px" }}/> Descargar Audio
+            <FontAwesomeIcon icon={faDownload} style={{ marginRight: "5px" }} />{" "}
+            Descargar Audio
           </button>
         </div>
       </div>

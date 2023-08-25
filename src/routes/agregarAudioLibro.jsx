@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { obtenerDatos } from "../peticionesHttp";
 import config from "../configuracion";
+import { useNavigate } from "react-router-dom";
 
 export const DialogoRegistroLibro = () => {
   const libroUrl = config.libroUrl;
@@ -39,8 +40,31 @@ export const DialogoRegistroLibro = () => {
   const [previousRecordHasData, setPreviousRecordHasData] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([true]);
   const [changeText, setChangeText] = useState([false]);
+  const [user, setUser] = useState({});
+  const [tokenSesion, setTokenSesion] = useState("");
+  const navigate = useNavigate();
+  useEffect(() => {
+    const loggerUserJson = localStorage.getItem("loggerUser");
+
+    if (loggerUserJson) {
+      const loggerUserObject = JSON.parse(loggerUserJson);
+
+      if (loggerUserObject.token && loggerUserObject.userLogger) {
+        const { token, userLogger } = loggerUserObject;
+        console.log("Token: " + token);
+        console.log("Usuario: ", userLogger);
+      } else {
+        console.log("Datos incompletos en el objeto almacenado.");
+        navigate("/IniciarSesion");
+      }
+    } else {
+      console.log("No se encontraron datos en el localStorage.");
+      navigate("/IniciarSesion");
+    }
+  }, []);
 
   const handledeleteInput = (event, index) => {
+    alert(token);
     if (inputCount === 1) {
       toast.warning("Debe al menos tener un registro o carga de archivo", {
         autoClose: 5000,
@@ -74,7 +98,6 @@ export const DialogoRegistroLibro = () => {
     setLenguaje("");
     setInputCount(1);
     setPdfLibro("");
-    
   };
 
   const handleSubmit = async (event) => {
@@ -178,6 +201,9 @@ export const DialogoRegistroLibro = () => {
                                 {
                                   method: "POST",
                                   body: formData,
+                                  headers: {
+                                    //"Authorization": `Bearer ${token}`
+                                  },
                                 }
                               );
                               const data = await response.json();
@@ -274,7 +300,7 @@ export const DialogoRegistroLibro = () => {
       if (idAutor > 0) {
         if (idTAutor > 0) {
           const autorExistente = listTipoAutor.find(
-            (item) => item.autor.idAutor === autorSeleccion.idAutor
+            (item) => item.autor.idAutor === autorSeleccion.autor.idAutor
           );
           if (autorExistente) {
             toast.warning("Este autor ya ha sido seleccionado", {

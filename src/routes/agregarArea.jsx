@@ -5,11 +5,66 @@ import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { LoadingDialog } from "../LoadingDialog";
+import config from "../configuracion";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 export const DialogoAgregarArea = () => {
-  const { listaArea, postDataJson, setListaArea } =
+  const { listaArea, postDataJson, setListaArea, obtenerDatos } =
     useContext(LibroAccionesContext);
   const [nombreArea, setNombreArea] = useState("");
+  const [acciones, setAcciones] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const libroUrl = config.libroUrl;
+  const [idArea, setIdArea] = useState(0);
+  async function editarArea(dato) {
+    try {
+      setIdArea(dato.idArea);
+      setNombreArea(dato.nombreArea);
+      setAcciones(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const eliminarPorId = () => {
+    obtenerDatos(libroUrl + "/areaConocimiento")
+      .then((data) => {
+        setListaArea(data);
+      })
+      .catch((error) => console.error(error));
+  };
+
+  async function handleEditarArea() {
+    if (nombreArea != "") {
+      setNombreArea(nombreArea.trim());
+      const areaConocimiento = {
+        idArea: idArea,
+        nombreArea,
+      };
+      const areaString = JSON.stringify(areaConocimiento);
+      const request = await postDataJson(
+        areaString,
+        "/areaConocimiento/editar"
+      );
+      if (request.idArea > 0) {
+        toast.success(request.nombreArea + ", Modificado con existo", {
+          autoClose: 1000,
+        });
+        setNombreArea("");
+        setAcciones(false);
+        eliminarPorId();
+        setListaArea([...listaArea, request]);
+      } else {
+        toast.error(`${request.nombreArea} Error`, {
+          autoClose: 1000,
+        });
+      }
+    } else {
+      toast.error("Ingrese el nombre del Área", { autoClose: 1000 });
+    }
+  }
+
   const handleRegistroClick = async () => {
     try {
       if (nombreArea != "") {
@@ -18,18 +73,21 @@ export const DialogoAgregarArea = () => {
           idArea: 0,
           nombreArea,
         };
+        setLoading(true);
         const areaString = JSON.stringify(areaConocimiento);
         const request = await postDataJson(areaString, "/areaConocimiento");
         if (request.idArea < 0) {
           toast.error(request.nombreArea + ", se encuentra registrado", {
             autoClose: 1000,
           });
+          setLoading(false);
         } else {
           setNombreArea("");
           setListaArea([...listaArea, request]);
           toast.success(`${request.nombreArea} registrada con éxito`, {
             autoClose: 1000,
           });
+          setLoading(false);
         }
       } else {
         toast.error("Ingrese el nombre del Área", { autoClose: 1000 });
@@ -76,6 +134,7 @@ export const DialogoAgregarArea = () => {
 
         <div className="container mt-2">
           <div className="Mycontainer-div-insert" style={{ maxWidth: "880px" }}>
+            <LoadingDialog loading={loading} />
             <form className="row needs-validation" noValidate>
               <div className="col-md-9">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
@@ -92,13 +151,23 @@ export const DialogoAgregarArea = () => {
                 />
               </div>
               <div className="col-md-2 d-flex align-items-end">
-                <button
-                  className="btn btn-success"
-                  type="button"
-                  onClick={handleRegistroClick}
-                >
-                  Guardar
-                </button>
+                {!acciones ? (
+                  <button
+                    className="btn btn-success"
+                    type="button"
+                    onClick={handleRegistroClick}
+                  >
+                    Guardar
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={() => handleEditarArea()}
+                  >
+                    Editar
+                  </button>
+                )}
               </div>
             </form>
           </div>
@@ -120,6 +189,7 @@ export const DialogoAgregarArea = () => {
                 <tr>
                   <th>N°</th>
                   <th>Área</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -127,6 +197,15 @@ export const DialogoAgregarArea = () => {
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
                     <td>{dato.nombreArea}</td>
+                    <td>
+                      <button
+                        className="btn btn-info"
+                        type="button"
+                        onClick={() => editarArea(dato)}
+                      >
+                        <FontAwesomeIcon icon={faPencilAlt} />
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>

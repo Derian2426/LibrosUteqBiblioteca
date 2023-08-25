@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faL, faLessThanEqual } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import Footer from "./footer";
 import config from "../configuracion";
@@ -15,6 +15,7 @@ import {
   enviarPeticionConEncabezadoJSON,
   obtenerImagen,
 } from "../peticionesHttp";
+import { LoadingDialog } from "../LoadingDialog";
 
 const audioLibro = () => {
   const [libro, setLibro] = useState({});
@@ -24,9 +25,11 @@ const audioLibro = () => {
   const [imageUrl, setImageUrl] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [listaAutores, setListaAutores] = useState([]);
+  const [loading, setLoading] = useState(false);
   const url = config.libroUrl;
 
   useEffect(() => {
+    setLoading(true);
     obtenerDatos(url + `/libro/${data}`)
       .then((data) => {
         setLibro(data);
@@ -55,6 +58,7 @@ const audioLibro = () => {
           })
         );
         setAudioData(audios);
+        setLoading(false);
       } catch (error) {
         setError(error);
       }
@@ -89,6 +93,7 @@ const audioLibro = () => {
 
   return (
     <div style={{ marginTop: "80px" }}>
+      <LoadingDialog loading={loading} />
       <div style={{ textAlign: "center" }}>
         <a>
           <img
@@ -148,9 +153,11 @@ const audioLibro = () => {
                       className="audio-button mt-2"
                       type="button"
                       style={{ height: "25px" }}
-                      onClick={() =>
-                        descargarAudiosZip(libro, url + "/downloadZip")
-                      }
+                      onClick={async() => {
+                        setLoading(true);
+                        await descargarAudiosZip(libro, url + "/downloadZip");
+                        setLoading(false);
+                      }}
                     >
                       <FontAwesomeIcon
                         icon={faDownload}
