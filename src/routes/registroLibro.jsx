@@ -23,7 +23,7 @@ const FormularioLibro = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#ModalAgregarLibros"
               >
-                Registrar Libros
+                Registrar libros
               </button>
             </div>
             <div className="btnCero">
@@ -33,7 +33,7 @@ const FormularioLibro = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#ModalAgregarArea"
               >
-                Registro Nuevas Áreas
+                Registro nuevas áreas
               </button>
             </div>
             <div className="btnCero">
@@ -43,7 +43,7 @@ const FormularioLibro = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#ModalAgregarSubArea"
               >
-                Registro Nuevas Sub Áreas
+                Registro nuevas sub áreas
               </button>
             </div>
             <div className="btnCero">
@@ -53,7 +53,7 @@ const FormularioLibro = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#ModalAgregarSubAreaEspecifica"
               >
-                Registro Nuevas Sub Áreas Especificas
+                Registro nuevas sub áreas especificas
               </button>
             </div>
             <div className="btnCero">
@@ -63,7 +63,7 @@ const FormularioLibro = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#ModalAgregarTipoAutor"
               >
-                Registrar Tipo de Autor
+                Registrar tipo de autor
               </button>
             </div>
             <div className="btnCero">
@@ -73,7 +73,7 @@ const FormularioLibro = () => {
                 data-bs-toggle="modal"
                 data-bs-target="#ModalAgregarAutor"
               >
-                Registro Nuevos Autores
+                Registro nuevos autores
               </button>
             </div>
           </div>

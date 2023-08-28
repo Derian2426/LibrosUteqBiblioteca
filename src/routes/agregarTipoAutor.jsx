@@ -60,7 +60,7 @@ export const DialogoAgregarTipoAutor = () => {
             className="form-label modalStyle "
             htmlFor="validationCustom03"
           >
-            Registrar Tipo Autor
+            Registrar tipo autor
           </label>
           <button
             type="button"
@@ -76,7 +76,7 @@ export const DialogoAgregarTipoAutor = () => {
             <form className="row needs-validation" noValidate>
               <div className="col-md-9">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
-                  Tipo Autor:
+                  Tipo autor:
                 </label>
                 <input
                   type="text"
@@ -113,7 +113,7 @@ export const DialogoAgregarTipoAutor = () => {
               <thead>
                 <tr>
                   <th>N°</th>
-                  <th>Tipo Autor</th>
+                  <th>Tipo autor</th>
                 </tr>
               </thead>
               <tbody>

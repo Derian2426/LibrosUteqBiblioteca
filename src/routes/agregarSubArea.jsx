@@ -82,7 +82,7 @@ export const AgregarSubArea = () => {
       >
         <div className="modal-header" style={{ padding: "2px" }}>
           <label htmlFor="validationCustom03" className="form-label modalStyle">
-            Registrar Sub Áreas
+            Registrar sub áreas
           </label>
           <button
             type="button"
@@ -98,14 +98,14 @@ export const AgregarSubArea = () => {
             <form className="row needs-validation" noValidate>
               <div className="col-md-5">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
-                  Nombre Área:
+                  Nombre área:
                 </label>
                 <select
                   className="form-select"
                   value={nombreArea}
                   onChange={handleSubAreaEspecificaChange}
                 >
-                  <option value="">Seleccionar Área</option>
+                  <option value="">Seleccionar área</option>
                   {listaArea.map((area) => (
                     <option key={area.idArea} value={area.nombreArea}>
                       {area.nombreArea}
@@ -115,13 +115,13 @@ export const AgregarSubArea = () => {
               </div>
               <div className="col-md-5">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
-                  Nombre Sub Área:
+                  Nombre sub área:
                 </label>
                 <input
                   type="text"
                   className="form-control"
                   id="validationCustom01"
-                  placeholder="Ingrese nombre del sub área "
+                  placeholder="Ingrese nombre sub área "
                   required
                   value={nombreSubArea}
                   onChange={(event) => setNombreSubArea(event.target.value)}
@@ -145,7 +145,7 @@ export const AgregarSubArea = () => {
               className="form-label"
               style={{ marginLeft: "7px", marginBottom: "2px" }}
             >
-              Lista de Sub Áreas
+              Lista de sub áreas
             </label>
           </div>
           <div

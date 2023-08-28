@@ -52,6 +52,18 @@
     justify-content: center;
     overflow-x: auto;
 }
+.Mycontainer-div-table {
+  border-radius: 5px;
+  box-shadow: 0px 2px 5px rgba(3, 116, 3, 0.651);
+  border: 1px solid rgba(0, 128, 0, 0.418);
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 14px;
+  justify-content: center;
+  margin: 0 auto;
+  justify-content: center;
+  overflow-x: auto;
+}
 
 .Mycontainer-div-list {
   border-radius: 5px;
@@ -88,6 +100,21 @@
     }
 }
 
+.StyleImg2 {
+  max-width: 260px;
+  width: 100%;
+  height: auto;
+  transition: width 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .StyleImg {
+      max-width: 130px;
+      width: 100%;
+      height: auto;
+  }
+}
+
 .modalStyle {
     font-Size: 20px;
     font-Weight: bold;
@@ -111,7 +138,7 @@
 }
 .pagination li {
     display: inline-block;
-    margin: 0 4px; 
+    margin: 0 1px; 
     color: #ffffff;
   }
   .pagination a {
@@ -151,4 +178,10 @@
   @font-face {
     font-family: 'Times New Roman';
     src: url('./font/Times-Roman.ttf') format('truetype');
+    font-family: 'Open Dyslexic';
+    src: url('./font/OpenDyslexicAlta-BoldItalic.ttf') format('truetype');
   }
+
+  .linea-separador {
+    border: 1px solid #025A27;
+}

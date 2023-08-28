@@ -26,13 +26,13 @@ export function Tabladatos() {
   );
 
   return (
-    <div className="Mycontainer-div mt-3" style={{ maxWidth: "1320px" }}>
-      <Table>
+    <div className="Mycontainer-div-table" style={{ maxWidth: "1320px" }}>
+      <Table aria-label="Lista de todos los libros">
         <thead>
           <tr>
             <th scope="col">N.º</th>
             <th scope="col">Nombre del libro</th>
-            <th scope="col">Fecha de Publicación</th>
+            <th scope="col">Fecha de publicación</th>
             <th scope="col">Idioma</th>
             <th scope="col">Acciones</th>
           </tr>
@@ -41,9 +41,9 @@ export function Tabladatos() {
           {paginatedData.map((dato, index) => (
             <tr key={index}>
               <th scope="row">{currentPage * itemsPerPage + index + 1}</th>
-              <td>{dato.nombreLibro}</td>
-              <td>{dato.fechaPublicacion}</td>
-              <td>{dato.lenguaje}</td>
+              <td  style={{textAlign:"left" }}>{dato.nombreLibro}</td>
+              <td  style={{textAlign:"center" }}>{dato.fechaPublicacion}</td>
+              <td style={{textAlign:"center" }}>{dato.lenguaje}</td>
               <td>
                 <button
                   className="audio-button"
@@ -56,8 +56,9 @@ export function Tabladatos() {
           ))}
         </tbody>
       </Table>
+      
       <ReactPaginate
-        previousLabel={"<"}
+        previousLabel={"<"} 
         nextLabel={">"}
         breakLabel={"..."}
         breakClassName={"break-me"}

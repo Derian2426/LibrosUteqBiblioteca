@@ -69,7 +69,7 @@ export const DialogoAutor = () => {
             className="form-label modalStyle "
             htmlFor="validationCustom03"
           >
-            Registrar Autor
+            Registrar autor
           </label>
           <button
             type="button"
@@ -85,7 +85,7 @@ export const DialogoAutor = () => {
             <form className="row needs-validation" noValidate>
               <div className="col-md-5">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
-                  Nombre Autor:
+                  Nombre autor:
                 </label>
                 <input
                   type="text"
@@ -99,7 +99,7 @@ export const DialogoAutor = () => {
               </div>
               <div className="col-md-5">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
-                  Apellido Autor:
+                  Apellido autor:
                 </label>
                 <input
                   type="text"
@@ -126,7 +126,7 @@ export const DialogoAutor = () => {
           <div className="Mycontainer-div-list mt-2">
             <label htmlFor="validationCustom05" className="form-label" 
             style={{marginLeft: "7px", marginBottom: "2px"}}>
-              Lista de Autores
+              Lista de autores
             </label>
           </div>
           <div
@@ -137,8 +137,8 @@ export const DialogoAutor = () => {
               <thead>
                 <tr>
                   <th>N°</th>
-                  <th>Nombre Autor</th>
-                  <th>Apellido Autor</th>
+                  <th>Nombre autor</th>
+                  <th>Apellido autor</th>
                 </tr>
               </thead>
               <tbody>

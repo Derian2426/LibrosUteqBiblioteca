@@ -30,11 +30,10 @@ export const LibroListEdit = () => {
         style={{
           fontSize: "18px",
           fontWeight: "bold",
-          color: "#009E50",
           marginBottom: "10px",
         }}
       >
-        Lista de Libros
+        Lista de libros
       </label>
       <Table striped bordered hover>
         <thead>
@@ -42,8 +41,8 @@ export const LibroListEdit = () => {
             <th>N°</th>
             <th>Libro</th>
             <th>Área de conocimiento</th>
-            <th>SubÁrea de conocimiento</th>
-            <th>SubÁrea Especifica</th>
+            <th>Sub área de conocimiento</th>
+            <th>Sub área especifica</th>
             <th>Año</th>
             <th>Acciones</th>
           </tr>

@@ -527,7 +527,7 @@ export const DialogoRegistroLibro = () => {
       >
         <div className="modal-header" style={{ padding: "2px" }}>
           <label htmlFor="validationCustom03" className="form-label modalStyle">
-            Agregar Nuevo Libro
+            Agregar nuevo libro
           </label>
           <button
             type="button"
@@ -551,18 +551,8 @@ export const DialogoRegistroLibro = () => {
             className="row g-3 needs-validation"
             noValidate
           >
-            <div className="col-md-12">
-              <label htmlFor="validationCustom03" className="form-label mb-1">
-                Nombre del Libro:
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                value={nombreLibro}
-                onChange={(event) => setNombreLibro(event.target.value)}
-              />
-            </div>
-            <div class="accordion" id="accordionExample">
+            {/* PRIMER ACORDEON "SELECCIONAR AUTORES"*/}
+            <div class="accordion" id="accordionExample" >
               <div class="accordion-item">
                 <h2 class="accordion-header">
                   <button
@@ -572,20 +562,30 @@ export const DialogoRegistroLibro = () => {
                     data-bs-target="#collapseOne"
                     aria-expanded="true"
                     aria-controls="collapseOne"
+                    style={{ padding: "8px"}}
                   >
-                    Seleccionar Autores
+                    Seleccionar autores
                   </button>
                 </h2>
                 <div
                   id="collapseOne"
-                  class="accordion-collapse collapse show"
+                  class="accordion-collapse collapse"
                   data-bs-parent="#accordionExample"
                 >
-                  <div class="accordion-body">
-                    <div className="col-md-12">
-                      <div className="card mb-1" style={{ padding: "5px" }}>
-                        <div className="row">
-                          <div className="col-md-5 ">
+
+                 <div
+          style={{
+            maxWidth: "930px",
+            padding: "10px",
+          }}
+        >
+          <form
+            onSubmit={handleSubmit}
+            className="row g-3 needs-validation"
+            noValidate
+          >
+            <div className="col-md-5">
+
                             <label
                               htmlFor="validationCustom03"
                               className="form-label mb-1"
@@ -597,7 +597,7 @@ export const DialogoRegistroLibro = () => {
                               value={nombre}
                               onChange={handleAutorChange}
                             >
-                              <option value="">Seleccionar Autor</option>
+                              <option value="">Seleccionar autor</option>
                               {listaAutor.map((autor) => (
                                 <option
                                   key={autor.idAutor}
@@ -607,13 +607,13 @@ export const DialogoRegistroLibro = () => {
                                 </option>
                               ))}
                             </select>
-                          </div>
+                            </div>
                           <div className="col-md-4 ">
                             <label
                               htmlFor="validationCustom03"
                               className="form-label mb-1"
                             >
-                              Tipo Autor:
+                              Tipo autor:
                             </label>
                             <select
                               className="form-select"
@@ -638,12 +638,11 @@ export const DialogoRegistroLibro = () => {
                               onClick={handleSeleccionTipoAutor}
                               style={{ textAlign: "right", marginTop: "25px" }}
                             >
-                              Agregar Autor
+                              Agregar autor
                             </button>
                           </div>
                           <div
-                            className="col-md-12 "
-                            style={{ marginTop: "5px" }}
+                            className=" Mycontainer-div-table col-md-12" 
                           >
                             <table class="table table-striped">
                               <thead>
@@ -674,24 +673,66 @@ export const DialogoRegistroLibro = () => {
                               </tbody>
                             </table>
                           </div>
-                        </div>
-                      </div>
-                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
             </div>
 
+{/* SEGUNDO ACORDEON "AGREGAR INFORMACION DEL LIBRO"*/}
+            <div class="accordion" id="accordionExample2" >
+              <div class="accordion-item">
+                <h2 class="accordion-header">
+                  <button
+                    class="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseTwo"
+                    aria-expanded="true"
+                    aria-controls="collapseTwo"
+                    style={{ padding: "8px"}}
+                  >
+                    Agregar información del libro
+                  </button>
+                </h2>
+                <div
+                  id="collapseTwo"
+                  class="accordion-collapse collapse"
+                  data-bs-parent="#accordionExample"
+                >
+
+<div
+          style={{
+            maxWidth: "930px",
+            padding: "10px",
+          }}
+        >
+          <form
+            onSubmit={handleSubmit}
+            className="row g-3 needs-validation"
+            noValidate
+          >
+            <div className="col-md-12">
+              <label htmlFor="validationCustom03" className="form-label mb-1">
+                Nombre del libro:
+              </label>
+              <input
+                className="form-control"
+                type="text"
+                value={nombreLibro}
+                onChange={(event) => setNombreLibro(event.target.value)}
+              />
+            </div>
             <div className="col-md-3">
               <label htmlFor="validationCustom03" className="form-label mb-1">
-                Nombre Área:
+                Nombre área:
               </label>
               <select
                 className="form-select"
                 value={nombreArea}
                 onChange={handleAreaChange}
               >
-                <option value="">Seleccionar Área</option>
+                <option value="">Seleccionar área</option>
                 {listaArea.map((area) => (
                   <option key={area.idArea} value={area.nombreArea}>
                     {area.nombreArea}
@@ -701,14 +742,14 @@ export const DialogoRegistroLibro = () => {
             </div>
             <div className="col-md-3">
               <label htmlFor="validationCustom03" className="form-label mb-1">
-                Nombre SubÁrea:
+                Nombre sub área:
               </label>
               <select
                 className="form-select"
                 value={nombreSubArea}
                 onChange={handleSubAreaChange}
               >
-                <option value="">Seleccionar Sub Área</option>
+                <option value="">Seleccionar sub área</option>
                 {listaSubArea.map((subarea) => (
                   <option key={subarea.idSubArea} value={subarea.nombreSubArea}>
                     {subarea.nombreSubArea}
@@ -718,14 +759,14 @@ export const DialogoRegistroLibro = () => {
             </div>
             <div className="col-md-3">
               <label htmlFor="validationCustom03" className="form-label mb-1">
-                Nombre SubÁrea Especifica:
+                Nombre sub área especifica:
               </label>
               <select
                 className="form-select"
                 value={nombreSubAreaEspecifica}
                 onChange={handleSubAreaEspecificaChange}
               >
-                <option value="">Seleccionar Sub Área Especifica</option>
+                <option value="">Seleccionar sub área especifica</option>
                 {listaSubAreaEspecifica.map((subareaespecifica) => (
                   <option
                     key={subareaespecifica.idSubAreaEspecifica}
@@ -738,7 +779,7 @@ export const DialogoRegistroLibro = () => {
             </div>
             <div className="col-md-3">
               <label htmlFor="validationCustom03" className="form-label mb-1">
-                Fecha de Publicación:
+                Fecha de publicación:
               </label>
               <input
                 className="form-control"
@@ -762,7 +803,7 @@ export const DialogoRegistroLibro = () => {
 
             <div className="col-md-2">
               <label htmlFor="validationCustom03" className="form-label mb-1">
-                Lenguaje:
+                Idioma:
               </label>
               <input
                 className="form-control"
@@ -796,8 +837,14 @@ export const DialogoRegistroLibro = () => {
                 onChange={handleSeleccion}
               />
             </div>
+            </form>
+            </div>
+            </div>
+            </div>
+            </div>
 
             {/* CONTENEDOR AGREGAR AUDIOS DE LOS LIBROS*/}
+            
             <div
               style={{
                 display: "flex",
@@ -808,7 +855,7 @@ export const DialogoRegistroLibro = () => {
               <label
                 htmlFor="validationCustom03"
                 className="form-label"
-                style={{ textAlign: "left", marginRight: "10px" }}
+                style={{ textAlign: "left", marginRight: "10px", fontSize: "16px" }}
               >
                 Agregar los capítulos del libro:
               </label>
@@ -823,20 +870,19 @@ export const DialogoRegistroLibro = () => {
               </button>
             </div>
             <div
-              className="Mycontainer-div"
+              className="Mycontainer-div mt-2"
               style={{
                 maxWidth: "910px",
                 maxHeight: "170px",
                 overflowY: "auto",
-                marginTop: "1px",
-                padding: "10px",
+                padding: "5px",
               }}
             >
               {/* Botones adicionales */}
               <div className="col-md-12">
                 {Array.from({ length: inputCount }, (_, index) => (
                   <>
-                    <div className="card mb-1" style={{ padding: "5px" }}>
+                    <div className="mb-1" style={{ padding: "1px" }}>
                       <div className="row">
                         <div className="col-md-6 ">
                           <input

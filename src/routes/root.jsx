@@ -5,9 +5,8 @@ import { LibroContextProvider } from "../context/LibrosContext";
 export default function Root() {
   return (
     <LibroContextProvider>
-      <div style={{ textAlign: "center", marginTop: "80px", flex: 1 }}>
-        <div className="container">
-          <div style={{ textAlign: "center", marginTop: "80px" }}>
+      <div style={{marginTop: "80px", flex: 1 }}>
+        <div className="container" style={{ textAlign: "center"}}>
             <a>
               <img
                 id="logoAudiolibroRoot"
@@ -23,7 +22,7 @@ export default function Root() {
             </a>
 
             <div
-              className="container align-content-center"
+              className="container"
               style={{ maxWidth: "700px" }}
             >
               <div className="card-body">
@@ -31,12 +30,14 @@ export default function Root() {
                   Un audiolibro es una grabación de un libro u otra obra que se
                   lee en voz alta. Suelen descargarse como otros archivos de
                   audio digital, como canciones o álbumes. La producción del
-                  audio puede realizarse de diferentes formas:
+                  audio puede realizarse de diferentes formas.
                 </div>
               </div>
             </div>
+            <div className="mt-3">
             <Tabladatos/>
-          </div>
+            </div>
+          
         </div>
         <Footer />
       </div>

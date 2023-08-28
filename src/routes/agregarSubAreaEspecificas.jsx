@@ -130,7 +130,7 @@ export const AgregarSubAreaEspecifica = () => {
       >
         <div className="modal-header" style={{ padding: "2px" }}>
           <label htmlFor="validationCustom03" className="form-label modalStyle">
-            Agregar Sub Áreas Especificas
+            Agregar sub áreas especificas
           </label>
           <button
             type="button"
@@ -145,14 +145,14 @@ export const AgregarSubAreaEspecifica = () => {
             <form className="row needs-validation" noValidate>
               <div className="col-md-3">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
-                  Nombre Área:
+                  Nombre área:
                 </label>
                 <select
                   className="form-select"
                   value={nombreArea}
                   onChange={handleAreaChange}
                 >
-                  <option value="">Seleccionar Área</option>
+                  <option value="">Seleccionar área</option>
                   {listaArea.map((area) => (
                     <option key={area.idArea} value={area.nombreArea}>
                       {area.nombreArea}
@@ -162,14 +162,14 @@ export const AgregarSubAreaEspecifica = () => {
               </div>
               <div className="col-md-3">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
-                  Nombre Sub Área:
+                  Nombre sub área:
                 </label>
                 <select
                   className="form-select"
                   value={nombreSubArea}
                   onChange={handleSubAreaChange}
                 >
-                  <option value="">Seleccionar Sub Área</option>
+                  <option value="">Seleccionar sub área</option>
                   {listaSubArea.map((subArea) => (
                     <option
                       key={subArea.idSubArea}
@@ -182,7 +182,7 @@ export const AgregarSubAreaEspecifica = () => {
               </div>
               <div className="col-md-4">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
-                  Nombre SubÁrea Especifica:
+                  Nombre sub área especifica:
                 </label>
                 <input
                   type="text"
@@ -210,7 +210,7 @@ export const AgregarSubAreaEspecifica = () => {
           <div className="Mycontainer-div-list mt-2">
             <label htmlFor="validationCustom05" className="form-label" 
             style={{marginLeft: "7px", marginBottom: "2px"}}>
-              Lista de Sub Áreas Especificas
+              Lista de sub áreas especificas
             </label>
           </div>
           <div
