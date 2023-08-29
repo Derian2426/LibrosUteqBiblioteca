@@ -13,6 +13,16 @@ export const Capitulo = ({ capitulo, audioSrc }) => {
     await descargarAudioDesdeServidor(capitulo, config.libroUrl + "/download");
     setLoading(false);
   };
+
+  const handlePlay = (event) => {
+    const dioPlay = document.getElementsByTagName("audio");
+    for (let i = 0; i < dioPlay.length; i++) {
+      if (dioPlay[i] !== event.target) {
+        dioPlay[i].pause();
+      }
+    }
+  };
+
   return (
     <div className="Mycontainer-div mb-1" style={{ padding: "4px" }}>
       <LoadingDialog loading={loading} />
@@ -33,6 +43,7 @@ export const Capitulo = ({ capitulo, audioSrc }) => {
             autoPlay={false}
             controls
             style={{ width: "73%", height: "25px" }}
+            onPlay={handlePlay}
           ></ReactAudioPlayer>
           <button
             className="audio-button"
