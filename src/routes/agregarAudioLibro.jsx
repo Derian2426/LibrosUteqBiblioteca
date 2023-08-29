@@ -43,28 +43,8 @@ export const DialogoRegistroLibro = () => {
   const [user, setUser] = useState({});
   const [tokenSesion, setTokenSesion] = useState("");
   const navigate = useNavigate();
-  useEffect(() => {
-    const loggerUserJson = localStorage.getItem("loggerUser");
-
-    if (loggerUserJson) {
-      const loggerUserObject = JSON.parse(loggerUserJson);
-
-      if (loggerUserObject.token && loggerUserObject.userLogger) {
-        const { token, userLogger } = loggerUserObject;
-        console.log("Token: " + token);
-        console.log("Usuario: ", userLogger);
-      } else {
-        console.log("Datos incompletos en el objeto almacenado.");
-        navigate("/IniciarSesion");
-      }
-    } else {
-      console.log("No se encontraron datos en el localStorage.");
-      navigate("/IniciarSesion");
-    }
-  }, []);
 
   const handledeleteInput = (event, index) => {
-    alert(token);
     if (inputCount === 1) {
       toast.warning("Debe al menos tener un registro o carga de archivo", {
         autoClose: 5000,
