@@ -10,6 +10,7 @@ import IniciarSesion from "./routes/iniciarsesion";
 import AudioLibro from "./routes/audioLibro";
 import { AuthRoute } from "./AuthRoute";
 import { NotAuthRoute } from "./NotAuthRoute";
+import { AccesibilidadContextProvider } from "./context/AccesibilidadContext";
 
 const routes = [
   {
@@ -39,7 +40,9 @@ const router = createBrowserRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <Principal />
-    <RouterProvider router={router}></RouterProvider>
+    <AccesibilidadContextProvider>
+      <Principal />
+      <RouterProvider router={router}></RouterProvider>
+    </AccesibilidadContextProvider>
   </React.StrictMode>
 );
