@@ -45,7 +45,7 @@ export const DialogoAgregarArea = () => {
       const areaString = JSON.stringify(areaConocimiento);
       const request = await postDataJson(
         areaString,
-        "/areaConocimiento/editar"
+        "/areaConocimiento"
       );
       if (request.idArea > 0) {
         toast.success(request.nombreArea + ", Modificado con existo", {
@@ -56,7 +56,7 @@ export const DialogoAgregarArea = () => {
         eliminarPorId();
         setListaArea([...listaArea, request]);
       } else {
-        toast.error(`${request.nombreArea} Error`, {
+        toast.error(`${request.nombreArea} ya esta registrado, intente agrendo otra Área de conocimiento.`, {
           autoClose: 1000,
         });
       }
