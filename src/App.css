@@ -176,8 +176,6 @@
     border-color: #f8f9fa;
   }
   @font-face {
-    font-family: 'Times New Roman';
-    src: url('./font/Times-Roman.ttf') format('truetype');
     font-family: 'Open Dyslexic';
     src: url('./font/OpenDyslexicAlta-BoldItalic.ttf') format('truetype');
   }
@@ -185,3 +183,4 @@
   .linea-separador {
     border: 1px solid #025A27;
 }
+

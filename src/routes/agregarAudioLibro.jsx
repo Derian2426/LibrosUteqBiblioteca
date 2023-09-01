@@ -51,8 +51,14 @@ export const DialogoRegistroLibro = () => {
       });
       return;
     }
+    const updatedInputs = [...names];
+
+    updatedInputs.splice(index, 1);
     setInputCount(inputCount - 1);
+    setNames(updatedInputs);
+
   };
+  
   const vaciarCampos = () => {
     setIdAutor(0);
     setNombre("");
@@ -887,8 +893,8 @@ export const DialogoRegistroLibro = () => {
                               handleSeleccionArchivoMp4(
                                 event,
                                 names[index],
-                                index
-                              )
+                                index 
+                              ) 
                             }
                           />
                         </div>

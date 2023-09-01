@@ -1,18 +1,22 @@
 import React, { useContext } from "react";
+import "@fortawesome/fontawesome-free/css/all.min.css";
 import { AccesibilidadContext } from "../context/AccesibilidadContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faStarHalfStroke } from "@fortawesome/free-solid-svg-icons";
+import { faArrowRotateLeft } from "@fortawesome/free-solid-svg-icons";
+
+
 
 const accesibilidad = () => {
   const {
     MaximizarTexto,
-    restablecerColorImg,
     cambiosDislexia,
-    TextoColorBlanco,
-    TextoColorNegro,
+    altoContraste,
+    restaurarColores,
     TextoColorVerde,
     TextoColorAzul,
     RestablecerTexto,
     MinimizarTexto,
-    aplicarColorByN,
   } = useContext(AccesibilidadContext);
 
   return (
@@ -85,17 +89,17 @@ const accesibilidad = () => {
                     </button>
                     <button
                       type="button"
-                      onClick={TextoColorNegro}
-                      className="btn btn-dark"
+                      onClick={restaurarColores}
+                      className="btn btn-outline-dark"
                     >
-                      Texto
+                     <FontAwesomeIcon icon={faArrowRotateLeft} />
                     </button>
                     <button
                       type="button"
-                      onClick={TextoColorBlanco}
-                      className="btn btn-outline-secondary"
+                      onClick={altoContraste}
+                      className="btn btn-outline-dark"
                     >
-                      Texto
+                    <FontAwesomeIcon icon={faStarHalfStroke} />
                     </button>
                   </div>
                 </div>
@@ -136,29 +140,6 @@ const accesibilidad = () => {
                     >
                       {" "}
                       -
-                    </button>
-                  </div>
-                </div>
-                {/* Cambiar EFECTO de IMAGENES */}
-                <div className="row mt-2">
-                  <h5 className="mb-2"> Efecto de imagenes </h5>
-                  <div
-                    className="btn-group d-flex justify-content-between"
-                    role="group"
-                  >
-                    <button
-                      onClick={aplicarColorByN}
-                      type="button"
-                      className="btn btn-dark"
-                    >
-                      Blanco y Negro
-                    </button>
-                    <button
-                      onClick={restablecerColorImg}
-                      type="button"
-                      className="btn btn-primary"
-                    >
-                      Original
                     </button>
                   </div>
                 </div>

@@ -1,9 +1,11 @@
 import { createContext, useState, useEffect } from "react";
+import { redirect } from "react-router-dom";
 
 export const AccesibilidadContext = createContext();
 export function AccesibilidadContextProvider(props) {
   const [tamañoActual, setTamañoActual] = useState(16);
   const [body, setBody] = useState(document.querySelector("body"));
+
 
   useEffect(() => {
     let max = localStorage.getItem("maxTexto");
@@ -16,89 +18,132 @@ export function AccesibilidadContextProvider(props) {
     }
   }, []);
 
-  const restablecerColorImg = () => {
-    const LogoPrincipal = document.getElementById("logoPrincipal");
-    const LogoAudiolibroRoot = document.getElementById("logoAudiolibroRoot");
-    if ((LogoPrincipal, LogoAudiolibroRoot)) {
-      LogoPrincipal.style.filter = "none";
-      LogoAudiolibroRoot.style.filter = "none";
-    }
-  };
-
-  const aplicarColorByN = () => {
-    const LogoPrincipal = document.getElementById("logoPrincipal");
-    const LogoAudiolibroRoot = document.getElementById("logoAudiolibroRoot");
-    if ((LogoPrincipal, LogoAudiolibroRoot)) {
-      LogoPrincipal.style.filter = "grayscale(100%)";
-      LogoAudiolibroRoot.style.filter = "grayscale(100%)";
-    }
-  };
-
   const MaximizarTexto = () => {
+    localStorage.removeItem("minTexto")
     let actual;
     if (tamañoActual < 38) {
       actual = parseFloat(tamañoActual) + 2;
       body.style.fontSize = actual + "px";
       window.localStorage.setItem("maxTexto", actual);
       setTamañoActual(actual);
+  
     }
   };
 
+  useEffect(() => {
+    let dislexiaText = localStorage.getItem("dislexia");
+    if (dislexiaText === "true") {
+      body.style.fontFamily = "Open Dyslexic";
+    } 
+  }, []);
+
+  const cambiosDislexia = () => {
+    body.style.fontFamily = "Open Dyslexic";
+    window.localStorage.setItem("dislexia","true");
+  };
+
+  useEffect(() => {
+    let minimizar = localStorage.getItem("minTexto");
+    if (minimizar) {
+      body.style.fontSize = minimizar + "px";
+      setTamañoActual(minimizar);
+    } else {
+      body.style.fontSize = tamañoActual - "px";
+      setTamañoActual(16);
+    }
+  }, []);
+
   const MinimizarTexto = () => {
-    const maxTexto = document.querySelector("body");
-    if (maxTexto) {
-      const fontSize = window.getComputedStyle(maxTexto).fontSize;
-      const tamañoActual = parseFloat(fontSize);
-      if (tamañoActual >= 10) {
-        maxTexto.style.fontSize = tamañoActual - 2 + "px";
-      }
+    localStorage.removeItem("maxTexto")
+    let actual;
+    if (tamañoActual > 10) {
+      actual = parseFloat(tamañoActual) - 2;
+      body.style.fontSize = actual + "px";
+      window.localStorage.setItem("minTexto", actual);
+      setTamañoActual(actual);
     }
   };
 
   const RestablecerTexto = () => {
-    const restablecrTexto = document.querySelector("body");
-    restablecrTexto.style.fontSize = "16px";
+    localStorage.removeItem("maxTexto")
+    localStorage.removeItem("minTexto")
+    localStorage.removeItem("dislexia")
+    body.style.fontSize = "16px";
+    body.style.fontFamily = "Arial";
   };
+
+  useEffect(() => {
+    let bText = localStorage.getItem("Textblue");
+    if (bText === "true") {
+      body.style.color = "#005b8f";
+    } 
+  }, []);
 
   const TextoColorAzul = () => {
-    const textoAzul = document.querySelector("body");
-    textoAzul.style.color = "#005b8f";
+    body.style.color = "#005b8f";
+    window.localStorage.setItem("Textblue","true");
   };
+
+  useEffect(() => {
+    let gText = localStorage.getItem("TextGreen");
+    if (gText === "true") {
+      body.style.color = "#09532e";
+    } 
+  }, []);
 
   const TextoColorVerde = () => {
-    const textoAzul = document.querySelector("body");
-    textoAzul.style.color = "#09532e";
+    body.style.color = "#09532e";
+    window.localStorage.setItem("TextGreen","true");
   };
 
-  const TextoColorNegro = () => {
-    const textoAzul = document.querySelector("body");
-    textoAzul.style.color = "#070707";
+
+  const restaurarColores = () => {
+    const LogoPrincipal = document.getElementById("logoPrincipal");
+    const LogoAudiolibroRoot = document.getElementById("logoAudiolibroRoot");
+    localStorage.removeItem("TextGreen")
+    localStorage.removeItem("Textblue")
+    localStorage.removeItem("contraste")
+    body.style.color = "black";
+    body.style.backgroundColor = "white";
+    LogoPrincipal.style.filter = "none";
+    LogoAudiolibroRoot.style.filter = "none";
   };
 
-  const TextoColorBlanco = () => {
-    const textoAzul = document.querySelector("body");
-    textoAzul.style.color = "#fffdfd";
-    textoAzul.style.backgroundColor = "#070707";
+
+  useEffect(() => {
+    let contrasteAlto = localStorage.getItem("contraste");
+    if (contrasteAlto === "true") {
+      const LogoPrincipal = document.getElementById("logoPrincipal");
+      const LogoAudiolibro = document.getElementById("logoAudiolibroRoot");
+      body.style.color = "#ffff00";
+      body.style.backgroundColor = "#070707";
+      LogoPrincipal.style.filter = "grayscale(100%)";
+      LogoAudiolibro.style.filter = "grayscale(100%)";
+    } 
+  }, []);
+
+
+  const altoContraste = () => {
+    const LogoPrincipal = document.getElementById("logoPrincipal");
+    const LogoAudiolibro = document.getElementById("logoAudiolibroRoot");
+    body.style.color = "#ffff00";
+    body.style.backgroundColor = "#070707";
+    LogoPrincipal.style.filter = "grayscale(100%)";
+    LogoAudiolibro.style.filter = "grayscale(100%)";
+    window.localStorage.setItem("contraste","true");
   };
 
-  const cambiosDislexia = () => {
-    const adaptarDislexia = document.querySelector("body");
-    adaptarDislexia.style.fontFamily = "Times New Roman";
-    adaptarDislexia.style.fontSize = "35px";
-  };
   return (
     <AccesibilidadContext.Provider
       value={{
         MaximizarTexto,
-        restablecerColorImg,
         cambiosDislexia,
-        TextoColorBlanco,
-        TextoColorNegro,
+        restaurarColores,
+        altoContraste,
         TextoColorVerde,
         TextoColorAzul,
         RestablecerTexto,
         MinimizarTexto,
-        aplicarColorByN,
       }}
     >
       {props.children}
