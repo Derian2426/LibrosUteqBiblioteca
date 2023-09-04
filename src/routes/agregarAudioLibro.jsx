@@ -560,7 +560,10 @@ export const DialogoRegistroLibro = () => {
             className="row g-3 needs-validation"
             noValidate
           >
+
+
             {/* PRIMER ACORDEON "SELECCIONAR AUTORES"*/}
+            
             <div className="accordion" id="accordionExample">
               <div className="accordion-item">
                 <h2 className="accordion-header">
@@ -581,16 +584,14 @@ export const DialogoRegistroLibro = () => {
                   className="accordion-collapse collapse"
                   data-bs-parent="#accordionExample"
                 >
-                  <div
-                    style={{
-                      maxWidth: "930px",
-                      padding: "10px",
-                    }}
-                  >
+                  <div style={{padding: "5px"}} >
+<div className="container">
+<div  class="row" >
                     <div className="col-md-5">
                       <label
                         htmlFor="validationCustom03"
                         className="form-label mb-1"
+                        
                       >
                         Autores:
                       </label>
@@ -637,7 +638,9 @@ export const DialogoRegistroLibro = () => {
                         Agregar autor
                       </button>
                     </div>
-                    <div className=" Mycontainer-div-table col-md-12">
+                    </div>
+
+                    <div className=" Mycontainer-div-table col-md-12 mt-2">
                       <table className="table table-striped">
                         <thead>
                           <tr>
@@ -667,7 +670,16 @@ export const DialogoRegistroLibro = () => {
                         </tbody>
                       </table>
                     </div>
+
+</div>
+
+
+
+
+
                   </div>
+
+
                 </div>
               </div>
             </div>
@@ -695,10 +707,12 @@ export const DialogoRegistroLibro = () => {
                 >
                   <div
                     style={{
-                      maxWidth: "930px",
-                      padding: "10px",
+                      padding: "5px",
                     }}
                   >
+
+<div class="container">
+      <div class="row">
                     <div className="col-md-12">
                       <label
                         htmlFor="validationCustom03"
@@ -860,6 +874,12 @@ export const DialogoRegistroLibro = () => {
                         onChange={handleSeleccion}
                       />
                     </div>
+
+
+                    </div>
+                </div>
+
+
                   </div>
                 </div>
               </div>
