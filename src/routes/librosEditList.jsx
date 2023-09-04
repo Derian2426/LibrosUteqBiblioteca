@@ -5,7 +5,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import "react-toastify/dist/ReactToastify.css";
 import ReactPaginate from "react-paginate";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 export const LibroListEdit = () => {
 
   const [currentPage, setCurrentPage] = useState(0);
@@ -36,7 +37,7 @@ export const LibroListEdit = () => {
         Lista de libros
       </label>
       <Table striped bordered hover>
-        <thead>
+        <thead id="ColordatosTablaTitulos">
           <tr>
             <th>N°</th>
             <th>Libro</th>
@@ -47,7 +48,7 @@ export const LibroListEdit = () => {
             <th>Acciones</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="ColordatosTabla">
           {paginatedData.map((dato, index) => (
             <tr key={index}>
               <th scope="row">{currentPage * itemsPerPage + index + 1}</th>
@@ -65,14 +66,11 @@ export const LibroListEdit = () => {
               <td>{dato.fechaPublicacion}</td>
 
               <td>
-                <a
-                  className="nav-link"
-                  aria-current="page"
-                  style={{ color: "#1B7505" }}
-                  href={`/audiolibro/`+dato.idLibro}
+              <button
+                  className="audio-button"
+                  onClick={() => handleButtonClick(dato.idLibro)}
                 >
-                  Mostrar Libro
-                </a>
+                  <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon></button>
               </td>
             </tr>
           ))}

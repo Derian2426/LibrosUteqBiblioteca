@@ -17,6 +17,7 @@ import {
 } from "../peticionesHttp";
 import { LoadingDialog } from "../LoadingDialog";
 
+
 const audioLibro = () => {
   const [libro, setLibro] = useState({});
   const [listaCapitulos, setListaCapitulos] = useState([]);
@@ -95,9 +96,9 @@ const audioLibro = () => {
     <div style={{ marginTop: "80px" }}>
       <LoadingDialog loading={loading} />
       <div style={{ textAlign: "center" }}>
-        <a>
-          <img
-            id="logoAudiolibroRoot"
+      <a href="/">
+            <img
+              id="logoAudio"
             src="../src/imagenes/LogoAudioLibros.png"
             alt="Inicio"
             width="400px"
@@ -134,7 +135,10 @@ const audioLibro = () => {
                 {/* Imagen*/}
                 <div className="col-md-6" style={{ maxWidth: "575px" }}>
                   <div className="card mb-1" style={{ padding: "5px" }}>
-                    <img src={imageUrl} alt="Imagen 1" />
+                    
+                    <img 
+                     id="ImgAudioLibros"
+                    src={imageUrl} alt="Imagen 1" />
                   </div>
                   {/*botones de descarga */}
                   <div className="d-flex flex-wrap justify-content-center">
@@ -336,12 +340,12 @@ const audioLibro = () => {
                     >
                       <Table>
                         <thead>
-                          <tr className="table-info">
+                          <tr>
                             <th scope="col">Autor</th>
                             <th scope="col">Tipo Autor</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="ColordatosTabla">
                           {listaAutores.map((dato, index) => (
                             <tr key={index}>
                               <td>{dato.autor.nombre}</td>

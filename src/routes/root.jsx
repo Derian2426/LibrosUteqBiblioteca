@@ -2,16 +2,18 @@ import Tabladatos from "../componentes/datos";
 import Footer from "./footer";
 import { LibroContextProvider } from "../context/LibrosContext";
 
+
 export default function Root() {
   return (
     <LibroContextProvider>
       <div style={{ marginTop: "80px", flex: 1 }}>
         <div className="container" style={{ textAlign: "center" }}>
-          <a>
+          <a href="/">
             <img
-              id="logoAudiolibroRoot"
+              id="logoAudio"
               className="StyleImg"
-              src="src/imagenes/LogoAudioLibros.png"
+              src="../src/imagenes/LogoAudioLibros.png"
+               dir="auto"
               alt="Logo Principal Audiolibros: Libro con pasta de color verde y ondas de sonido 
             en la parte inferior; las páginas son de color dorado. Aparece la silueta de una 
             persona, cuyo único detalle visible es el pelo, leyendo el libro mientras lleva 

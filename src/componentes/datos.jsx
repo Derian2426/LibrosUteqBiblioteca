@@ -11,7 +11,7 @@ import { LibroContext } from "../context/LibrosContext";
 export function Tabladatos() {
   const [currentPage, setCurrentPage] = useState(0);
   const [busquedaLibro, setBusquedaLibro] = useState("");
-  const itemsPerPage = 3;
+  const itemsPerPage = 2;
   const handleButtonClick = async (idLibro) => {
     window.location.href = `/audiolibro/${idLibro}`;
   };
@@ -32,6 +32,7 @@ export function Tabladatos() {
     currentPage * itemsPerPage,
     (currentPage + 1) * itemsPerPage
   );
+
 
   return (
     <div className="Mycontainer-div-table" style={{ maxWidth: "1320px" }}>
@@ -71,7 +72,7 @@ export function Tabladatos() {
       </form>
 
       <Table aria-label="Lista de todos los libros">
-        <thead>
+        <thead id="ColordatosTablaTitulos">
           <tr>
             <th scope="col">N.º</th>
             <th scope="col">Nombre del libro</th>
@@ -80,7 +81,7 @@ export function Tabladatos() {
             <th scope="col">Acciones</th>
           </tr>
         </thead>
-        <tbody>
+        <tbody id="ColordatosTabla">
           {paginatedData.map((dato, index) => (
             <tr key={index}>
               <th scope="row">{currentPage * itemsPerPage + index + 1}</th>

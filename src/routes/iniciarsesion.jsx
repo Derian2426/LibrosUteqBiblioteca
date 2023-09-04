@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
@@ -12,10 +12,11 @@ import { postData } from "../peticionesHttp";
 import config from "../configuracion";
 import { ToastContainer } from "react-toastify";
 import { LoadingDialog } from "../LoadingDialog";
+import { AccesibilidadContext } from "../context/AccesibilidadContext";
 
 const iniciarsesion = () => {
+  const { setSesionExitosa } = useContext(AccesibilidadContext);
   const [loading, setLoading] = useState(false);
-  const [sesionExitosa, setSesionExitosa] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState("");
@@ -35,18 +36,23 @@ const iniciarsesion = () => {
         });
         window.localStorage.setItem("loggerUser", JSON.stringify(peticionPost));
         setLoading(false);
+        setSesionExitosa(true);
         navigate("/registrarlibros");
       } else {
+        setSesionExitosa(false);
         setLoading(false);
         toast.warning("Error en inicio de sesión, verifique las credenciales", {
           autoClose: 5000,
         });
       }
     } catch (error) {
+      setSesionExitosa(false);
       setLoading(false);
       toast.warning("Error en inicio de sesión" + error, {
         autoClose: 5000,
       });
+    }finally {
+      setLoading(false);
     }
   };
   return (
@@ -56,13 +62,18 @@ const iniciarsesion = () => {
       <div className="containerMyStyle">
         <div className="cardMyStyle">
           <div style={{ textAlign: "center", marginBottom: "20px" }}>
-            <a>
-              <img
+          <a href="/">
+            <img
+              id="logoAudio"
                 className="StyleImg"
-                src="src/imagenes/LogoAudioLibros.png"
-                width="400px"
-                height="110px"
-                alt="Inicio"
+                src="../src/imagenes/LogoAudioLibros.png"
+                dir="auto"
+                alt="Logo Principal Audiolibros: Libro con pasta de color verde y ondas de sonido 
+            en la parte inferior; las páginas son de color dorado. Aparece la silueta de una 
+            persona, cuyo único detalle visible es el pelo, leyendo el libro mientras lleva 
+            puestos audífonos, de los cuales se desprenden notas musicales en ambas direcciones.
+            En la parte derecha, se encuentra el nombre del logo Audiolibros, en color dorado, 
+            y debajo UTEQ en verde, con una franja dorada en la pestaña de la Q"
               />
             </a>
           </div>
@@ -101,33 +112,6 @@ const iniciarsesion = () => {
               Iniciar Sesión
             </button>
           </div>
-          {sesionExitosa && (
-            <div className="position-absolute top-0 end-0 p-3">
-              <div
-                className="alert alert-success d-flex align-items-center"
-                role="alert"
-                style={{ padding: "5px", fontSize: "16px" }}
-              >
-                <svg
-                  className="bi flex-shrink-0 me-2"
-                  role="img"
-                  aria-label="Success:"
-                  width="70"
-                  height="30"
-                >
-                  <use xlinkHref="#check-circle-fill" />
-                </svg>
-                <FontAwesomeIcon
-                  icon={faCheckCircle}
-                  size="lg"
-                  style={{ marginRight: "5px" }}
-                />
-                <div>
-                  <div>Inicio sesión correctamente</div>
-                </div>
-              </div>
-            </div>
-          )}
         </div>
       </div>
       <Footer />

@@ -1,21 +1,23 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import "../App.css";
+import { AccesibilidadContext } from "../context/AccesibilidadContext";
 
 const Navbar = () => {
+  const { sesionExitosa } = useContext(AccesibilidadContext);
   const [usuarioSesion, setUsuarioSesion] = useState();
   useEffect(() => {
     setUsuarioSesion(localStorage.getItem("loggerUser"));
   }, []);
   return (
-    <div className="container-fluid">
+    <div className="container-fluid" style={{ color: "#1B7505" }} >
       <nav
-        id="nav-principal"
-        className="navbar navbar-expand-lg navbar-light bg-light fixed-top"
-        style={{ backgroundColor: "white", border: "2px solid green" }}
+        id="DesactivarClassNavbar"
+        className="navbar navbar-expand-lg fixed-top classNavbar borderNavbar"
       >
-        <div className="container-fluid">
+        <div className="container-fluid" >
           <a className="navbar-brand" href="/">
             <img
               id="logoPrincipal"
@@ -41,22 +43,20 @@ const Navbar = () => {
           <div className="navbar-collapse collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
               <li className="nav-item">
-                <a
-                  className="nav-link"
+                <a id="activar-links"
+                  className="nav-linkS"
                   aria-current="page"
-                  style={{ color: "#1B7505" }}
                   href={`/BuscarLibros`}
                 >
                   Búsqueda de libros
                 </a>
               </li>
               <div className="vr"></div>
-              {usuarioSesion ? (
+              {usuarioSesion || sesionExitosa ? (
                 <li className="nav-item">
                   <a
-                    className="nav-link"
+                    className="nav-linkS"
                     aria-current="page"
-                    style={{ color: "#1B7505" }}
                     href={`/registrarlibros`}
                   >
                     Registrar Libro
@@ -64,12 +64,11 @@ const Navbar = () => {
                 </li>
               ) : null}
               <div className="vr"></div>
-              {usuarioSesion ? (
+              {usuarioSesion || sesionExitosa? (
                 <li className="nav-item">
                   <a
-                    className="nav-link"
+                    className="nav-linkS "
                     aria-current="page"
-                    style={{ color: "#1B7505" }}
                     href={`/IniciarSesion`}
                     onClick={() => {
                       localStorage.removeItem("loggerUser");
@@ -82,9 +81,8 @@ const Navbar = () => {
               ) : (
                 <li className="nav-item">
                   <a
-                    className="nav-link"
+                    className="nav-linkS"
                     aria-current="page"
-                    style={{ color: "#1B7505" }}
                     href={`/IniciarSesion`}
                   >
                     Iniciar sesión

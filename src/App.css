@@ -92,6 +92,14 @@
     transition: width 0.3s ease;
 }
 
+.StyleImgC {
+  max-width: 300px;
+  width: 100%;
+  height: auto;
+  filter: grayscale(100%);
+  transition: width 0.3s ease;
+}
+
 @media (max-width: 768px) {
     .StyleImg {
         max-width: 150px;
@@ -129,32 +137,34 @@
 .pagination .previous{
   width: 50%;
   justify-content: end;
+  color: yellow;
   display: flex;
 }
 .pagination .next {
   display: flex;
+  color: yellow;
   justify-content: start;
   width: 50%;
 }
 .pagination li {
     display: inline-block;
+    color: yellow;
     margin: 0 1px; 
-    color: #ffffff;
   }
   .pagination a {
     display: inline-flex;
     padding: 4px 8px;
+    color: yellow;
     border: 1px solid #025A27;
     border-radius: 10px;
     background-color: #025a27da;
-    color: #ffffff;
     font-size: 14px;
   }
   .pagination .active a {
     background-color: #CC9F2D;
-    color: #fff;
     border-color: #f8f9fa;
   }
+
 
   .audio-button {
     display: inline-flex;
@@ -184,3 +194,96 @@
     border: 1px solid #025A27;
 }
 
+.classFooter{
+text-align: center;
+color: white;
+background-color: #025A27;
+}
+
+.subrayado {
+  text-decoration: underline;
+}
+
+.footerborder{
+  padding: 0.5rem;
+  border-top: 1px solid #01692cef;
+}
+
+.classNavbar{
+  background-color: white;
+  border-bottom: 2px solid #01692cef;
+}
+
+.borderNavbar{
+border-bottom: 2px solid #01692cef;
+}
+
+.nav-linkS-desactivado {
+  color: yellow;
+  font-Weight: bold; 
+  padding: 0.5rem 1rem;
+  text-decoration: none; 
+  display: flex;
+  align-items: center;
+}
+
+.nav-linkS-desactivado:hover {
+  color: #059742;
+  text-decoration: none;
+}
+
+.nav-linkS {
+  color: #059742;
+  font-Weight: bold;
+  padding: 0.5rem 1rem;
+  text-decoration: none; 
+  display: flex;
+  align-items: center;
+}
+
+.nav-linkS:hover {
+  color: #CC9F2D;
+  text-decoration: none;
+}
+
+.colorYellow{
+  color: yellow;
+}
+
+.colorblack{
+  color:black;
+}
+
+.colorBlue{
+  color:blue;
+}
+
+.colorGreen{
+  color:green;
+}
+
+.StyleBotonAcces {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  right: 9px; 
+  bottom: 46px; 
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  background-color: #02682cb7;
+  border-radius: 50%; 
+  text-align: center; 
+  line-height: 50px; 
+  cursor: pointer; 
+  z-index: 1000; 
+  transition: all 300ms ease; 
+  box-shadow: 0px 2px 5px rgba(3, 116, 3, 0.651);
+  border: 1px solid rgba(0, 128, 0, 0.418);
+}
+
+.StyleBotonAcces:hover {
+  background-color:  #025A27;
+  transform: scale(1.1); 
+}

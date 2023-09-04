@@ -26,8 +26,8 @@ const busquedaLibros = () => {
 
             <div style={{ marginTop: '80px' }}>
                 <div style={{ textAlign: "center" }}>
-                    <a >
-                        <img className="StyleImg2" src="src/imagenes/LogoAudioLibros.png" 
+                    <a href="/">
+                        <img id="logoAudio" className="StyleImg2" src="../src/imagenes/LogoAudioLibros.png" 
                         alt="Logo Principal Audiolibros: Libro con pasta de color verde y ondas de sonido 
                         en la parte inferior; las páginas son de color dorado. Aparece la silueta de una 
                         persona, cuyo único detalle visible es el pelo, leyendo el libro mientras lleva 

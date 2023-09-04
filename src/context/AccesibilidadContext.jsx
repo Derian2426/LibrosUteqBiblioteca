@@ -1,11 +1,13 @@
 import { createContext, useState, useEffect } from "react";
-import { redirect } from "react-router-dom";
 
 export const AccesibilidadContext = createContext();
 export function AccesibilidadContextProvider(props) {
   const [tamañoActual, setTamañoActual] = useState(16);
-  const [body, setBody] = useState(document.querySelector("body"));
-
+  const body = document.body;
+  const [sesionExitosa, setSesionExitosa] = useState(false);
+ let LogoPrincipal;
+ let LogoAudiolibro;
+ let ImgAudios;
 
   useEffect(() => {
     let max = localStorage.getItem("maxTexto");
@@ -73,64 +75,169 @@ export function AccesibilidadContextProvider(props) {
   };
 
   useEffect(() => {
+    const ColordatosTabla = document.getElementById("ColordatosTabla");
+    const ColordatosTablaTitulos = document.getElementById("ColordatosTablaTitulos");
+    const botonAgregarClase = document.getElementById("classAgregarColorAzul");
     let bText = localStorage.getItem("Textblue");
     if (bText === "true") {
-      body.style.color = "#005b8f";
+      body.style.color = "blue";
+      if(botonAgregarClase){
+        ColordatosTabla.classList.add("colorBlue");
+        ColordatosTablaTitulos.classList.add("colorBlue");
+      }
     } 
   }, []);
 
   const TextoColorAzul = () => {
-    body.style.color = "#005b8f";
+    const ColordatosTabla = document.getElementById("ColordatosTabla");
+    const ColordatosTablaTitulos = document.getElementById("ColordatosTablaTitulos");
+    const botonAgregarClase = document.getElementById("classAgregarColorAzul");
+    body.style.color = "blue";
     window.localStorage.setItem("Textblue","true");
+    if(botonAgregarClase){
+      ColordatosTabla.classList.add("colorBlue");
+      ColordatosTablaTitulos.classList.add("colorBlue");
+    }
   };
 
   useEffect(() => {
+    const ColordatosTabla = document.getElementById("ColordatosTabla");
+    const ColordatosTablaTitulos = document.getElementById("ColordatosTablaTitulos");
+    const classAgregarColorVerde = document.getElementById("classAgregarColorVerde");
+    console.log("que pacho aqui:",ColordatosTablaTitulos)
+    console.log("que pacho aqui 2:",ColordatosTabla)
     let gText = localStorage.getItem("TextGreen");
     if (gText === "true") {
-      body.style.color = "#09532e";
+      body.style.color = "green";
+      if(classAgregarColorVerde){
+        if(ColordatosTabla && ColordatosTablaTitulos ){
+        ColordatosTabla.classList.add("colorGreen");
+        ColordatosTablaTitulos.classList.add("colorGreen");
+      }
+      }
     } 
   }, []);
 
   const TextoColorVerde = () => {
-    body.style.color = "#09532e";
+    const ColordatosTabla = document.getElementById("ColordatosTabla");
+    const ColordatosTablaTitulos = document.getElementById("ColordatosTablaTitulos");
+    const classAgregarColorVerde = document.getElementById("classAgregarColorVerde");
+    body.style.color = "green";
     window.localStorage.setItem("TextGreen","true");
+    if(classAgregarColorVerde){
+      ColordatosTabla.classList.add("colorGreen");
+      ColordatosTablaTitulos.classList.add("colorGreen");
+    }
+
   };
 
 
   const restaurarColores = () => {
-    const LogoPrincipal = document.getElementById("logoPrincipal");
-    const LogoAudiolibroRoot = document.getElementById("logoAudiolibroRoot");
-    localStorage.removeItem("TextGreen")
-    localStorage.removeItem("Textblue")
     localStorage.removeItem("contraste")
+    localStorage.removeItem("Textblue");
+    localStorage.removeItem("TextGreen");
+    const ColordatosTabla = document.getElementById("ColordatosTabla");
+    const ColordatosTablaTitulos = document.getElementById("ColordatosTablaTitulos");
+    LogoPrincipal = document.getElementById("logoPrincipal");
+    LogoAudiolibro = document.getElementById("logoAudio");
+    ImgAudios = document.getElementById("ImgAudioLibros");
+
+    if (ColordatosTabla && ColordatosTablaTitulos) {
+    ColordatosTabla.classList.remove("colorBlue");
+    ColordatosTablaTitulos.classList.remove("colorBlue");
+    ColordatosTabla.classList.remove("colorGreen");
+    ColordatosTablaTitulos.classList.remove("colorGreen");
+    ColordatosTabla.classList.remove("colorYellow");
+    ColordatosTablaTitulos.classList.remove("colorYellow");
+    }
     body.style.color = "black";
     body.style.backgroundColor = "white";
     LogoPrincipal.style.filter = "none";
-    LogoAudiolibroRoot.style.filter = "none";
+    LogoAudiolibro.style.filter = "none";
+
+    if (ImgAudios) {
+      ImgAudios.style.filter = "none";
+      }
+    document.getElementById("DesactivarClassFooter").classList.add("classFooter");
+    document.getElementById("DesactivarClassNavbar").classList.add("classNavbar");
   };
 
 
   useEffect(() => {
     let contrasteAlto = localStorage.getItem("contraste");
+ 
+    const ColordatosTabla = document.getElementById("ColordatosTabla");
+    const ColordatosTablaTitulos = document.getElementById("ColordatosTablaTitulos");
+    const classFooter = document.getElementById("DesactivarClassFooter");
+    const classNavbar = document.getElementById("DesactivarClassNavbar");
+    LogoPrincipal = document.getElementById("logoPrincipal");
+    LogoAudiolibro = document.getElementById("logoAudio");
+
     if (contrasteAlto === "true") {
-      const LogoPrincipal = document.getElementById("logoPrincipal");
-      const LogoAudiolibro = document.getElementById("logoAudiolibroRoot");
+  
+      ImgAudios = document.getElementById("ImgAudioLibros");
+    
       body.style.color = "#ffff00";
       body.style.backgroundColor = "#070707";
-      LogoPrincipal.style.filter = "grayscale(100%)";
-      LogoAudiolibro.style.filter = "grayscale(100%)";
+      
+      if (classFooter) {
+        classFooter.classList.remove("classFooter");
+      }
+
+      if (classNavbar) {
+        classNavbar.classList.remove("classNavbar");
+      }
+
+      if (LogoPrincipal) {
+        LogoPrincipal.style.filter = "grayscale(100%)";
+      }
+
+      if (LogoAudiolibro) {
+        LogoAudiolibro.style.filter = "grayscale(100%)";
+      }
+  
+      if(ColordatosTabla){
+        ColordatosTabla.classList.add("colorYellow");
+      }
+      if(ColordatosTablaTitulos){
+        ColordatosTablaTitulos.classList.add("colorYellow");
+      }
+
+      if (ImgAudios) {
+        ImgAudios.style.filter = "grayscale(100%)";
+        }
+  
     } 
   }, []);
 
-
-  const altoContraste = () => {
-    const LogoPrincipal = document.getElementById("logoPrincipal");
-    const LogoAudiolibro = document.getElementById("logoAudiolibroRoot");
+    const altoContraste = () => {
+    window.localStorage.setItem("contraste","true");
+    const ColordatosTabla = document.getElementById("ColordatosTabla");
+    const ColordatosTablaTitulos = document.getElementById("ColordatosTablaTitulos");
+    const classAgregarAgregarContraste = document.getElementById("botonAltoContraste");
+    const classFooter = document.getElementById("DesactivarClassFooter");
+    const classNavbar = document.getElementById("DesactivarClassNavbar");
+   
+    LogoPrincipal = document.getElementById("logoPrincipal");
+    LogoAudiolibro = document.getElementById("logoAudio");
+    ImgAudios = document.getElementById("ImgAudioLibros");
     body.style.color = "#ffff00";
     body.style.backgroundColor = "#070707";
-    LogoPrincipal.style.filter = "grayscale(100%)";
-    LogoAudiolibro.style.filter = "grayscale(100%)";
-    window.localStorage.setItem("contraste","true");
+    
+    if (classFooter && classNavbar) {
+      classFooter.classList.remove("classFooter");
+      classNavbar.classList.remove("classNavbar");
+    }
+
+    if (LogoPrincipal && LogoAudiolibro) {
+      LogoPrincipal.style.filter = "grayscale(100%)";
+      LogoAudiolibro.style.filter = "grayscale(100%)";
+    }
+
+    if(ColordatosTabla && ColordatosTablaTitulos){
+      ColordatosTabla.classList.add("colorYellow");
+      ColordatosTablaTitulos.classList.add("colorYellow");
+    }
   };
 
   return (
@@ -144,6 +251,8 @@ export function AccesibilidadContextProvider(props) {
         TextoColorAzul,
         RestablecerTexto,
         MinimizarTexto,
+        sesionExitosa,
+        setSesionExitosa,
       }}
     >
       {props.children}
