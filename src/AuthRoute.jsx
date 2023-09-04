@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Navigate } from "react-router-dom";
 import { postData } from "./peticionesHttp";
 import config from "./configuracion";
+import { AccesibilidadContext } from "./context/AccesibilidadContext";
 
 const validateToken = async (token, userLogger) => {
   try {
@@ -12,12 +13,12 @@ const validateToken = async (token, userLogger) => {
     });
     return response.valorEstado > 0;
   } catch (error) {
-    console.error("Error al validar el token:", error);
     return false;
   }
 };
 
 export const AuthRoute = ({ component: Component }) => {
+  const { setSesionExitosa } = useContext(AccesibilidadContext);
   const [isTokenValidation, setIsTokenValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -30,8 +31,10 @@ export const AuthRoute = ({ component: Component }) => {
         try {
           const isValid = await validateToken(token, userLogger);
           setIsTokenValidation(isValid);
+          setSesionExitosa(true);
         } catch (error) {
           setIsTokenValidation(false);
+          setSesionExitosa(false);
         } finally {
           setIsLoading(false);
         }

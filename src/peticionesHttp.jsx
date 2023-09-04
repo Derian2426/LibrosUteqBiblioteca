@@ -1,6 +1,6 @@
 import axios from "axios";
 
-function obtenerToken() {
+export function obtenerToken() {
   try {
     const loggerUser = localStorage.getItem("loggerUser");
     if (loggerUser !== null && loggerUser !== undefined) {

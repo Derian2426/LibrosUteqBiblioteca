@@ -1,14 +1,17 @@
 import React from "react";
-import { useContext, useState, useEffect } from "react";
+import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { obtenerDatos } from "../peticionesHttp";
+import { obtenerDatos,obtenerToken } from "../peticionesHttp";
 import config from "../configuracion";
 import { useNavigate } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
 
 export const DialogoRegistroLibro = () => {
+  const token = obtenerToken();
   const libroUrl = config.libroUrl;
   const [idLibro, setidLibro] = useState(0);
   const [nombreLibro, setNombreLibro] = useState("");
@@ -40,8 +43,6 @@ export const DialogoRegistroLibro = () => {
   const [previousRecordHasData, setPreviousRecordHasData] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([true]);
   const [changeText, setChangeText] = useState([false]);
-  const [user, setUser] = useState({});
-  const [tokenSesion, setTokenSesion] = useState("");
   const navigate = useNavigate();
 
   const handledeleteInput = (event, index) => {
@@ -49,16 +50,32 @@ export const DialogoRegistroLibro = () => {
       toast.warning("Debe al menos tener un registro o carga de archivo", {
         autoClose: 5000,
       });
+      actualizarListCapitulos(index);
+      setSelectedFiles([true]);
+      setPreviousRecordHasData(false);
       return;
     }
-    const updatedInputs = [...names];
-
-    updatedInputs.splice(index, 1);
+    actualizarListCapitulos(index);
     setInputCount(inputCount - 1);
-    setNames(updatedInputs);
-
   };
-  
+  const actualizarListCapitulos = (index) => {
+    const updatedInputs = [...names];
+    const updatedCapitulo = [...capituloList];
+    const updatedFile = [...files];
+    const updatedSelectedFile = [...selectedFiles];
+    const updatedChangeText = [...changeText];
+    updatedInputs.splice(index, 1);
+    updatedCapitulo.splice(index, 1);
+    updatedFile.splice(index, 1);
+    updatedSelectedFile.splice(index, 1);
+    updatedChangeText.splice(index, 1);
+    setCapituloList(updatedCapitulo);
+    setFiles(updatedFile);
+    setNames(updatedInputs);
+    setSelectedFiles(updatedSelectedFile);
+    setChangeText(updatedChangeText);
+  };
+
   const vaciarCampos = () => {
     setIdAutor(0);
     setNombre("");
@@ -188,7 +205,7 @@ export const DialogoRegistroLibro = () => {
                                   method: "POST",
                                   body: formData,
                                   headers: {
-                                    //"Authorization": `Bearer ${token}`
+                                    "Authorization": `Bearer ${token}`
                                   },
                                 }
                               );
@@ -240,6 +257,8 @@ export const DialogoRegistroLibro = () => {
         autoClose: 5000,
       });
     }
+    console.log(capituloList);
+    console.log(files);
   };
   const handleAreaChange = async (event) => {
     const selectedArea = listaArea.find(
@@ -420,6 +439,10 @@ export const DialogoRegistroLibro = () => {
     }
     const allowedExtensions = [".mp3", ".wav"];
     const fileList = event.target.files;
+    if (!fileList || fileList.length === 0) {
+      toast.error("Por favor, selecciona un archivo.");
+      return;
+    }
     const fileArray = Array.from(fileList);
     const archivoValido = fileArray.every((file) => {
       const extensionArchivo = "." + file.name.split(".").pop().toLowerCase();
@@ -538,299 +561,312 @@ export const DialogoRegistroLibro = () => {
             noValidate
           >
             {/* PRIMER ACORDEON "SELECCIONAR AUTORES"*/}
-            <div class="accordion" id="accordionExample" >
-              <div class="accordion-item">
-                <h2 class="accordion-header">
+            <div className="accordion" id="accordionExample">
+              <div className="accordion-item">
+                <h2 className="accordion-header">
                   <button
-                    class="accordion-button"
+                    className="accordion-button"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#collapseOne"
                     aria-expanded="true"
                     aria-controls="collapseOne"
-                    style={{ padding: "8px"}}
+                    style={{ padding: "8px" }}
                   >
                     Seleccionar autores
                   </button>
                 </h2>
                 <div
                   id="collapseOne"
-                  class="accordion-collapse collapse"
+                  className="accordion-collapse collapse"
                   data-bs-parent="#accordionExample"
                 >
-
-                 <div
-          style={{
-            maxWidth: "930px",
-            padding: "10px",
-          }}
-        >
-          <form
-            onSubmit={handleSubmit}
-            className="row g-3 needs-validation"
-            noValidate
-          >
-            <div className="col-md-5">
-
-                            <label
-                              htmlFor="validationCustom03"
-                              className="form-label mb-1"
-                            >
-                              Autores:
-                            </label>
-                            <select
-                              className="form-select"
-                              value={nombre}
-                              onChange={handleAutorChange}
-                            >
-                              <option value="">Seleccionar autor</option>
-                              {listaAutor.map((autor) => (
-                                <option
-                                  key={autor.idAutor}
-                                  value={autor.nombre}
+                  <div
+                    style={{
+                      maxWidth: "930px",
+                      padding: "10px",
+                    }}
+                  >
+                    <div className="col-md-5">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        Autores:
+                      </label>
+                      <select
+                        className="form-select"
+                        value={nombre}
+                        onChange={handleAutorChange}
+                      >
+                        <option value="">Seleccionar autor</option>
+                        {listaAutor.map((autor) => (
+                          <option key={autor.idAutor} value={autor.nombre}>
+                            {autor.nombre + " " + autor.apellido}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="col-md-4 ">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        Tipo autor:
+                      </label>
+                      <select
+                        className="form-select"
+                        value={tipoAutor}
+                        onChange={handleTipoAutorChange}
+                      >
+                        <option value="">Seleccionar tipo autor</option>
+                        {listaTipoAutor.map((tipo) => (
+                          <option key={tipo.idAutor} value={tipo.tipoAutor}>
+                            {tipo.tipoAutor}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="col-md-3 ">
+                      <button
+                        className="btn btn-success"
+                        type="button"
+                        onClick={handleSeleccionTipoAutor}
+                        style={{ textAlign: "right", marginTop: "25px" }}
+                      >
+                        Agregar autor
+                      </button>
+                    </div>
+                    <div className=" Mycontainer-div-table col-md-12">
+                      <table className="table table-striped">
+                        <thead>
+                          <tr>
+                            <th scope="col">Autor</th>
+                            <th scope="col">Tipo</th>
+                            <th scope="col">Acciones</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {listTipoAutor.map((dato, index) => (
+                            <tr key={index}>
+                              <td>{dato.autor.nombre}</td>
+                              <td>{dato.tipoAutor.tipoAutor}</td>
+                              <td>
+                                <button
+                                  className="btn btn-danger"
+                                  type="button"
+                                  onClick={() =>
+                                    handleEliminarTipoAutor(dato.idAutor)
+                                  }
                                 >
-                                  {autor.nombre + " " + autor.apellido}
-                                </option>
-                              ))}
-                            </select>
-                            </div>
-                          <div className="col-md-4 ">
-                            <label
-                              htmlFor="validationCustom03"
-                              className="form-label mb-1"
-                            >
-                              Tipo autor:
-                            </label>
-                            <select
-                              className="form-select"
-                              value={tipoAutor}
-                              onChange={handleTipoAutorChange}
-                            >
-                              <option value="">Seleccionar tipo autor</option>
-                              {listaTipoAutor.map((tipo) => (
-                                <option
-                                  key={tipo.idAutor}
-                                  value={tipo.tipoAutor}
-                                >
-                                  {tipo.tipoAutor}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          <div className="col-md-3 ">
-                            <button
-                              className="btn btn-success"
-                              type="button"
-                              onClick={handleSeleccionTipoAutor}
-                              style={{ textAlign: "right", marginTop: "25px" }}
-                            >
-                              Agregar autor
-                            </button>
-                          </div>
-                          <div
-                            className=" Mycontainer-div-table col-md-12" 
-                          >
-                            <table class="table table-striped">
-                              <thead>
-                                <tr>
-                                  <th scope="col">Autor</th>
-                                  <th scope="col">Tipo</th>
-                                  <th scope="col">Acciones</th>
-                                </tr>
-                              </thead>
-                              <tbody>
-                                {listTipoAutor.map((dato, index) => (
-                                  <tr key={index}>
-                                    <td>{dato.autor.nombre}</td>
-                                    <td>{dato.tipoAutor.tipoAutor}</td>
-                                    <td>
-                                      <button
-                                        className="btn btn-danger"
-                                        type="button"
-                                        onClick={() =>
-                                          handleEliminarTipoAutor(dato.idAutor)
-                                        }
-                                      >
-                                        X
-                                      </button>
-                                    </td>
-                                  </tr>
-                                ))}
-                              </tbody>
-                            </table>
-                          </div>
-                    </form>
+                                  X
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
 
-{/* SEGUNDO ACORDEON "AGREGAR INFORMACION DEL LIBRO"*/}
-            <div class="accordion" id="accordionExample2" >
-              <div class="accordion-item">
-                <h2 class="accordion-header">
+            {/* SEGUNDO ACORDEON "AGREGAR INFORMACION DEL LIBRO"*/}
+            <div className="accordion" id="accordionExample2">
+              <div className="accordion-item">
+                <h2 className="accordion-header">
                   <button
-                    class="accordion-button"
+                    className="accordion-button"
                     type="button"
                     data-bs-toggle="collapse"
                     data-bs-target="#collapseTwo"
                     aria-expanded="true"
                     aria-controls="collapseTwo"
-                    style={{ padding: "8px"}}
+                    style={{ padding: "8px" }}
                   >
                     Agregar información del libro
                   </button>
                 </h2>
                 <div
                   id="collapseTwo"
-                  class="accordion-collapse collapse"
+                  className="accordion-collapse collapse"
                   data-bs-parent="#accordionExample"
                 >
-
-<div
-          style={{
-            maxWidth: "930px",
-            padding: "10px",
-          }}
-        >
-          <form
-            onSubmit={handleSubmit}
-            className="row g-3 needs-validation"
-            noValidate
-          >
-            <div className="col-md-12">
-              <label htmlFor="validationCustom03" className="form-label mb-1">
-                Nombre del libro:
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                value={nombreLibro}
-                onChange={(event) => setNombreLibro(event.target.value)}
-              />
-            </div>
-            <div className="col-md-3">
-              <label htmlFor="validationCustom03" className="form-label mb-1">
-                Nombre área:
-              </label>
-              <select
-                className="form-select"
-                value={nombreArea}
-                onChange={handleAreaChange}
-              >
-                <option value="">Seleccionar área</option>
-                {listaArea.map((area) => (
-                  <option key={area.idArea} value={area.nombreArea}>
-                    {area.nombreArea}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="col-md-3">
-              <label htmlFor="validationCustom03" className="form-label mb-1">
-                Nombre sub área:
-              </label>
-              <select
-                className="form-select"
-                value={nombreSubArea}
-                onChange={handleSubAreaChange}
-              >
-                <option value="">Seleccionar sub área</option>
-                {listaSubArea.map((subarea) => (
-                  <option key={subarea.idSubArea} value={subarea.nombreSubArea}>
-                    {subarea.nombreSubArea}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="col-md-3">
-              <label htmlFor="validationCustom03" className="form-label mb-1">
-                Nombre sub área especifica:
-              </label>
-              <select
-                className="form-select"
-                value={nombreSubAreaEspecifica}
-                onChange={handleSubAreaEspecificaChange}
-              >
-                <option value="">Seleccionar sub área especifica</option>
-                {listaSubAreaEspecifica.map((subareaespecifica) => (
-                  <option
-                    key={subareaespecifica.idSubAreaEspecifica}
-                    value={subareaespecifica.nombreSubAreaEspecifica}
+                  <div
+                    style={{
+                      maxWidth: "930px",
+                      padding: "10px",
+                    }}
                   >
-                    {subareaespecifica.nombreSubAreaEspecifica}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className="col-md-3">
-              <label htmlFor="validationCustom03" className="form-label mb-1">
-                Fecha de publicación:
-              </label>
-              <input
-                className="form-control"
-                type="date"
-                value={fechaPublicacion}
-                onChange={(event) => setFechaPublicacion(event.target.value)}
-              />
-            </div>
+                    <div className="col-md-12">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        Nombre del libro:
+                      </label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={nombreLibro}
+                        onChange={(event) => setNombreLibro(event.target.value)}
+                      />
+                    </div>
+                    <div className="col-md-3">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        Nombre área:
+                      </label>
+                      <select
+                        className="form-select"
+                        value={nombreArea}
+                        onChange={handleAreaChange}
+                      >
+                        <option value="">Seleccionar área</option>
+                        {listaArea.map((area) => (
+                          <option key={area.idArea} value={area.nombreArea}>
+                            {area.nombreArea}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="col-md-3">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        Nombre sub área:
+                      </label>
+                      <select
+                        className="form-select"
+                        value={nombreSubArea}
+                        onChange={handleSubAreaChange}
+                      >
+                        <option value="">Seleccionar sub área</option>
+                        {listaSubArea.map((subarea) => (
+                          <option
+                            key={subarea.idSubArea}
+                            value={subarea.nombreSubArea}
+                          >
+                            {subarea.nombreSubArea}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="col-md-3">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        Nombre sub área especifica:
+                      </label>
+                      <select
+                        className="form-select"
+                        value={nombreSubAreaEspecifica}
+                        onChange={handleSubAreaEspecificaChange}
+                      >
+                        <option value="">
+                          Seleccionar sub área especifica
+                        </option>
+                        {listaSubAreaEspecifica.map((subareaespecifica) => (
+                          <option
+                            key={subareaespecifica.idSubAreaEspecifica}
+                            value={subareaespecifica.nombreSubAreaEspecifica}
+                          >
+                            {subareaespecifica.nombreSubAreaEspecifica}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="col-md-3">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        Fecha de publicación:
+                      </label>
+                      <input
+                        className="form-control"
+                        type="date"
+                        value={fechaPublicacion}
+                        onChange={(event) =>
+                          setFechaPublicacion(event.target.value)
+                        }
+                      />
+                    </div>
 
-            <div className="col-md-2">
-              <label htmlFor="validationCustom03" className="form-label mb-1">
-                ISBN:
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                value={isbn}
-                onChange={(event) => setIsbn(event.target.value.trim())}
-              />
-            </div>
+                    <div className="col-md-2">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        ISBN:
+                      </label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={isbn}
+                        onChange={(event) => setIsbn(event.target.value.trim())}
+                      />
+                    </div>
 
-            <div className="col-md-2">
-              <label htmlFor="validationCustom03" className="form-label mb-1">
-                Idioma:
-              </label>
-              <input
-                className="form-control"
-                type="text"
-                value={lenguaje}
-                onChange={(event) => setLenguaje(event.target.value.trim())}
-              />
-            </div>
+                    <div className="col-md-2">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        Idioma:
+                      </label>
+                      <input
+                        className="form-control"
+                        type="text"
+                        value={lenguaje}
+                        onChange={(event) =>
+                          setLenguaje(event.target.value.trim())
+                        }
+                      />
+                    </div>
 
-            <div className="col-md-4">
-              <label htmlFor="validationCustom03" className="form-label mb-1">
-                Portada del libro:
-              </label>
-              <input
-                className="form-control"
-                type="file"
-                accept="image/png, image/jpeg"
-                onChange={handleSeleccion}
-                title={pdfLibro}
-              />
-            </div>
+                    <div className="col-md-4">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        Portada del libro:
+                      </label>
+                      <input
+                        className="form-control"
+                        type="file"
+                        accept="image/png, image/jpeg"
+                        onChange={handleSeleccion}
+                        title={pdfLibro}
+                      />
+                    </div>
 
-            <div className="col-md-4">
-              <label htmlFor="validationCustom03" className="form-label mb-1">
-                Carga PDF:
-              </label>
-              <input
-                className="form-control"
-                type="file"
-                accept=".pdf"
-                onChange={handleSeleccion}
-              />
-            </div>
-            </form>
-            </div>
-            </div>
-            </div>
+                    <div className="col-md-4">
+                      <label
+                        htmlFor="validationCustom03"
+                        className="form-label mb-1"
+                      >
+                        Carga PDF:
+                      </label>
+                      <input
+                        className="form-control"
+                        type="file"
+                        accept=".pdf"
+                        onChange={handleSeleccion}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* CONTENEDOR AGREGAR AUDIOS DE LOS LIBROS*/}
-            
+
             <div
               style={{
                 display: "flex",
@@ -841,7 +877,11 @@ export const DialogoRegistroLibro = () => {
               <label
                 htmlFor="validationCustom03"
                 className="form-label"
-                style={{ textAlign: "left", marginRight: "10px", fontSize: "16px" }}
+                style={{
+                  textAlign: "left",
+                  marginRight: "10px",
+                  fontSize: "16px",
+                }}
               >
                 Agregar los capítulos del libro:
               </label>
@@ -886,6 +926,7 @@ export const DialogoRegistroLibro = () => {
                         <div className="col-md-5 ">
                           <input
                             className="form-control"
+                            key={index}
                             type="file"
                             disabled={selectedFiles[index]}
                             accept=".mp3,.wav"
@@ -893,18 +934,18 @@ export const DialogoRegistroLibro = () => {
                               handleSeleccionArchivoMp4(
                                 event,
                                 names[index],
-                                index 
-                              ) 
+                                index
+                              )
                             }
                           />
                         </div>
                         <div className="col-md-1 ">
                           <button
-                            className="btn btn-success"
+                            className="btn btn-danger"
                             type="button"
                             onClick={(event) => handledeleteInput(event, index)}
                           >
-                            -
+                            <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                           </button>
                         </div>
                       </div>
