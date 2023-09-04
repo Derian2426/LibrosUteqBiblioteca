@@ -9,7 +9,7 @@ import config from "../configuracion";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
-
+// terminado
 export const DialogoRegistroLibro = () => {
   const token = obtenerToken();
   const libroUrl = config.libroUrl;
