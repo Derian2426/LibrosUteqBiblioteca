@@ -9,15 +9,17 @@ const Navbar = () => {
   const { sesionExitosa } = useContext(AccesibilidadContext);
   const [usuarioSesion, setUsuarioSesion] = useState();
   useEffect(() => {
-    setUsuarioSesion(localStorage.getItem("loggerUser"));
+    if (localStorage.getItem("loggerUser") !== null) {
+      setUsuarioSesion(localStorage.getItem("loggerUser"));
+    }
   }, []);
   return (
-    <div className="container-fluid" style={{ color: "#1B7505" }} >
+    <div className="container-fluid" style={{ color: "#1B7505" }}>
       <nav
         id="DesactivarClassNavbar"
         className="navbar navbar-expand-lg fixed-top classNavbar borderNavbar"
       >
-        <div className="container-fluid" >
+        <div className="container-fluid">
           <a className="navbar-brand" href="/">
             <img
               id="logoPrincipal"
@@ -43,7 +45,8 @@ const Navbar = () => {
           <div className="navbar-collapse collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
               <li className="nav-item">
-                <a id="activar-links"
+                <a
+                  id="activar-links"
                   className="nav-linkS"
                   aria-current="page"
                   href={`/BuscarLibros`}
@@ -64,7 +67,7 @@ const Navbar = () => {
                 </li>
               ) : null}
               <div className="vr"></div>
-              {usuarioSesion || sesionExitosa? (
+              {usuarioSesion || sesionExitosa ? (
                 <li className="nav-item">
                   <a
                     className="nav-linkS "

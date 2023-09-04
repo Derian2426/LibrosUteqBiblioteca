@@ -23,7 +23,6 @@ export const AuthRoute = ({ component: Component }) => {
 
   useEffect(() => {
     const isAuthenticated = localStorage.getItem("loggerUser");
-
     const checkTokenValidation = async () => {
       if (isAuthenticated) {
         const loggerUserObject = JSON.parse(isAuthenticated);
@@ -40,8 +39,9 @@ export const AuthRoute = ({ component: Component }) => {
         setIsLoading(false);
       }
     };
-
-    checkTokenValidation();
+    if (isAuthenticated) {
+      checkTokenValidation();
+    }
   }, []);
 
   if (isLoading) {

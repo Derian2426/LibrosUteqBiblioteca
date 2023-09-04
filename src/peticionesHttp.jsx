@@ -3,7 +3,7 @@ import axios from "axios";
 function obtenerToken() {
   try {
     const loggerUser = localStorage.getItem("loggerUser");
-    if (loggerUser) {
+    if (loggerUser !== null && loggerUser !== undefined) {
       const jsonObject = JSON.parse(loggerUser);
       if (jsonObject.token) {
         return jsonObject.token;
@@ -11,7 +11,6 @@ function obtenerToken() {
     }
     throw new Error("Token no encontrado en el Local Storage");
   } catch (error) {
-    console.error("Error al obtener el token:", error);
     return "";
   }
 }
