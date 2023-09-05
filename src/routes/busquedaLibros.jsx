@@ -47,8 +47,8 @@ const busquedaLibros = () => {
                             </div>
                         </div>
                         <div className="col-md-1">
-                            <label htmlFor="boton-buscar-libros" className="form-label" style={{ opacity: 0 }}>Boton</label>
-                            <button className="btn btn-success"aria-label="Boton para buscar los libros">
+                            <label htmlFor="boton-buscar-libros" className="form-label " style={{ opacity: 0 }}>Boton</label>
+                            <button className="btn btn-success" aria-label="Boton para buscar los libros">
                                 <i className="fa-solid fa-magnifying-glass"></i>
                             </button>
                         </div>

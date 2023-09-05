@@ -130,7 +130,7 @@ export const DialogoAutor = () => {
             </label>
           </div>
           <div
-            className="Mycontainer-div mt-1"
+            className="Mycontainer-div mt-1 text-center"
             style={{ padding: "5px", marginBottom: "10px", maxHeight: "340px" }}
           >
             <Table striped bordered hover>
@@ -145,8 +145,8 @@ export const DialogoAutor = () => {
                 {listaAutor.map((dato, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td>{dato.nombre}</td>
-                    <td>{dato.apellido}</td>
+                    <td style={{ textAlign: "left" }}>{dato.nombre}</td>
+                    <td style={{ textAlign: "left" }}>{dato.apellido}</td>
                   </tr>
                 ))}
               </tbody>

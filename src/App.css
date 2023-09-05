@@ -165,6 +165,23 @@
     border-color: #f8f9fa;
   }
 
+  .classButton {
+    width: 150px;
+    height: 40px;
+    font-size: 16px;
+    background-color: #018203;
+    color: #ffffff;
+    border: 1px solid #025A27;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .classButton:hover {
+    background-color: #CC9F2D;
+    color: #fafcfb;
+    border-color: #f8f9fa;
+  }
 
   .audio-button {
     display: inline-flex;
@@ -287,3 +304,4 @@ border-bottom: 2px solid #01692cef;
   background-color:  #025A27;
   transform: scale(1.1); 
 }
+

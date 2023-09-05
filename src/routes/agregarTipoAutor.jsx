@@ -106,7 +106,7 @@ export const DialogoAgregarTipoAutor = () => {
             </label>
           </div>
           <div
-            className="Mycontainer-div mt-1"
+            className="Mycontainer-div mt-1 text-center"
             style={{ padding: "5px", marginBottom: "10px", maxHeight: "340px" }}
           >
             <Table striped bordered hover>
@@ -120,7 +120,7 @@ export const DialogoAgregarTipoAutor = () => {
                 {listaTipoAutor.map((dato, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td>{dato.tipoAutor}</td>
+                    <td style={{ textAlign: "left" }}>{dato.tipoAutor}</td>
                   </tr>
                 ))}
               </tbody>

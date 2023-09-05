@@ -105,7 +105,7 @@ const iniciarsesion = () => {
           </div>
           <div className="d-grid justify-content-center mt-3">
             <button
-              className="btn btn-success"
+              className="classButton"
               type="button"
               onClick={handleIniciarSesion}
             >

@@ -24,14 +24,13 @@ export const LibroListEdit = () => {
   );
 
   return (
-    <div className="Mycontainer-div mt-2" style={{ maxWidth: "1335px" }}>
+    <div className="Mycontainer-div mt-2 text-center" style={{ maxWidth: "1335px" }}>
       <label
         htmlFor="validationCustom05"
-        className="form-label text-center"
+        className="form-label text-start mb-3"
         style={{
           fontSize: "18px",
           fontWeight: "bold",
-          marginBottom: "10px",
         }}
       >
         Lista de libros
@@ -52,17 +51,17 @@ export const LibroListEdit = () => {
           {paginatedData.map((dato, index) => (
             <tr key={index}>
               <th scope="row">{currentPage * itemsPerPage + index + 1}</th>
-              <td>{dato.nombreLibro}</td>
-              <td>
+              <td style={{ textAlign: "left" }}>{dato.nombreLibro}</td>
+              <td style={{ textAlign: "left" }}>
                 {
                   dato.subAreasEspecificas.subAreasConocimiento.areaConocimiento
                     .nombreArea
                 }
               </td>
-              <td>
+              <td style={{ textAlign: "left" }}>
                 {dato.subAreasEspecificas.subAreasConocimiento.nombreSubArea}
               </td>
-              <td>{dato.subAreasEspecificas.nombreSubAreaEspecifica}</td>
+              <td style={{ textAlign: "left" }}>{dato.subAreasEspecificas.nombreSubAreaEspecifica}</td>
               <td>{dato.fechaPublicacion}</td>
 
               <td>

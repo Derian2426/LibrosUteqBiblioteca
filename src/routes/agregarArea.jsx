@@ -8,7 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { LoadingDialog } from "../LoadingDialog";
 import config from "../configuracion";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 
 export const DialogoAgregarArea = () => {
   const { listaArea, postDataJson, setListaArea, obtenerDatos } =
@@ -182,7 +182,7 @@ export const DialogoAgregarArea = () => {
             </label>
           </div>
           <div
-            className="Mycontainer-div mt-1"
+            className="Mycontainer-div mt-1 text-center"
             style={{ padding: "5px", maxHeight: "340px", marginBottom: "10px" }}
           >
             <Table striped bordered hover>
@@ -197,14 +197,14 @@ export const DialogoAgregarArea = () => {
                 {listaArea.map((dato, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td>{dato.nombreArea}</td>
+                    <td  style={{ textAlign: "left" }}>{dato.nombreArea}</td>
                     <td>
                       <button
-                        className="btn btn-info"
+                        className="audio-button"
                         type="button"
                         onClick={() => editarArea(dato)}
                       >
-                        <FontAwesomeIcon icon={faPencilAlt} />
+                        <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
                       </button>
                     </td>
                   </tr>

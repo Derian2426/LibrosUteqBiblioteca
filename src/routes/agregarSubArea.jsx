@@ -149,13 +149,13 @@ export const AgregarSubArea = () => {
             </label>
           </div>
           <div
-            className="Mycontainer-div mt-1"
+            className="Mycontainer-div mt-1 text-center"
             style={{ padding: "5px", maxHeight: "340px", marginBottom: "10px" }}
           >
             <Table striped bordered hover>
               <thead>
                 <tr>
-                  <th>Id</th>
+                  <th>N°</th>
                   <th>Sub área</th>
                   <th>Área</th>
                 </tr>
@@ -164,8 +164,8 @@ export const AgregarSubArea = () => {
                 {listaSubArea.map((dato, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td>{dato.nombreSubArea}</td>
-                    <td>{dato.areaConocimiento.nombreArea}</td>
+                    <td  style={{ textAlign: "left" }}>{dato.nombreSubArea}</td>
+                    <td  style={{ textAlign: "left" }}>{dato.areaConocimiento.nombreArea}</td>
                   </tr>
                 ))}
               </tbody>

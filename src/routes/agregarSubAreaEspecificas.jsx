@@ -214,7 +214,7 @@ export const AgregarSubAreaEspecifica = () => {
             </label>
           </div>
           <div
-            className="Mycontainer-div mt-1"
+            className="Mycontainer-div mt-1 text-center"
             style={{ padding: "5px", marginBottom: "10px",
             maxHeight: "340px" }}
           >
@@ -231,11 +231,11 @@ export const AgregarSubAreaEspecifica = () => {
                 {listaSubAreaEspecifica.map((dato, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td>
+                    <td style={{ textAlign: "left" }}>
                       {dato.subAreasConocimiento.areaConocimiento.nombreArea}
                     </td>
-                    <td>{dato.subAreasConocimiento.nombreSubArea}</td>
-                    <td>{dato.nombreSubAreaEspecifica}</td>
+                    <td style={{ textAlign: "left" }}>{dato.subAreasConocimiento.nombreSubArea}</td>
+                    <td style={{ textAlign: "left" }}>{dato.nombreSubAreaEspecifica}</td>
                   </tr>
                 ))}
               </tbody>
