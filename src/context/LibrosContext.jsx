@@ -15,7 +15,8 @@ export function LibroContextProvider(props) {
         setListaLibro(data);
         setLoading(false);
       })
-      .catch((error) => console.error(error));
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
   }, []);
   const postDataJson = async (jsonData, url) => {
     try {
@@ -26,7 +27,7 @@ export function LibroContextProvider(props) {
     }
   };
   return (
-    <LibroContext.Provider value={{ listaLibro,postDataJson }}>
+    <LibroContext.Provider value={{ listaLibro, postDataJson }}>
       <LoadingDialog loading={loading} />
       {props.children}
     </LibroContext.Provider>

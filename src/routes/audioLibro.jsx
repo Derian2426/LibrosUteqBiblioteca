@@ -45,7 +45,7 @@ const audioLibro = () => {
         setListaCapitulos(listaRequest);
       })
       .catch((error) => setError(error))
-      .finally(() => setIsLoading(false));
+      .finally(() => {setIsLoading(false); setLoading(false);});
   }, []);
 
   useEffect(() => {
@@ -62,6 +62,8 @@ const audioLibro = () => {
         setLoading(false);
       } catch (error) {
         setError(error);
+      }finally{
+        setLoading(false);
       }
     };
 

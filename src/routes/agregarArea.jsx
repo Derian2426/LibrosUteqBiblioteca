@@ -95,6 +95,7 @@ export const DialogoAgregarArea = () => {
     } catch (error) {
       toast.error("Ocurrió un error durante el registro", { autoClose: 1000 });
     } finally {
+      setLoading(false);
     }
   };
   return (

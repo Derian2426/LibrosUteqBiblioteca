@@ -9,6 +9,7 @@ import config from "../configuracion";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { LoadingDialog } from "../LoadingDialog";
 export const DialogoRegistroLibro = () => {
   const token = obtenerToken();
   const libroUrl = config.libroUrl;
@@ -42,6 +43,7 @@ export const DialogoRegistroLibro = () => {
   const [previousRecordHasData, setPreviousRecordHasData] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([true]);
   const [changeText, setChangeText] = useState([false]);
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   const handledeleteInput = (event, index) => {
@@ -104,143 +106,151 @@ export const DialogoRegistroLibro = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setNombreLibro(nombreLibro.trim());
-    if (listTipoAutor.length > 0) {
-      if (!nombreLibro) {
-        toast.warning("Ingrese un nombre del libro", {
-          autoClose: 5000,
-        });
-      } else {
-        if (!fechaPublicacion) {
-          toast.warning("Ingrese una Fecha de Publicación", {
+    setLoading(true);
+    try {
+      setNombreLibro(nombreLibro.trim());
+      if (listTipoAutor.length > 0) {
+        if (!nombreLibro) {
+          toast.warning("Ingrese un nombre del libro", {
             autoClose: 5000,
           });
         } else {
-          if (idArea < 0) {
-            toast.warning("Seleccione un area de conocimiento", {
+          if (!fechaPublicacion) {
+            toast.warning("Ingrese una Fecha de Publicación", {
               autoClose: 5000,
             });
           } else {
-            if (idSubArea < 0) {
-              toast.warning("Ingrese una SubArea de conocimiento", {
+            if (idArea < 0) {
+              toast.warning("Seleccione un area de conocimiento", {
                 autoClose: 5000,
               });
             } else {
-              if (idSubAreaEspecifica < 0) {
-                toast.warning("Ingrese una SuArea Especifica de conocimiento", {
+              if (idSubArea < 0) {
+                toast.warning("Ingrese una SubArea de conocimiento", {
                   autoClose: 5000,
                 });
               } else {
-                if (!isbn) {
-                  toast.warning("Ingrese el ISBN", {
-                    autoClose: 5000,
-                  });
+                if (idSubAreaEspecifica < 0) {
+                  toast.warning(
+                    "Ingrese una SuArea Especifica de conocimiento",
+                    {
+                      autoClose: 5000,
+                    }
+                  );
                 } else {
-                  if (!lenguaje) {
-                    toast.warning(
-                      "Ingrese una SuArea Especifica de conocimiento",
-                      {
-                        autoClose: 5000,
-                      }
-                    );
+                  if (!isbn) {
+                    toast.warning("Ingrese el ISBN", {
+                      autoClose: 5000,
+                    });
                   } else {
-                    if (!pdfLibro) {
-                      toast.warning("Escoja un portada para su libro", {
-                        autoClose: 5000,
-                      });
+                    if (!lenguaje) {
+                      toast.warning(
+                        "Ingrese una SuArea Especifica de conocimiento",
+                        {
+                          autoClose: 5000,
+                        }
+                      );
                     } else {
                       if (!pdfLibro) {
-                        toast.warning("Escoja un PDF para su libro", {
+                        toast.warning("Escoja un portada para su libro", {
                           autoClose: 5000,
                         });
                       } else {
-                        if (capituloList.length > 0 && files.length > 0) {
-                          if (!previousRecordHasData) {
-                            toast.warning(
-                              "Debe agregar un archivo al registro anterior antes de agregar uno nuevo."
-                            );
-                          } else {
-                            const selectedArea = listaArea.find(
-                              (area) => area.nombreArea === nombreArea
-                            );
-                            setIdArea(selectedArea ? selectedArea.idArea : 0);
-                            const formData = new FormData();
-                            files.forEach((file) => {
-                              formData.append("file", file);
-                            });
-                            const capituloFileList = {
-                              libro: {
-                                idLibro,
-                                nombreLibro,
-                                fechaPublicacion,
-                                isbn,
-                                lenguaje,
-                                coverImage,
-                                pdfLibro,
-                                pdfDescarga,
-                                subAreasEspecificas: {
-                                  idSubAreaEspecifica,
-                                  nombreSubAreaEspecifica,
-                                  subAreasConocimiento: {
-                                    idSubArea,
-                                    nombreSubArea,
-                                    areaConocimiento: {
-                                      idArea,
-                                      nombreArea,
+                        if (!pdfLibro) {
+                          toast.warning("Escoja un PDF para su libro", {
+                            autoClose: 5000,
+                          });
+                        } else {
+                          if (capituloList.length > 0 && files.length > 0) {
+                            if (!previousRecordHasData) {
+                              toast.warning(
+                                "Debe agregar un archivo al registro anterior antes de agregar uno nuevo."
+                              );
+                            } else {
+                              const selectedArea = listaArea.find(
+                                (area) => area.nombreArea === nombreArea
+                              );
+                              setIdArea(selectedArea ? selectedArea.idArea : 0);
+                              const formData = new FormData();
+                              files.forEach((file) => {
+                                formData.append("file", file);
+                              });
+                              const capituloFileList = {
+                                libro: {
+                                  idLibro,
+                                  nombreLibro,
+                                  fechaPublicacion,
+                                  isbn,
+                                  lenguaje,
+                                  coverImage,
+                                  pdfLibro,
+                                  pdfDescarga,
+                                  subAreasEspecificas: {
+                                    idSubAreaEspecifica,
+                                    nombreSubAreaEspecifica,
+                                    subAreasConocimiento: {
+                                      idSubArea,
+                                      nombreSubArea,
+                                      areaConocimiento: {
+                                        idArea,
+                                        nombreArea,
+                                      },
                                     },
                                   },
                                 },
-                              },
-                              capituloFileList: capituloList,
-                              listTipoAutor: listTipoAutor,
-                            };
-                            const libroString =
-                              JSON.stringify(capituloFileList);
-                            formData.append("libroRequest", libroString);
-                            try {
-                              const response = await fetch(
-                                libroUrl + "/upload",
-                                {
-                                  method: "POST",
-                                  body: formData,
-                                  headers: {
-                                    Authorization: `Bearer ${token}`,
-                                  },
-                                }
-                              );
-                              const data = await response.json();
-                              if (response.ok) {
-                                if (data.valorEstado > 0) {
-                                  toast.success(data.iformacionEstado, {
-                                    autoClose: 5000,
-                                  });
-                                  vaciarCampos();
+                                capituloFileList: capituloList,
+                                listTipoAutor: listTipoAutor,
+                              };
+                              const libroString =
+                                JSON.stringify(capituloFileList);
+                              formData.append("libroRequest", libroString);
+                              try {
+                                const response = await fetch(
+                                  libroUrl + "/upload",
+                                  {
+                                    method: "POST",
+                                    body: formData,
+                                    headers: {
+                                      Authorization: `Bearer ${token}`,
+                                    },
+                                  }
+                                );
+                                const data = await response.json();
+                                if (response.ok) {
+                                  if (data.valorEstado > 0) {
+                                    toast.success(data.iformacionEstado, {
+                                      autoClose: 5000,
+                                    });
+                                    vaciarCampos();
+                                  } else {
+                                    toast.error(data.iformacionEstado, {
+                                      autoClose: 5000,
+                                    });
+                                  }
                                 } else {
                                   toast.error(data.iformacionEstado, {
                                     autoClose: 5000,
                                   });
                                 }
-                              } else {
-                                toast.error(data.iformacionEstado, {
-                                  autoClose: 5000,
-                                });
+                              } catch (error) {
+                                toast.error(
+                                  "No se pudo registrar el libro vuelva a intentarlo mas tarde",
+                                  {
+                                    autoClose: 5000,
+                                  }
+                                );
+                              } finally {
+                                setLoading(false);
                               }
-                            } catch (error) {
-                              toast.error(
-                                "No se pudo registrar el libro vuelva a intentarlo mas tarde",
-                                {
-                                  autoClose: 5000,
-                                }
-                              );
                             }
+                          } else {
+                            toast.warning(
+                              "Agrege al menos un audio para el registro",
+                              {
+                                autoClose: 5000,
+                              }
+                            );
                           }
-                        } else {
-                          toast.warning(
-                            "Agrege al menos un audio para el registro",
-                            {
-                              autoClose: 5000,
-                            }
-                          );
                         }
                       }
                     }
@@ -250,14 +260,19 @@ export const DialogoRegistroLibro = () => {
             }
           }
         }
+      } else {
+        toast.warning("Seleccione autores", {
+          autoClose: 5000,
+        });
       }
-    } else {
-      toast.warning("Seleccione autores", {
+    } catch (error) {
+      toast.error("Ocurrio un error!!", {
         autoClose: 5000,
       });
+      setLoading(false);
+    } finally {
+      setLoading(false);
     }
-    console.log(capituloList);
-    console.log(files);
   };
   const handleAreaChange = async (event) => {
     const selectedArea = listaArea.find(
@@ -554,6 +569,7 @@ export const DialogoRegistroLibro = () => {
             marginBottom: "10px",
           }}
         >
+          <LoadingDialog loading={loading} />
           <form
             onSubmit={handleSubmit}
             className="row g-3 needs-validation"
