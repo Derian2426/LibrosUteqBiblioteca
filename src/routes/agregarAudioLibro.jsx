@@ -102,6 +102,7 @@ export const DialogoRegistroLibro = () => {
     setLenguaje("");
     setInputCount(1);
     setPdfLibro("");
+    setNames([]);
   };
 
   const handleSubmit = async (event) => {
@@ -819,7 +820,7 @@ export const DialogoRegistroLibro = () => {
                           />
                         </div>
 
-                        <div className="col-md-2">
+                        <div className="col-md-3">
                           <label
                             htmlFor="validationCustom03"
                             className="form-label mb-1"
@@ -836,24 +837,28 @@ export const DialogoRegistroLibro = () => {
                           />
                         </div>
 
-                        <div className="col-md-2">
+                        <div className="col-md-3">
                           <label
                             htmlFor="validationCustom03"
                             className="form-label mb-1"
                           >
                             Idioma:
                           </label>
-                          <input
+                          <select
                             className="form-control"
-                            type="text"
                             value={lenguaje}
                             onChange={(event) =>
-                              setLenguaje(event.target.value.trim())
+                              setLenguaje(event.target.value)
                             }
-                          />
+                          >
+                            <option value="Español">Español</option>
+                            <option value="Inglés">Inglés</option>
+                            <option value="Francés">Francés</option>
+                            <option value="Alemán">Alemán</option>
+                          </select>
                         </div>
 
-                        <div className="col-md-4">
+                        <div className="col-md-3">
                           <label
                             htmlFor="validationCustom03"
                             className="form-label mb-1"
@@ -869,7 +874,7 @@ export const DialogoRegistroLibro = () => {
                           />
                         </div>
 
-                        <div className="col-md-4">
+                        <div className="col-md-3">
                           <label
                             htmlFor="validationCustom03"
                             className="form-label mb-1"
