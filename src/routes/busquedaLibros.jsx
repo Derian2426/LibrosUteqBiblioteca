@@ -6,6 +6,8 @@ import { Table } from 'react-bootstrap';
 import Footer from './footer';
 import Tabladatos from "../componentes/datos";
 import { LibroContextProvider } from "../context/LibrosContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {faArrowLeft} from "@fortawesome/free-solid-svg-icons";
 
 const busquedaLibros = () => {
 
@@ -20,9 +22,21 @@ const busquedaLibros = () => {
         setSubareaSeleccionada(e.target.value !== "");
     };
 
+    function handleRedirect() {
+        window.location.href = "/";
+      }
+
     return (
         <LibroContextProvider>
         <div>
+
+        <div>
+<button
+          className="StyleBotonAtras"
+          onClick={handleRedirect} >
+    <FontAwesomeIcon icon={faArrowLeft}  style={{ color: 'white'}} />
+        </button>
+</div>
 
             <div style={{ marginTop: '80px' }}>
                 <div style={{ textAlign: "center" }}>

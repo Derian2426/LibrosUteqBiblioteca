@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faL, faLessThanEqual } from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faL, faLessThanEqual,faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import Footer from "./footer";
 import config from "../configuracion";
@@ -94,8 +94,20 @@ const audioLibro = () => {
     }
   };
 
+  function handleRedirect() {
+    window.location.href = "/";
+  }
+
   return (
     <div style={{ marginTop: "80px" }}>
+
+<div>
+<button
+          className="StyleBotonAtras"
+          onClick={handleRedirect} >
+    <FontAwesomeIcon icon={faArrowLeft}  style={{ color: 'white'}} />
+        </button>
+</div>
       <LoadingDialog loading={loading} />
       <div style={{ textAlign: "center" }}>
       <a href="/">
