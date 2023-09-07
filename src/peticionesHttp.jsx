@@ -14,6 +14,20 @@ export function obtenerToken() {
     return "";
   }
 }
+export function obtenerUser() {
+  try {
+    const loggerUser = localStorage.getItem("loggerUser");
+    if (loggerUser !== null && loggerUser !== undefined) {
+      const jsonObject = JSON.parse(loggerUser);
+      if (jsonObject.userLogger) {
+        return jsonObject.userLogger;
+      }
+    }
+    throw new Error("Token no encontrado en el Local Storage");
+  } catch (error) {
+    return "";
+  }
+}
 
 export const obtenerDatos = async (url) => {
   const token = obtenerToken();

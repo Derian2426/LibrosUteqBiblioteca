@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { obtenerDatos, obtenerToken } from "../peticionesHttp";
+import { obtenerDatos, obtenerToken, obtenerUser } from "../peticionesHttp";
 import config from "../configuracion";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -12,6 +12,7 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { LoadingDialog } from "../LoadingDialog";
 export const DialogoRegistroLibro = () => {
   const token = obtenerToken();
+  const usuario = obtenerUser();
   const libroUrl = config.libroUrl;
   const [idLibro, setidLibro] = useState(0);
   const [nombreLibro, setNombreLibro] = useState("");
@@ -481,14 +482,7 @@ export const DialogoRegistroLibro = () => {
       ordenArchivo: capituloList.length + 1,
       numeroDescarga: null,
       fechaCreacion: fechaPublicacion,
-      usuario: {
-        idUsuario: 1,
-        nombre: "John",
-        apellido: "Doe34",
-        email: "johndoe@example.com",
-        fechaNacimiento: "2000-01-01",
-        password: "password123",
-      },
+      usuario: usuario,
       libro: {
         idLibro,
         nombreLibro,
@@ -576,119 +570,6 @@ export const DialogoRegistroLibro = () => {
             className="row g-3 needs-validation"
             noValidate
           >
-            {/* PRIMER ACORDEON "SELECCIONAR AUTORES"*/}
-
-            <div className="accordion" id="accordionExample">
-              <div className="accordion-item">
-                <h2 className="accordion-header">
-                  <button
-                    className="accordion-button"
-                    type="button"
-                    data-bs-toggle="collapse"
-                    data-bs-target="#collapseOne"
-                    aria-expanded="true"
-                    aria-controls="collapseOne"
-                    style={{ padding: "8px" }}
-                  >
-                    Seleccionar autores
-                  </button>
-                </h2>
-                <div
-                  id="collapseOne"
-                  className="accordion-collapse collapse"
-                  data-bs-parent="#accordionExample"
-                >
-                  <div style={{ padding: "5px" }}>
-                    <div className="container">
-                      <div className="row">
-                        <div className="col-md-5">
-                          <label
-                            htmlFor="validationCustom03"
-                            className="form-label mb-1"
-                          >
-                            Autores:
-                          </label>
-                          <select
-                            className="form-select"
-                            value={nombre}
-                            onChange={handleAutorChange}
-                          >
-                            <option value="">Seleccionar autor</option>
-                            {listaAutor.map((autor) => (
-                              <option key={autor.idAutor} value={autor.nombre}>
-                                {autor.nombre + " " + autor.apellido}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                        <div className="col-md-4 ">
-                          <label
-                            htmlFor="validationCustom03"
-                            className="form-label mb-1"
-                          >
-                            Tipo autor:
-                          </label>
-                          <select
-                            className="form-select"
-                            value={tipoAutor}
-                            onChange={handleTipoAutorChange}
-                          >
-                            <option value="">Seleccionar tipo autor</option>
-                            {listaTipoAutor.map((tipo) => (
-                              <option key={tipo.idAutor} value={tipo.tipoAutor}>
-                                {tipo.tipoAutor}
-                              </option>
-                            ))}
-                          </select>
-                        </div>
-                        <div className="col-md-3 ">
-                          <button
-                            className="btn btn-success"
-                            type="button"
-                            onClick={handleSeleccionTipoAutor}
-                            style={{ textAlign: "right", marginTop: "25px" }}
-                          >
-                            Agregar autor
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className=" Mycontainer-div-table col-md-12 mt-2">
-                        <table className="table table-striped">
-                          <thead>
-                            <tr>
-                              <th scope="col">Autor</th>
-                              <th scope="col">Tipo</th>
-                              <th scope="col">Acciones</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {listTipoAutor.map((dato, index) => (
-                              <tr key={index}>
-                                <td>{dato.autor.nombre}</td>
-                                <td>{dato.tipoAutor.tipoAutor}</td>
-                                <td>
-                                  <button
-                                    className="btn btn-danger"
-                                    type="button"
-                                    onClick={() =>
-                                      handleEliminarTipoAutor(dato.idAutor)
-                                    }
-                                  >
-                                    X
-                                  </button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* SEGUNDO ACORDEON "AGREGAR INFORMACION DEL LIBRO"*/}
             <div className="accordion" id="accordionExample2">
               <div className="accordion-item">
@@ -851,6 +732,7 @@ export const DialogoRegistroLibro = () => {
                               setLenguaje(event.target.value)
                             }
                           >
+                            <option value="">Seleccionar sub área</option>
                             <option value="Español">Español</option>
                             <option value="Inglés">Inglés</option>
                             <option value="Francés">Francés</option>
@@ -888,6 +770,118 @@ export const DialogoRegistroLibro = () => {
                             onChange={handleSeleccion}
                           />
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* PRIMER ACORDEON "SELECCIONAR AUTORES"*/}
+
+            <div className="accordion" id="accordionExample">
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    className="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                    style={{ padding: "8px" }}
+                  >
+                    Seleccionar autores
+                  </button>
+                </h2>
+                <div
+                  id="collapseOne"
+                  className="accordion-collapse collapse"
+                  data-bs-parent="#accordionExample"
+                >
+                  <div style={{ padding: "5px" }}>
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-md-5">
+                          <label
+                            htmlFor="validationCustom03"
+                            className="form-label mb-1"
+                          >
+                            Autores:
+                          </label>
+                          <select
+                            className="form-select"
+                            value={nombre}
+                            onChange={handleAutorChange}
+                          >
+                            <option value="">Seleccionar autor</option>
+                            {listaAutor.map((autor) => (
+                              <option key={autor.idAutor} value={autor.nombre}>
+                                {autor.nombre + " " + autor.apellido}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="col-md-4 ">
+                          <label
+                            htmlFor="validationCustom03"
+                            className="form-label mb-1"
+                          >
+                            Tipo autor:
+                          </label>
+                          <select
+                            className="form-select"
+                            value={tipoAutor}
+                            onChange={handleTipoAutorChange}
+                          >
+                            <option value="">Seleccionar tipo autor</option>
+                            {listaTipoAutor.map((tipo) => (
+                              <option key={tipo.idAutor} value={tipo.tipoAutor}>
+                                {tipo.tipoAutor}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="col-md-3 ">
+                          <button
+                            className="btn btn-success"
+                            type="button"
+                            onClick={handleSeleccionTipoAutor}
+                            style={{ textAlign: "right", marginTop: "25px" }}
+                          >
+                            Agregar autor
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className=" Mycontainer-div-table col-md-12 mt-2">
+                        <table className="table table-striped">
+                          <thead>
+                            <tr>
+                              <th scope="col">Autor</th>
+                              <th scope="col">Tipo</th>
+                              <th scope="col">Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {listTipoAutor.map((dato, index) => (
+                              <tr key={index}>
+                                <td>{dato.autor.nombre}</td>
+                                <td>{dato.tipoAutor.tipoAutor}</td>
+                                <td>
+                                  <button
+                                    className="btn btn-danger"
+                                    type="button"
+                                    onClick={() =>
+                                      handleEliminarTipoAutor(dato.idAutor)
+                                    }
+                                  >
+                                    X
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
@@ -940,6 +934,12 @@ export const DialogoRegistroLibro = () => {
                   <React.Fragment key={index}>
                     <div className="mb-1" style={{ padding: "1px" }}>
                       <div className="row">
+                        <label
+                          htmlFor="validationCustom03"
+                          className="form-label mb-1"
+                        >
+                          Nombre del capítulo:
+                        </label>
                         <div className="col-md-6 ">
                           <input
                             className="form-control"
