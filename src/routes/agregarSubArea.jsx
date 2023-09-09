@@ -5,13 +5,25 @@ import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { obtenerDatos } from "../peticionesHttp";
+import config from "../configuracion";
 
 export const AgregarSubArea = () => {
-  const { listaArea, setListaSubArea, listaSubArea, postDataJson } =
-    useContext(LibroAccionesContext);
+  const {
+    listaArea,
+    setListaSubArea,
+    listaSubArea,
+    postDataJson,
+    setListaArea,
+  } = useContext(LibroAccionesContext);
+  const [idSubArea, setIdSubArea] = useState(0);
   const [nombreSubArea, setNombreSubArea] = useState("");
   const [idArea, setIdArea] = useState(0);
   const [nombreArea, setNombreArea] = useState("");
+  const [acciones, setAcciones] = useState(false);
+  const libroUrl = config.libroUrl;
 
   const handleSubAreaEspecificaChange = async (event) => {
     const selectedArea = listaArea.find(
@@ -61,6 +73,73 @@ export const AgregarSubArea = () => {
     } finally {
     }
   };
+  function editarSubArea(dato) {
+    try {
+      setAcciones(true);
+      const { idSubArea, nombreSubArea, areaConocimiento } = dato;
+      const { idArea, nombreArea } = areaConocimiento;
+      setIdSubArea(idSubArea);
+      setNombreSubArea(nombreSubArea);
+      setIdArea(idArea);
+      setNombreArea(nombreArea);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+  const handleEditClick = async () => {
+    try {
+      if (nombreArea === "" || nombreSubArea === "" || idArea <= 0) {
+        toast.error("Ingrese el nombre del subÁrea", { autoClose: 1000 });
+        return;
+      }
+      const trimmedNombreArea = nombreArea.trim();
+      const trimmedNombreSubArea = nombreSubArea.trim();
+      const subAreaConocimiento = {
+        idSubArea,
+        nombreSubArea: trimmedNombreSubArea,
+        areaConocimiento: {
+          idArea,
+          nombreArea: trimmedNombreArea,
+        },
+      };
+      const subAreaString = JSON.stringify(subAreaConocimiento);
+      const request = await postDataJson(subAreaString, "/subAreaConocimiento");
+      if (request.idSubArea >= 0) {
+        setNombreSubArea("");
+        setNombreArea("");
+        setIdArea(0);
+
+        const data = await fetchData();
+        setListaArea(data);
+        toast.success(`${request.nombreSubArea} registrada con éxito`, {
+          autoClose: 1000,
+        });
+      } else {
+        toast.error(`${request.nombreSubArea} ya está registrada`, {
+          autoClose: 1000,
+        });
+      }
+    } catch (error) {
+      toast.error("Ocurrió un error durante el registro: " + error, {
+        autoClose: 5000,
+      });
+    }
+  };
+  const fetchData = async () => {
+    try {
+      const res = await fetch(libroUrl + "/areaConocimiento");
+
+      if (!res.ok) {
+        throw new Error("Error");
+      }
+
+      const data = await res.json();
+      return data;
+    } catch (error) {
+      console.log(error);
+      throw error; // Opcional: Puedes volver a lanzar el error para manejarlo fuera de esta función.
+    }
+  };
 
   return (
     <div
@@ -100,18 +179,27 @@ export const AgregarSubArea = () => {
                 <label htmlFor="validationCustom03" className="form-label mb-1">
                   Nombre área:
                 </label>
-                <select
-                  className="form-select"
-                  value={nombreArea}
-                  onChange={handleSubAreaEspecificaChange}
-                >
-                  <option value="">Seleccionar área</option>
-                  {listaArea.map((area) => (
-                    <option key={area.idArea} value={area.nombreArea}>
-                      {area.nombreArea}
-                    </option>
-                  ))}
-                </select>
+                {!acciones ? (
+                  <select
+                    className="form-select"
+                    value={nombreArea}
+                    onChange={handleSubAreaEspecificaChange}
+                  >
+                    <option value="">Seleccionar área</option>
+                    {listaArea.map((area) => (
+                      <option key={area.idArea} value={area.nombreArea}>
+                        {area.nombreArea}
+                      </option>
+                    ))}
+                  </select>
+                ) : (
+                  <input
+                    type="text"
+                    className="form-control"
+                    readOnly
+                    value={nombreArea}
+                  />
+                )}
               </div>
               <div className="col-md-5">
                 <label htmlFor="validationCustom03" className="form-label mb-1">
@@ -128,13 +216,26 @@ export const AgregarSubArea = () => {
                 />
               </div>
               <div className="col-md-1 d-flex align-items-end">
-                <button
-                  className="btn btn-success"
-                  type="button"
-                  onClick={handleRegistroClick}
-                >
-                  Guardar
-                </button>
+                {!acciones ? (
+                  <button
+                    className="btn btn-success"
+                    type="button"
+                    onClick={handleRegistroClick}
+                  >
+                    Guardar
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={() => {
+                      handleEditClick();
+                      setAcciones(false);
+                    }}
+                  >
+                    Editar
+                  </button>
+                )}
               </div>
             </form>
           </div>
@@ -158,14 +259,26 @@ export const AgregarSubArea = () => {
                   <th>N°</th>
                   <th>Sub área</th>
                   <th>Área</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 {listaSubArea.map((dato, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td  style={{ textAlign: "left" }}>{dato.nombreSubArea}</td>
-                    <td  style={{ textAlign: "left" }}>{dato.areaConocimiento.nombreArea}</td>
+                    <td style={{ textAlign: "left" }}>{dato.nombreSubArea}</td>
+                    <td style={{ textAlign: "left" }}>
+                      {dato.areaConocimiento.nombreArea}
+                    </td>
+                    <td>
+                      <button
+                        className="audio-button"
+                        type="button"
+                        onClick={() => editarSubArea(dato)}
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
