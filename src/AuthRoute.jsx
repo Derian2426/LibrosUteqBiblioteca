@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useContext } from "react";
-import { Navigate } from "react-router-dom";
 import { postData } from "./peticionesHttp";
 import config from "./configuracion";
 import { AccesibilidadContext } from "./context/AccesibilidadContext";
@@ -60,7 +59,7 @@ export const AuthRoute = ({ component: Component }) => {
   if (isTokenValidation) {
     return <Component />;
   } else {
+    window.location.href = "/";
     setSesionExitosa(false);
-    return <Navigate to="/" />;
   }
 };
