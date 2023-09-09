@@ -4,24 +4,9 @@ import { obtenerDatos, postData } from "../peticionesHttp";
 
 export const LibroAccionesContext = createContext();
 export function LibroAccionesContextProvider(props) {
-  const [idLibro, setidLibro] = useState(0);
-  const [nombreLibro, setNombreLibro] = useState("");
-  const [fechaPublicacion, setFechaPublicacion] = useState("");
-  const [isbn, setIsbn] = useState("");
-  const [lenguaje, setLenguaje] = useState("");
-  const [coverImage, setCoverImage] = useState("");
-  const [pdfLibro, setPdfLibro] = useState("");
-  const [pdfDescarga, setPdfDescarga] = useState("");
-  const [idSubAreaEspecifica, setIdSubAreaEspecifica] = useState(0);
-  const [nombreSubAreaEspecifica, setNombreSubAreaEspecifica] = useState("");
-
   const [listaArea, setListaArea] = useState([]);
   const [listaSubArea, setListaSubArea] = useState([]);
   const [listaSubAreaEspecifica, setListaSubAreaEspecifica] = useState([]);
-  const [files, setFiles] = useState([]);
-  const [names, setNames] = useState([]);
-  const [inputCount, setInputCount] = useState(1);
-  const [capituloList, setCapituloList] = useState([]);
   const [listaLibro, setListaLibro] = useState([]);
   const [listaTipoAutor, setListaTipoAutor] = useState([]);
   const [listaAutor, setListaAutor] = useState([]);
@@ -49,11 +34,7 @@ export function LibroAccionesContextProvider(props) {
       .catch((error) => console.error(error));
   }, []);
   useEffect(() => {
-    obtenerDatos(libroUrl + "/libro")
-      .then((data) => {
-        setListaLibro(data);
-      })
-      .catch((error) => console.error(error));
+    obtenerListLibro();
   }, []);
   useEffect(() => {
     obtenerDatos(libroUrl + "/tipoAutor")
@@ -77,6 +58,13 @@ export function LibroAccionesContextProvider(props) {
       return jsonData;
     }
   };
+  const obtenerListLibro = async () => {
+    obtenerDatos(libroUrl + "/libro")
+      .then((data) => {
+        setListaLibro(data);
+      })
+      .catch((error) => console.error(error));
+  };
 
   return (
     <LibroAccionesContext.Provider
@@ -94,6 +82,7 @@ export function LibroAccionesContextProvider(props) {
         listaAutor,
         setListaAutor,
         obtenerDatos,
+        obtenerListLibro,
       }}
     >
       {props.children}

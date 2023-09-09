@@ -7,10 +7,13 @@ import { AccesibilidadContext } from "../context/AccesibilidadContext";
 
 const Navbar = () => {
   const { sesionExitosa } = useContext(AccesibilidadContext);
-  const [usuarioSesion, setUsuarioSesion] = useState();
+  const [usuarioSesion, setUsuarioSesion] = useState(false);
   useEffect(() => {
     if (localStorage.getItem("loggerUser") !== null) {
-      setUsuarioSesion(localStorage.getItem("loggerUser"));
+      setUsuarioSesion(true);
+    }
+    else{
+      setUsuarioSesion(false);
     }
   }, []);
   return (
@@ -75,7 +78,7 @@ const Navbar = () => {
                     href={`/IniciarSesion`}
                     onClick={() => {
                       localStorage.removeItem("loggerUser");
-                      setUsuarioSesion(null);
+                      setUsuarioSesion(false);
                     }}
                   >
                     Cerrar sesión

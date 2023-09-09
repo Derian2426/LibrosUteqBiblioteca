@@ -39,7 +39,7 @@ export const DialogoRegistroLibro = () => {
   const [listTipoAutor, setListTipoAutor] = useState([]);
   const [tipoAutor, setTipoAutor] = useState("");
   const [idTAutor, setIdTAutor] = useState(0);
-  const { listaArea, listaAutor, listaTipoAutor } =
+  const { listaArea, listaAutor, listaTipoAutor,obtenerListLibro } =
     useContext(LibroAccionesContext);
   const [previousRecordHasData, setPreviousRecordHasData] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([true]);
@@ -224,6 +224,7 @@ export const DialogoRegistroLibro = () => {
                                       autoClose: 5000,
                                     });
                                     vaciarCampos();
+                                    obtenerListLibro();
                                   } else {
                                     toast.error(data.iformacionEstado, {
                                       autoClose: 5000,

@@ -21,42 +21,46 @@ export const AuthRoute = ({ component: Component }) => {
   const { setSesionExitosa } = useContext(AccesibilidadContext);
   const [isTokenValidation, setIsTokenValidation] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const isAuthenticated = localStorage.getItem("loggerUser");
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem("loggerUser");
     const checkTokenValidation = async () => {
-      if (isAuthenticated) {
-        const loggerUserObject = JSON.parse(isAuthenticated);
-        const { token, userLogger } = loggerUserObject;
-        try {
-          const isValid = await validateToken(token, userLogger);
-          setIsTokenValidation(isValid);
+      const loggerUserObject = JSON.parse(isAuthenticated);
+      const { token, userLogger } = loggerUserObject;
+      try {
+        const isValid = await validateToken(token, userLogger);
+        setIsTokenValidation(isValid);
+        if (isValid) {
           setSesionExitosa(true);
-        } catch (error) {
-          setIsTokenValidation(false);
+        } else {
+          localStorage.removeItem("loggerUser");
           setSesionExitosa(false);
-        } finally {
-          setIsLoading(false);
         }
-      } else {
+      } catch (error) {
+        setIsTokenValidation(false);
+        setSesionExitosa(false);
+      } finally {
         setIsLoading(false);
       }
     };
-    if (isAuthenticated) {
+
+    if (isAuthenticated === null) {
+      setIsTokenValidation(false);
+      setIsLoading(false);
+      setSesionExitosa(false);
+    } else {
       checkTokenValidation();
     }
-  }, []);
+  }, [isAuthenticated, setSesionExitosa]);
 
   if (isLoading) {
-    return <div>Cargando...</div>;
+    return <div>Cargando</div>;
   }
 
   if (isTokenValidation) {
     return <Component />;
   } else {
-    if (isTokenValidation === false) {
-      localStorage.removeItem("loggerUser");
-    }
+    setSesionExitosa(false);
     return <Navigate to="/" />;
   }
 };
