@@ -27,7 +27,7 @@ export function LibroContextProvider(props) {
     }
   };
   return (
-    <LibroContext.Provider value={{ listaLibro, postDataJson }}>
+    <LibroContext.Provider value={{ listaLibro, postDataJson, setListaLibro }}>
       <LoadingDialog loading={loading} />
       {props.children}
     </LibroContext.Provider>
