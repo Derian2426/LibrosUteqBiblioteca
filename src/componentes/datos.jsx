@@ -10,7 +10,6 @@ import { LibroContext } from "../context/LibrosContext";
 
 export function Tabladatos() {
   const [currentPage, setCurrentPage] = useState(0);
-  const [busquedaLibro, setBusquedaLibro] = useState("");
   const itemsPerPage = 2;
   const handleButtonClick = async (idLibro) => {
     window.location.href = `/audiolibro/${idLibro}`;
