@@ -50,8 +50,9 @@ export const AgregarSubArea = () => {
           subAreaString,
           "/subAreaConocimiento"
         );
+        console.log(request);
         if (request.idSubArea < 0) {
-          toast.error(request.nombreSubArea + ", se encuentra registrado", {
+          toast.error(nombreSubArea + ", se encuentra registrado", {
             autoClose: 1000,
           });
         } else {
@@ -108,16 +109,23 @@ export const AgregarSubArea = () => {
         setNombreSubArea("");
         setNombreArea("");
         setIdArea(0);
-
+        setIdSubArea(0);
         const data = await fetchData();
-        setListaArea(data);
-        toast.success(`${request.nombreSubArea} registrada con éxito`, {
+        setListaSubArea(data);
+        toast.success(`${request.nombreSubArea} modificada con éxito`, {
           autoClose: 1000,
         });
       } else {
-        toast.error(`${request.nombreSubArea} ya está registrada`, {
-          autoClose: 1000,
-        });
+        toast.error(
+          `${trimmedNombreSubArea}, este registro ya existe. Por favor, verifica los datos.`,
+          {
+            autoClose: 1000,
+          }
+        );
+        setNombreSubArea("");
+        setNombreArea("");
+        setIdArea(0);
+        setIdSubArea(0);
       }
     } catch (error) {
       toast.error("Ocurrió un error durante el registro: " + error, {
@@ -127,7 +135,7 @@ export const AgregarSubArea = () => {
   };
   const fetchData = async () => {
     try {
-      const res = await fetch(libroUrl + "/areaConocimiento");
+      const res = await fetch(libroUrl + "/subAreaConocimiento");
 
       if (!res.ok) {
         throw new Error("Error");
@@ -137,7 +145,7 @@ export const AgregarSubArea = () => {
       return data;
     } catch (error) {
       console.log(error);
-      throw error; // Opcional: Puedes volver a lanzar el error para manejarlo fuera de esta función.
+      throw error;
     }
   };
 
@@ -193,12 +201,17 @@ export const AgregarSubArea = () => {
                     ))}
                   </select>
                 ) : (
-                  <input
-                    type="text"
-                    className="form-control"
-                    readOnly
+                  <select
+                    className="form-select"
                     value={nombreArea}
-                  />
+                    onChange={handleSubAreaEspecificaChange}
+                  >
+                    {listaArea.map((area) => (
+                      <option key={area.idArea} value={area.nombreArea}>
+                        {area.nombreArea}
+                      </option>
+                    ))}
+                  </select>
                 )}
               </div>
               <div className="col-md-5">
@@ -257,8 +270,8 @@ export const AgregarSubArea = () => {
               <thead>
                 <tr>
                   <th>N°</th>
-                  <th>Sub área</th>
                   <th>Área</th>
+                  <th>Sub área</th>
                   <th>Acciones</th>
                 </tr>
               </thead>
@@ -266,10 +279,12 @@ export const AgregarSubArea = () => {
                 {listaSubArea.map((dato, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td style={{ textAlign: "left" }}>{dato.nombreSubArea}</td>
                     <td style={{ textAlign: "left" }}>
-                      {dato.areaConocimiento.nombreArea}
+                      {dato.areaConocimiento
+                        ? dato.areaConocimiento.nombreArea
+                        : ""}
                     </td>
+                    <td style={{ textAlign: "left" }}>{dato.nombreSubArea}</td>
                     <td>
                       <button
                         className="audio-button"

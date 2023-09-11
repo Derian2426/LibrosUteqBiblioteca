@@ -43,10 +43,7 @@ export const DialogoAgregarArea = () => {
         nombreArea,
       };
       const areaString = JSON.stringify(areaConocimiento);
-      const request = await postDataJson(
-        areaString,
-        "/areaConocimiento"
-      );
+      const request = await postDataJson(areaString, "/areaConocimiento");
       if (request.idArea > 0) {
         toast.success(request.nombreArea + ", Modificado con existo", {
           autoClose: 1000,
@@ -56,9 +53,14 @@ export const DialogoAgregarArea = () => {
         eliminarPorId();
         setListaArea([...listaArea, request]);
       } else {
-        toast.error(`${request.nombreArea} ya esta registrado, intente agrendo otra Área de conocimiento.`, {
-          autoClose: 1000,
-        });
+        toast.error(
+          `${request.nombreArea} ya esta registrado, intente agrendo otra Área de conocimiento.`,
+          {
+            autoClose: 1000,
+          }
+        );
+        setNombreArea("");
+        setAcciones(false);
       }
     } else {
       toast.error("Ingrese el nombre del Área", { autoClose: 1000 });
@@ -197,7 +199,7 @@ export const DialogoAgregarArea = () => {
                 {listaArea.map((dato, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td  style={{ textAlign: "left" }}>{dato.nombreArea}</td>
+                    <td style={{ textAlign: "left" }}>{dato.nombreArea}</td>
                     <td>
                       <button
                         className="audio-button"
