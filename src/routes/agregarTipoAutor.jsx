@@ -85,7 +85,7 @@ export const DialogoAgregarTipoAutor = () => {
     } finally {
     }
   };
-  function editarSubArea(dato) {
+  function editarTipoAutor(dato) {
     try {
       setAcciones(true);
       const { idAutor, tipoAutor } = dato;
@@ -182,6 +182,7 @@ export const DialogoAgregarTipoAutor = () => {
                 <tr>
                   <th>N°</th>
                   <th>Tipo autor</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -193,7 +194,7 @@ export const DialogoAgregarTipoAutor = () => {
                       <button
                         className="audio-button"
                         type="button"
-                        onClick={() => editarSubArea(dato)}
+                        onClick={() => editarTipoAutor(dato)}
                       >
                         <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
                       </button>

@@ -5,6 +5,10 @@ import { useContext, useState } from "react";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
+import { obtenerDatos } from "../peticionesHttp";
+import config from "../configuracion";
 
 export const DialogoAutor = () => {
   const [idAutor, setIdAutor] = useState(0);
@@ -12,6 +16,8 @@ export const DialogoAutor = () => {
   const [apellido, setApellido] = useState("");
   const { listaAutor, setListaAutor, postDataJson } =
     useContext(LibroAccionesContext);
+  const [acciones, setAcciones] = useState(false);
+  const libroUrl = config.libroUrl;
 
   const handleRegistroClick = async () => {
     try {
@@ -49,6 +55,63 @@ export const DialogoAutor = () => {
     } finally {
     }
   };
+  const handleModificarClick = async () => {
+    try {
+      if (nombre != "" && apellido != "") {
+        setNombre(nombre.trim());
+        setApellido(apellido.trim());
+        const autorRegistro = {
+          idAutor,
+          nombre,
+          apellido,
+        };
+        const autorString = JSON.stringify(autorRegistro);
+        const request = await postDataJson(autorString, "/autor");
+        if (request.idAutor < 0) {
+          setAcciones(false);
+          setIdAutor(0);
+          setNombre("");
+          setApellido("");
+          toast.error(request.nombre + ", se encuentra registrado", {
+            autoClose: 1000,
+          });
+        } else {
+          setAcciones(false);
+          setIdAutor(0);
+          setNombre("");
+          setApellido("");
+          obtenerDatos(libroUrl + "/autor")
+            .then((data) => {
+              setListaAutor(data);
+            })
+            .catch((error) => console.error(error));
+          toast.success(`${request.nombre} modificado con éxito`, {
+            autoClose: 1000,
+          });
+        }
+      } else {
+        toast.error("Existen campos sin seleccionar o sin llenar.", {
+          autoClose: 1000,
+        });
+      }
+    } catch (error) {
+      toast.error("Ocurrió un error durante el registro" + error, {
+        autoClose: 5000,
+      });
+    } finally {
+    }
+  };
+  function editarAutor(dato) {
+    try {
+      setAcciones(true);
+      const { idAutor, nombre, apellido } = dato;
+      setIdAutor(idAutor);
+      setNombre(nombre);
+      setApellido(apellido);
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <div
@@ -112,20 +175,33 @@ export const DialogoAutor = () => {
                 />
               </div>
               <div className="col-md-1 d-flex align-items-end">
-                <button
-                  className="btn btn-success"
-                  type="button"
-                  onClick={handleRegistroClick}
-                >
-                  Guardar
-                </button>
+                {!acciones ? (
+                  <button
+                    className="btn btn-success"
+                    type="button"
+                    onClick={handleRegistroClick}
+                  >
+                    Guardar
+                  </button>
+                ) : (
+                  <button
+                    className="btn btn-primary"
+                    type="button"
+                    onClick={handleModificarClick}
+                  >
+                    Modificar
+                  </button>
+                )}
               </div>
             </form>
           </div>
 
           <div className="Mycontainer-div-list mt-2">
-            <label htmlFor="validationCustom05" className="form-label" 
-            style={{marginLeft: "7px", marginBottom: "2px"}}>
+            <label
+              htmlFor="validationCustom05"
+              className="form-label"
+              style={{ marginLeft: "7px", marginBottom: "2px" }}
+            >
               Lista de autores
             </label>
           </div>
@@ -139,6 +215,7 @@ export const DialogoAutor = () => {
                   <th>N°</th>
                   <th>Nombre autor</th>
                   <th>Apellido autor</th>
+                  <th>Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -147,6 +224,15 @@ export const DialogoAutor = () => {
                     <th scope="row">{index + 1}</th>
                     <td style={{ textAlign: "left" }}>{dato.nombre}</td>
                     <td style={{ textAlign: "left" }}>{dato.apellido}</td>
+                    <td>
+                      <button
+                        className="audio-button"
+                        type="button"
+                        onClick={() => editarAutor(dato)}
+                      >
+                        <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
+                      </button>
+                    </td>
                   </tr>
                 ))}
               </tbody>
