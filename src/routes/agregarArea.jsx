@@ -168,7 +168,7 @@ export const DialogoAgregarArea = () => {
                     type="button"
                     onClick={() => handleEditarArea()}
                   >
-                    Editar
+                    Modificar
                   </button>
                 )}
               </div>

@@ -7,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { obtenerDatos } from "../peticionesHttp";
 import config from "../configuracion";
 
 export const AgregarSubArea = () => {
@@ -16,7 +15,6 @@ export const AgregarSubArea = () => {
     setListaSubArea,
     listaSubArea,
     postDataJson,
-    setListaArea,
   } = useContext(LibroAccionesContext);
   const [idSubArea, setIdSubArea] = useState(0);
   const [nombreSubArea, setNombreSubArea] = useState("");
@@ -246,7 +244,7 @@ export const AgregarSubArea = () => {
                       setAcciones(false);
                     }}
                   >
-                    Editar
+                    Modificar
                   </button>
                 )}
               </div>
