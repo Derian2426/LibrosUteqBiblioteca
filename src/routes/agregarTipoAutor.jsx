@@ -28,6 +28,16 @@ export const DialogoAgregarTipoAutor = () => {
         };
         const tipoString = JSON.stringify(tipoAutorJson);
         const request = await postDataJson(tipoString, "/tipoAutor");
+        console.log(request);
+        if (request < 0) {
+          toast.error(
+            "Se ha producido un error en la sesión. Por favor, inicia sesión nuevamente para continuar.",
+            {
+              autoClose: 1000,
+            }
+          );
+          return window.location.href = "/registrarlibros";
+        }
         if (request.idAutor < 0) {
           toast.error(request.tipoAutor + ", se encuentra registrado", {
             autoClose: 1000,
@@ -57,6 +67,7 @@ export const DialogoAgregarTipoAutor = () => {
         };
         const tipoString = JSON.stringify(tipoAutorJson);
         const request = await postDataJson(tipoString, "/tipoAutor");
+        console.log(request);
         if (request.idAutor < 0) {
           setAcciones(true);
           setIdAutor(0);

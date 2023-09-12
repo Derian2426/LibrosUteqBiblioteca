@@ -55,7 +55,7 @@ export function LibroAccionesContextProvider(props) {
       const peticionPost = await postData(libroUrl + url, jsonData);
       return peticionPost;
     } catch (error) {
-      return jsonData;
+      return -1;
     }
   };
   const obtenerListLibro = async () => {

@@ -49,6 +49,11 @@ export const postData = async (url, jsonData) => {
         Authorization: `Bearer ${token}`,
       },
     });
+    if (response.status === 403) {
+      throw new Error(
+        "Acceso denegado. No tienes permisos para realizar esta acción."
+      );
+    }
     if (response.status !== 200) {
       return response.data;
     }
@@ -69,7 +74,7 @@ export const enviarPeticionConEncabezadoJSON = async (url, jsonData) => {
     body: JSON.stringify(jsonData),
   });
   if (!response.ok) {
-    throw new Error("Error al enviar la petición.");
+    return response.json();
   }
   return response.json();
 };
