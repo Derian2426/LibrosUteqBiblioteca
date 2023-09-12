@@ -10,12 +10,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import config from "../configuracion";
 
 export const AgregarSubArea = () => {
-  const {
-    listaArea,
-    setListaSubArea,
-    listaSubArea,
-    postDataJson,
-  } = useContext(LibroAccionesContext);
+  const { listaArea, setListaSubArea, listaSubArea, postDataJson } =
+    useContext(LibroAccionesContext);
   const [idSubArea, setIdSubArea] = useState(0);
   const [nombreSubArea, setNombreSubArea] = useState("");
   const [idArea, setIdArea] = useState(0);
@@ -48,7 +44,15 @@ export const AgregarSubArea = () => {
           subAreaString,
           "/subAreaConocimiento"
         );
-        console.log(request);
+        if (request < 0) {
+          toast.error(
+            "Se ha producido un error en la sesión. Por favor, inicia sesión nuevamente para continuar.",
+            {
+              autoClose: 1000,
+            }
+          );
+          return (window.location.href = "/registrarlibros");
+        }
         if (request.idSubArea < 0) {
           toast.error(nombreSubArea + ", se encuentra registrado", {
             autoClose: 1000,
@@ -103,6 +107,15 @@ export const AgregarSubArea = () => {
       };
       const subAreaString = JSON.stringify(subAreaConocimiento);
       const request = await postDataJson(subAreaString, "/subAreaConocimiento");
+      if (request < 0) {
+        toast.error(
+          "Se ha producido un error en la sesión. Por favor, inicia sesión nuevamente para continuar.",
+          {
+            autoClose: 1000,
+          }
+        );
+        return (window.location.href = "/registrarlibros");
+      }
       if (request.idSubArea >= 0) {
         setNombreSubArea("");
         setNombreArea("");

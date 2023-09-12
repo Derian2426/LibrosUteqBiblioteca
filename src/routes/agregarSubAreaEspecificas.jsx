@@ -80,6 +80,15 @@ export const AgregarSubAreaEspecifica = () => {
           subAreaEspecificasString,
           "/subAreaEspecificas"
         );
+        if (request < 0) {
+          toast.error(
+            "Se ha producido un error en la sesión. Por favor, inicia sesión nuevamente para continuar.",
+            {
+              autoClose: 1000,
+            }
+          );
+          return (window.location.href = "/registrarlibros");
+        }
         if (request.idSubAreaEspecifica < 0) {
           toast.error(
             request.nombreSubAreaEspecifica + ", se encuentra registrado",
@@ -140,6 +149,15 @@ export const AgregarSubAreaEspecifica = () => {
           subAreaEspecificasString,
           "/subAreaEspecificas"
         );
+        if (request < 0) {
+          toast.error(
+            "Se ha producido un error en la sesión. Por favor, inicia sesión nuevamente para continuar.",
+            {
+              autoClose: 1000,
+            }
+          );
+          return (window.location.href = "/registrarlibros");
+        }
         if (request.idSubAreaEspecifica < 0) {
           setAcciones(true);
           setNombreSubArea("");

@@ -31,6 +31,15 @@ export const DialogoAutor = () => {
         };
         const autorString = JSON.stringify(autorRegistro);
         const request = await postDataJson(autorString, "/autor");
+        if (request < 0) {
+          toast.error(
+            "Se ha producido un error en la sesión. Por favor, inicia sesión nuevamente para continuar.",
+            {
+              autoClose: 1000,
+            }
+          );
+          return (window.location.href = "/registrarlibros");
+        }
         if (request.idAutor < 0) {
           toast.error(request.nombre + ", se encuentra registrado", {
             autoClose: 1000,
@@ -67,6 +76,15 @@ export const DialogoAutor = () => {
         };
         const autorString = JSON.stringify(autorRegistro);
         const request = await postDataJson(autorString, "/autor");
+        if (request < 0) {
+          toast.error(
+            "Se ha producido un error en la sesión. Por favor, inicia sesión nuevamente para continuar.",
+            {
+              autoClose: 1000,
+            }
+          );
+          return (window.location.href = "/registrarlibros");
+        }
         if (request.idAutor < 0) {
           setAcciones(false);
           setIdAutor(0);

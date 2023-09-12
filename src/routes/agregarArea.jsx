@@ -44,6 +44,15 @@ export const DialogoAgregarArea = () => {
       };
       const areaString = JSON.stringify(areaConocimiento);
       const request = await postDataJson(areaString, "/areaConocimiento");
+      if (request < 0) {
+        toast.error(
+          "Se ha producido un error en la sesión. Por favor, inicia sesión nuevamente para continuar.",
+          {
+            autoClose: 1000,
+          }
+        );
+        return (window.location.href = "/registrarlibros");
+      }
       if (request.idArea > 0) {
         toast.success(request.nombreArea + ", Modificado con existo", {
           autoClose: 1000,
@@ -78,6 +87,15 @@ export const DialogoAgregarArea = () => {
         setLoading(true);
         const areaString = JSON.stringify(areaConocimiento);
         const request = await postDataJson(areaString, "/areaConocimiento");
+        if (request < 0) {
+          toast.error(
+            "Se ha producido un error en la sesión. Por favor, inicia sesión nuevamente para continuar.",
+            {
+              autoClose: 1000,
+            }
+          );
+          return (window.location.href = "/registrarlibros");
+        }
         if (request.idArea < 0) {
           toast.error(request.nombreArea + ", se encuentra registrado", {
             autoClose: 1000,

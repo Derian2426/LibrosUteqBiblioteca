@@ -39,7 +39,7 @@ export const DialogoRegistroLibro = () => {
   const [listTipoAutor, setListTipoAutor] = useState([]);
   const [tipoAutor, setTipoAutor] = useState("");
   const [idTAutor, setIdTAutor] = useState(0);
-  const { listaArea, listaAutor, listaTipoAutor,obtenerListLibro } =
+  const { listaArea, listaAutor, listaTipoAutor, obtenerListLibro } =
     useContext(LibroAccionesContext);
   const [previousRecordHasData, setPreviousRecordHasData] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState([true]);
@@ -242,6 +242,8 @@ export const DialogoRegistroLibro = () => {
                                     autoClose: 5000,
                                   }
                                 );
+                                return (window.location.href =
+                                  "/registrarlibros");
                               } finally {
                                 setLoading(false);
                               }
@@ -733,7 +735,7 @@ export const DialogoRegistroLibro = () => {
                               setLenguaje(event.target.value)
                             }
                           >
-                            <option value="">Seleccionar sub área</option>
+                            <option value="">Seleccionar un idioma</option>
                             <option value="Español">Español</option>
                             <option value="Inglés">Inglés</option>
                             <option value="Francés">Francés</option>
