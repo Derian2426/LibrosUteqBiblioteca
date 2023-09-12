@@ -4,7 +4,12 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faDownload, faL, faLessThanEqual,faArrowLeft } from "@fortawesome/free-solid-svg-icons";
+import {
+  faDownload,
+  faL,
+  faLessThanEqual,
+  faArrowLeft,
+} from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import Footer from "./footer";
 import config from "../configuracion";
@@ -16,7 +21,6 @@ import {
   obtenerImagen,
 } from "../peticionesHttp";
 import { LoadingDialog } from "../LoadingDialog";
-
 
 const audioLibro = () => {
   const [libro, setLibro] = useState({});
@@ -45,7 +49,10 @@ const audioLibro = () => {
         setListaCapitulos(listaRequest);
       })
       .catch((error) => setError(error))
-      .finally(() => {setIsLoading(false); setLoading(false);});
+      .finally(() => {
+        setIsLoading(false);
+        setLoading(false);
+      });
   }, []);
 
   useEffect(() => {
@@ -62,7 +69,7 @@ const audioLibro = () => {
         setLoading(false);
       } catch (error) {
         setError(error);
-      }finally{
+      } finally {
         setLoading(false);
       }
     };
@@ -85,6 +92,26 @@ const audioLibro = () => {
     }
     return await response.blob();
   }
+  async function obtenerPDFDesdeServidor() {
+    const response = await fetch(url + "/files/pdf", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(libro),
+    });
+    if (!response.ok) {
+      throw new Error("Error al obtener el PDF desde el servidor");
+    }
+    const blob = await response.blob();
+    const urlpdf = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = urlpdf;
+    a.download = libro.nombreLibro + ".pdf";
+    document.body.appendChild(a);
+    a.click();
+    window.URL.revokeObjectURL(urlpdf);
+  }
 
   const obtenerImagenDesdeServidor = async (jsonData) => {
     try {
@@ -100,19 +127,16 @@ const audioLibro = () => {
 
   return (
     <div style={{ marginTop: "80px" }}>
-
-<div>
-<button
-          className="StyleBotonAtras"
-          onClick={handleRedirect} >
-    <FontAwesomeIcon icon={faArrowLeft}  style={{ color: 'white'}} />
+      <div>
+        <button className="StyleBotonAtras" onClick={handleRedirect}>
+          <FontAwesomeIcon icon={faArrowLeft} style={{ color: "white" }} />
         </button>
-</div>
+      </div>
       <LoadingDialog loading={loading} />
       <div style={{ textAlign: "center" }}>
-      <a href="/">
-            <img
-              id="logoAudio"
+        <a href="/">
+          <img
+            id="logoAudio"
             src="../src/imagenes/LogoAudioLibros.png"
             alt="Inicio"
             width="400px"
@@ -149,10 +173,7 @@ const audioLibro = () => {
                 {/* Imagen*/}
                 <div className="col-md-6" style={{ maxWidth: "575px" }}>
                   <div className="card mb-1" style={{ padding: "5px" }}>
-                    
-                    <img 
-                     id="ImgAudioLibros"
-                    src={imageUrl} alt="Imagen 1" />
+                    <img id="ImgAudioLibros" src={imageUrl} alt="Imagen 1" />
                   </div>
                   {/*botones de descarga */}
                   <div className="d-flex flex-wrap justify-content-center">
@@ -160,6 +181,7 @@ const audioLibro = () => {
                       className="audio-button"
                       type="button"
                       style={{ height: "25px" }}
+                      onClick={obtenerPDFDesdeServidor}
                     >
                       <FontAwesomeIcon
                         icon={faDownload}
@@ -171,7 +193,7 @@ const audioLibro = () => {
                       className="audio-button mt-2"
                       type="button"
                       style={{ height: "25px" }}
-                      onClick={async() => {
+                      onClick={async () => {
                         setLoading(true);
                         await descargarAudiosZip(libro, url + "/downloadZip");
                         setLoading(false);
