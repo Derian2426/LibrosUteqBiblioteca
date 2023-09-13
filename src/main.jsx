@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import Root from "./routes/root";
 import ErrorPage from "./error-page";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createHashRouter, RouterProvider } from "react-router-dom";
 import FormularioLibro from "./routes/registroLibro";
 import Principal from "./routes/Navbar";
 import BusquedaLibros from "./routes/busquedaLibros";
@@ -19,24 +19,24 @@ const routes = [
     errorElement: <ErrorPage />,
   },
   {
-    path: "registrarlibros",
+    path: "/registrarlibros",
     element: <AuthRoute component={FormularioLibro} />,
   },
   {
-    path: "IniciarSesion",
+    path: "/IniciarSesion",
     element: <NotAuthRoute component={IniciarSesion} />,
   },
   {
-    path: "BuscarLibros",
+    path: "/BuscarLibros",
     element: <BusquedaLibros />,
   },
   {
-    path: "audiolibro/:data",
+    path: "/audiolibro/:data",
     element: <AudioLibro />,
   },
 ];
 
-const router = createBrowserRouter(routes);
+const router = createHashRouter(routes);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>

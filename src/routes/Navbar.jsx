@@ -26,7 +26,7 @@ const Navbar = () => {
           <a className="navbar-brand" href="/">
             <img
               id="logoPrincipal"
-              src="../src/imagenes/a11ytools.png"
+              src="imagenes-static/a11ytools.png"
               dir="auto"
               alt="Inicio"
               width="160px"
@@ -52,7 +52,7 @@ const Navbar = () => {
                   id="activar-links"
                   className="nav-linkS"
                   aria-current="page"
-                  href={`/BuscarLibros`}
+                  href={`#/BuscarLibros`}
                 >
                   Búsqueda de libros
                 </a>
@@ -63,7 +63,7 @@ const Navbar = () => {
                   <a
                     className="nav-linkS"
                     aria-current="page"
-                    href={`/registrarlibros`}
+                    href={`#/registrarlibros`}
                   >
                     Registrar Libro
                   </a>
@@ -75,7 +75,7 @@ const Navbar = () => {
                   <a
                     className="nav-linkS "
                     aria-current="page"
-                    href={`/IniciarSesion`}
+                    href={`#/IniciarSesion`}
                     onClick={() => {
                       localStorage.removeItem("loggerUser");
                       setUsuarioSesion(false);
@@ -89,7 +89,7 @@ const Navbar = () => {
                   <a
                     className="nav-linkS"
                     aria-current="page"
-                    href={`/IniciarSesion`}
+                    href={`#/IniciarSesion`}
                   >
                     Iniciar sesión
                   </a>

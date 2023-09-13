@@ -66,7 +66,7 @@ const iniciarsesion = () => {
             <img
               id="logoAudio"
                 className="StyleImg"
-                src="../src/imagenes/LogoAudioLibros.png"
+                src="imagenes-static/LogoAudioLibros.png"
                 dir="auto"
                 alt="Logo Principal Audiolibros: Libro con pasta de color verde y ondas de sonido 
             en la parte inferior; las páginas son de color dorado. Aparece la silueta de una 
