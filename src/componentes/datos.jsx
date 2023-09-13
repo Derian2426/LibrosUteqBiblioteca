@@ -12,7 +12,7 @@ export function Tabladatos() {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 2;
   const handleButtonClick = async (idLibro) => {
-    window.location.href = `/audiolibro/${idLibro}`;
+    window.location.href = `#/audiolibro/${idLibro}`;
   };
   const { listaLibro } = useContext(LibroContext);
 

@@ -70,7 +70,7 @@ const busquedaLibros = () => {
     }
   };
   const handleButtonClick = async (idLibro) => {
-    window.location.href = `/audiolibro/${idLibro}`;
+    window.location.href = `#/audiolibro/${idLibro}`;
   };
   const handleSubAreaChange = async (event) => {
     const selectedSubArea = listaSubArea.find(
