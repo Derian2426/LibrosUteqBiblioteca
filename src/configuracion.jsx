@@ -1,4 +1,4 @@
 const config = {
-  libroUrl: "https://fyc.uteq.edu.ec/bibliotecauteq-backend",
+  libroUrl: "http://localhost:8282",
 };
 export default config;
