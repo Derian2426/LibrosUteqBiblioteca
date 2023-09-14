@@ -9,7 +9,7 @@ import { LibroContextProvider } from "../context/LibrosContext";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import config from "../configuracion";
-import { faVolumeUp } from "@fortawesome/free-solid-svg-icons";
+import { faVolumeUp,faSearch } from "@fortawesome/free-solid-svg-icons";
 import {
   obtenerDatos,
   enviarPeticionConEncabezadoJSON,
@@ -229,7 +229,7 @@ const busquedaLibros = () => {
                   type="button"
                   onClick={realizarBusqueda}
                 >
-                  <i className="fa-solid fa-magnifying-glass"></i>
+                  <FontAwesomeIcon icon={faSearch } />
                 </button>
               </div>
               <div className="col-md-4">
