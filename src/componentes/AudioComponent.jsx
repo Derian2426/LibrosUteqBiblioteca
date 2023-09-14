@@ -1,24 +1,34 @@
-import ReactAudioPlayer from "react-audio-player";
-import { descargarAudioDesdeServidor } from "../downloadArchivos";
-import { faDownload } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import config from "../configuracion";
-import { LoadingDialog } from "../LoadingDialog";
 import React, { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faDownload } from "@fortawesome/free-solid-svg-icons";
+import config from "../configuracion";
+import { descargarAudioDesdeServidor } from "../downloadArchivos";
+import { LoadingDialog } from "../LoadingDialog";
 
-export const Capitulo = ({ capitulo, audioSrc }) => {
+export const Capitulo = ({ index, capitulo, audioSrc }) => {
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+
   const handleDescargarClick = async () => {
     setLoading(true);
-    await descargarAudioDesdeServidor(capitulo, config.libroUrl + "/download");
-    setLoading(false);
+    setError(null);
+    try {
+      await descargarAudioDesdeServidor(
+        capitulo,
+        config.libroUrl + "/download"
+      );
+    } catch (error) {
+      setError(error.message || "Error desconocido al descargar el audio");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handlePlay = (event) => {
-    const dioPlay = document.getElementsByTagName("audio");
-    for (let i = 0; i < dioPlay.length; i++) {
-      if (dioPlay[i] !== event.target) {
-        dioPlay[i].pause();
+    const audioElements = document.getElementsByTagName("audio");
+    for (let i = 0; i < audioElements.length; i++) {
+      if (audioElements[i] !== event.target) {
+        audioElements[i].pause();
       }
     }
   };
@@ -38,23 +48,26 @@ export const Capitulo = ({ capitulo, audioSrc }) => {
             alignItems: "center",
           }}
         >
-          <ReactAudioPlayer
+          <audio
+            key={index}
             src={audioSrc}
             autoPlay={false}
             controls
             style={{ width: "73%", height: "25px" }}
             onPlay={handlePlay}
-          ></ReactAudioPlayer>
+          ></audio>
           <button
             className="audio-button"
             type="button"
             style={{ height: "25px" }}
             onClick={handleDescargarClick}
+            disabled={loading}
           >
             <FontAwesomeIcon icon={faDownload} style={{ marginRight: "5px" }} />{" "}
             Descargar Audio
           </button>
         </div>
+        {error && <div className="text-danger mt-2">Error: {error}</div>}
       </div>
     </div>
   );

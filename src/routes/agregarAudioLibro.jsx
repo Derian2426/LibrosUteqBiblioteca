@@ -242,8 +242,8 @@ export const DialogoRegistroLibro = () => {
                                     autoClose: 5000,
                                   }
                                 );
-                                // return (window.location.href =
-                                //   "/registrarlibros");
+                                return (window.location.href =
+                                  "#/registrarlibros");
                               } finally {
                                 setLoading(false);
                               }

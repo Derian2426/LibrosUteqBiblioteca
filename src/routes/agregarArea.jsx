@@ -51,7 +51,7 @@ export const DialogoAgregarArea = () => {
             autoClose: 1000,
           }
         );
-        return (window.location.href = "/registrarlibros");
+        return (window.location.href = "#/registrarlibros");
       }
       if (request.idArea > 0) {
         toast.success(request.nombreArea + ", Modificado con existo", {
@@ -94,7 +94,7 @@ export const DialogoAgregarArea = () => {
               autoClose: 1000,
             }
           );
-          return (window.location.href = "/registrarlibros");
+          return (window.location.href = "#/registrarlibros");
         }
         if (request.idArea < 0) {
           toast.error(request.nombreArea + ", se encuentra registrado", {

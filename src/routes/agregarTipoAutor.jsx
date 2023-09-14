@@ -35,7 +35,7 @@ export const DialogoAgregarTipoAutor = () => {
               autoClose: 1000,
             }
           );
-          return window.location.href = "/registrarlibros";
+          return window.location.href = "#/registrarlibros";
         }
         if (request.idAutor < 0) {
           toast.error(request.tipoAutor + ", se encuentra registrado", {
@@ -73,7 +73,7 @@ export const DialogoAgregarTipoAutor = () => {
               autoClose: 1000,
             }
           );
-          return window.location.href = "/registrarlibros";
+          return window.location.href = "#/registrarlibros";
         }
         if (request.idAutor < 0) {
           setAcciones(true);

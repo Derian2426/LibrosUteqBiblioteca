@@ -9,7 +9,7 @@ export default function ErrorPage() {
       <div id="error-page">
         <div style={{ textAlign: "center" }}>
           <a >
-            <img style={{height: "300px"}} src="src/imagenes/ErrorAudioLibros.png" alt="Logo Error" />
+            <img style={{height: "300px"}} src="imagenes-static/ErrorAudioLibros.png" alt="Logo Error" />
           </a>
           <p>
             <i>{error.statusText || error.message}</i>

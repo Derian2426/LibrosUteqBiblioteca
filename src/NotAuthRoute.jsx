@@ -49,7 +49,7 @@ export const NotAuthRoute = ({ component: Component }) => {
   }
 
   if (isTokenValidation) {
-    return <Navigate to="/registrarlibros" />;
+    return <Navigate to="#/registrarlibros" />;
   } else {
     if (isTokenValidation === false) {
       localStorage.removeItem("loggerUser");

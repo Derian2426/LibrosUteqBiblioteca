@@ -51,7 +51,7 @@ export const AgregarSubArea = () => {
               autoClose: 1000,
             }
           );
-          return (window.location.href = "/registrarlibros");
+          return (window.location.href = "#/registrarlibros");
         }
         if (request.idSubArea < 0) {
           toast.error(nombreSubArea + ", se encuentra registrado", {
@@ -114,7 +114,7 @@ export const AgregarSubArea = () => {
             autoClose: 1000,
           }
         );
-        return (window.location.href = "/registrarlibros");
+        return (window.location.href = "#/registrarlibros");
       }
       if (request.idSubArea >= 0) {
         setNombreSubArea("");

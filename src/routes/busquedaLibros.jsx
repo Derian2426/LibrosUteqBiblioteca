@@ -315,31 +315,37 @@ const busquedaLibros = () => {
                       </tr>
                     </thead>
                     <tbody id="ColordatosTabla">
-                      {paginatedData.map((dato, index) => (
-                        <tr key={index}>
-                          <th scope="row">
-                            {currentPage * itemsPerPage + index + 1}
-                          </th>
-                          <td style={{ textAlign: "left" }}>
-                            {dato.nombreLibro}
-                          </td>
-                          <td style={{ textAlign: "center" }}>
-                            {dato.fechaPublicacion}
-                          </td>
-                          <td style={{ textAlign: "center" }}>
-                            {dato.lenguaje}
-                          </td>
-                          <td>
-                            <button
-                              className="audio-button"
-                              onClick={()=>handleButtonClick(dato.idLibro)}
-                              type="button"
-                            >
-                              <FontAwesomeIcon icon={faVolumeUp} />
-                            </button>
-                          </td>
+                      {paginatedData.length === 0 ? (
+                        <tr>
+                          <td colSpan="5">No hay libros disponibles.</td>
                         </tr>
-                      ))}
+                      ) : (
+                        paginatedData.map((dato, index) => (
+                          <tr key={index}>
+                            <th scope="row">
+                              {currentPage * itemsPerPage + index + 1}
+                            </th>
+                            <td style={{ textAlign: "left" }}>
+                              {dato.nombreLibro}
+                            </td>
+                            <td style={{ textAlign: "center" }}>
+                              {dato.fechaPublicacion}
+                            </td>
+                            <td style={{ textAlign: "center" }}>
+                              {dato.lenguaje}
+                            </td>
+                            <td>
+                              <button
+                                className="audio-button"
+                                onClick={() => handleButtonClick(dato.idLibro)}
+                                type="button"
+                              >
+                                <FontAwesomeIcon icon={faVolumeUp} />
+                              </button>
+                            </td>
+                          </tr>
+                        ))
+                      )}
                     </tbody>
                   </Table>
 

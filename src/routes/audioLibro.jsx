@@ -4,12 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min.js";
 import "@fortawesome/fontawesome-free/css/all.min.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faDownload,
-  faL,
-  faLessThanEqual,
-  faArrowLeft,
-} from "@fortawesome/free-solid-svg-icons";
+import { faDownload, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 import { useParams } from "react-router-dom";
 import Footer from "./footer";
 import config from "../configuracion";
@@ -51,7 +46,6 @@ const audioLibro = () => {
       .catch((error) => setError(error))
       .finally(() => {
         setIsLoading(false);
-        setLoading(false);
       });
   }, []);
 
@@ -66,7 +60,6 @@ const audioLibro = () => {
           })
         );
         setAudioData(audios);
-        setLoading(false);
       } catch (error) {
         setError(error);
       } finally {
@@ -93,6 +86,7 @@ const audioLibro = () => {
     return await response.blob();
   }
   async function obtenerPDFDesdeServidor() {
+    setLoading(true);
     const response = await fetch(url + "/files/pdf", {
       method: "POST",
       headers: {
@@ -111,6 +105,7 @@ const audioLibro = () => {
     document.body.appendChild(a);
     a.click();
     window.URL.revokeObjectURL(urlpdf);
+    setLoading(false);
   }
 
   const obtenerImagenDesdeServidor = async (jsonData) => {
@@ -137,7 +132,7 @@ const audioLibro = () => {
         <a href="/">
           <img
             id="logoAudio"
-            src="../src/imagenes/LogoAudioLibros.png"
+            src="imagenes-static/LogoAudioLibros.png"
             alt="Inicio"
             width="400px"
             height="110px"
@@ -166,7 +161,9 @@ const audioLibro = () => {
                 display: "block",
               }}
             >
-              {libro.nombreLibro}
+              {libro && libro.nombreLibro
+                ? libro.nombreLibro
+                : "Nombre de libro no disponible"}
             </label>
             <div style={{ maxWidth: "1200px", padding: "8px" }}>
               <div className="row g-2 needs-validation" noValidate>
@@ -288,7 +285,8 @@ const audioLibro = () => {
                       Subárea especifica de conocimiento
                     </label>
 
-                    {libro.subAreasEspecificas &&
+                    {libro &&
+                      libro.subAreasEspecificas &&
                       libro.subAreasEspecificas.nombreSubAreaEspecifica && (
                         <label
                           htmlFor="validationCustom05"
@@ -326,7 +324,7 @@ const audioLibro = () => {
                         display: "block",
                       }}
                     >
-                      {libro.fechaPublicacion}
+                      {libro.fechaPublicacion || "No disponible"}
                     </label>
                     <label
                       htmlFor="validationCustom05"
@@ -350,7 +348,7 @@ const audioLibro = () => {
                         display: "block",
                       }}
                     >
-                      {libro.isbn}
+                      {libro.isbn || "No disponible"}
                     </label>
                     <label
                       htmlFor="validationCustom05"
@@ -402,11 +400,11 @@ const audioLibro = () => {
           <div className="col-md-6 Mycontainer-div" style={{ padding: "10px" }}>
             <div className="container">
               <div className="row">
-                {listaCapitulos.map((capitulo, index) => (
+                {listaCapitulos.map((capitulo) => (
                   <Capitulo
-                    key={index}
+                    index={capitulo.ordenArchivo}
                     capitulo={capitulo}
-                    audioSrc={audioData[index]}
+                    audioSrc={audioData[capitulo.ordenArchivo]}
                   />
                 ))}
               </div>

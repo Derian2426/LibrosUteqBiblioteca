@@ -87,7 +87,7 @@ export const AgregarSubAreaEspecifica = () => {
               autoClose: 1000,
             }
           );
-          return (window.location.href = "/registrarlibros");
+          return (window.location.href = "#/registrarlibros");
         }
         if (request.idSubAreaEspecifica < 0) {
           toast.error(
@@ -156,7 +156,7 @@ export const AgregarSubAreaEspecifica = () => {
               autoClose: 1000,
             }
           );
-          return (window.location.href = "/registrarlibros");
+          return (window.location.href = "#/registrarlibros");
         }
         if (request.idSubAreaEspecifica < 0) {
           setAcciones(true);
