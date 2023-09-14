@@ -11,8 +11,7 @@ const Navbar = () => {
   useEffect(() => {
     if (localStorage.getItem("loggerUser") !== null) {
       setUsuarioSesion(true);
-    }
-    else{
+    } else {
       setUsuarioSesion(false);
     }
   }, []);
@@ -47,6 +46,17 @@ const Navbar = () => {
           </button>
           <div className="navbar-collapse collapse" id="navbarSupportedContent">
             <ul className="navbar-nav ms-auto mb-2 mb-lg-0 ">
+              <li className="nav-item">
+                <a
+                  id="activar-links"
+                  className="nav-linkS"
+                  aria-current="page"
+                  href={`#/BuscarLibros`}
+                >
+                  Acerca de
+                </a>
+              </li>
+              <div className="vr"></div>
               <li className="nav-item">
                 <a
                   id="activar-links"

@@ -32,6 +32,9 @@ const audioLibro = () => {
     setLoading(true);
     obtenerDatos(url + `/libro/${data}`)
       .then((data) => {
+        if (data === null) {
+          return (window.location.href = "/");
+        }
         setLibro(data);
         enviarPeticionConEncabezadoJSON(url + "/autoresLibro", data)
           .then((data) => {
@@ -233,10 +236,11 @@ const audioLibro = () => {
                             display: "block",
                           }}
                         >
-                          {
-                            libro.subAreasEspecificas.subAreasConocimiento
-                              .areaConocimiento.nombreArea
-                          }
+                          {libro.subAreasEspecificas.subAreasConocimiento
+                            .areaConocimiento.nombreArea
+                            ? libro.subAreasEspecificas.subAreasConocimiento
+                                .areaConocimiento.nombreArea
+                            : "Nombre de área de conocimiento no disponible"}
                         </label>
                       )}
 
@@ -265,10 +269,12 @@ const audioLibro = () => {
                             display: "block",
                           }}
                         >
-                          {
-                            libro.subAreasEspecificas.subAreasConocimiento
-                              .nombreSubArea
-                          }
+                          {libro.subAreasEspecificas.subAreasConocimiento &&
+                          libro.subAreasEspecificas.subAreasConocimiento
+                            .nombreSubArea
+                            ? libro.subAreasEspecificas.subAreasConocimiento
+                                .nombreSubArea
+                            : "Nombre de subárea no disponible"}
                         </label>
                       )}
 
@@ -400,8 +406,9 @@ const audioLibro = () => {
           <div className="col-md-6 Mycontainer-div" style={{ padding: "10px" }}>
             <div className="container">
               <div className="row">
-                {listaCapitulos.map((capitulo,index) => (
+                {listaCapitulos.map((capitulo, index) => (
                   <Capitulo
+                    key={index}
                     index={index}
                     capitulo={capitulo}
                     audioSrc={audioData[index]}
