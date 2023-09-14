@@ -400,11 +400,11 @@ const audioLibro = () => {
           <div className="col-md-6 Mycontainer-div" style={{ padding: "10px" }}>
             <div className="container">
               <div className="row">
-                {listaCapitulos.map((capitulo) => (
+                {listaCapitulos.map((capitulo,index) => (
                   <Capitulo
-                    index={capitulo.ordenArchivo}
+                    index={index}
                     capitulo={capitulo}
-                    audioSrc={audioData[capitulo.ordenArchivo]}
+                    audioSrc={audioData[index]}
                   />
                 ))}
               </div>
