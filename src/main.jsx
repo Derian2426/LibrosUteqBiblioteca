@@ -7,6 +7,7 @@ import FormularioLibro from "./routes/registroLibro";
 import Principal from "./routes/Navbar";
 import BusquedaLibros from "./routes/busquedaLibros";
 import IniciarSesion from "./routes/iniciarsesion";
+import Contact  from "./routes/contact";
 import AudioLibro from "./routes/audioLibro";
 import { AuthRoute } from "./AuthRoute";
 import { NotAuthRoute } from "./NotAuthRoute";
@@ -29,6 +30,10 @@ const routes = [
   {
     path: "/BuscarLibros",
     element: <BusquedaLibros />,
+  },
+  {
+    path: "/acercade",
+    element: <Contact />,
   },
   {
     path: "/audiolibro/:data",

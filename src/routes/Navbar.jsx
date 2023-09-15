@@ -51,7 +51,7 @@ const Navbar = () => {
                   id="activar-links"
                   className="nav-linkS"
                   aria-current="page"
-                  href={`#/BuscarLibros`}
+                  href={`#/acercade`}
                 >
                   Acerca de
                 </a>
