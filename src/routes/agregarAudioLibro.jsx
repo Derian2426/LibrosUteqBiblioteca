@@ -541,7 +541,7 @@ export const DialogoRegistroLibro = () => {
       <div
         className="modal-dialog modal-content"
         style={{
-          maxWidth: "950px",
+          maxWidth: "1200px",
           marginRight: "auto",
           marginLeft: "auto",
         }}
@@ -556,13 +556,14 @@ export const DialogoRegistroLibro = () => {
             data-bs-dismiss="modal"
             aria-label="Close"
             style={{ marginRight: "10px" }}
+            onClick={vaciarCampos}
           ></button>
         </div>
 
         <div
           className="Mycontainer-div mt-2"
           style={{
-            maxWidth: "930px",
+            maxWidth: "1180px",
             padding: "10px",
             marginBottom: "10px",
           }}
@@ -925,7 +926,7 @@ export const DialogoRegistroLibro = () => {
             <div
               className="Mycontainer-div mt-2"
               style={{
-                maxWidth: "910px",
+                maxWidth: "1160px",
                 maxHeight: "170px",
                 overflowY: "auto",
                 padding: "5px",

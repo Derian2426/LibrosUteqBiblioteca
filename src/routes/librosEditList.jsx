@@ -7,8 +7,9 @@ import "react-toastify/dist/ReactToastify.css";
 import ReactPaginate from "react-paginate";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-solid-svg-icons";
-export const LibroListEdit = () => {
+import { DialogoEditLibro } from "./editarAudioLibro";
 
+export const LibroListEdit = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 7;
 
@@ -24,7 +25,10 @@ export const LibroListEdit = () => {
   );
 
   return (
-    <div className="Mycontainer-div mt-2 text-center" style={{ maxWidth: "1335px" }}>
+    <div
+      className="Mycontainer-div mt-2 text-center"
+      style={{ maxWidth: "1335px" }}
+    >
       <label
         htmlFor="validationCustom05"
         className="form-label text-start mb-3"
@@ -61,15 +65,20 @@ export const LibroListEdit = () => {
               <td style={{ textAlign: "left" }}>
                 {dato.subAreasEspecificas.subAreasConocimiento.nombreSubArea}
               </td>
-              <td style={{ textAlign: "left" }}>{dato.subAreasEspecificas.nombreSubAreaEspecifica}</td>
+              <td style={{ textAlign: "left" }}>
+                {dato.subAreasEspecificas.nombreSubAreaEspecifica}
+              </td>
               <td>{dato.fechaPublicacion}</td>
 
               <td>
-              <button
-                  className="audio-button"
-                  onClick={() => handleButtonClick(dato.idLibro)}
+                <button
+                  className="btn btn-success btn-sm mx-2"
+                  type="button"
+                  data-bs-toggle="modal"
+                  data-bs-target="#ModalEditarLibros"
                 >
-                  <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon></button>
+                  <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
+                </button>
               </td>
             </tr>
           ))}
@@ -89,6 +98,7 @@ export const LibroListEdit = () => {
         previousClassName={"previous"}
         nextClassName={"next"}
       ></ReactPaginate>
+      <DialogoEditLibro />
     </div>
   );
 };
