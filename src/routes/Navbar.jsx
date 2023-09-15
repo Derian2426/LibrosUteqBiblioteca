@@ -85,7 +85,7 @@ const Navbar = () => {
                   <a
                     className="nav-linkS "
                     aria-current="page"
-                    href={`#/IniciarSesion`}
+                    href={`/`}
                     onClick={() => {
                       localStorage.removeItem("loggerUser");
                       setUsuarioSesion(false);
