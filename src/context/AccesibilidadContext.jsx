@@ -145,6 +145,7 @@ export function AccesibilidadContextProvider(props) {
     localStorage.removeItem("contraste");
     localStorage.removeItem("Textblue");
     localStorage.removeItem("TextGreen");
+    const ColorInfo = document.getElementById("acercaDe");
     const ColordatosTabla = document.getElementById("ColordatosTabla");
     const ColordatosTablaTitulos = document.getElementById(
       "ColordatosTablaTitulos"
@@ -161,6 +162,11 @@ export function AccesibilidadContextProvider(props) {
       ColordatosTabla.classList.remove("colorYellow");
       ColordatosTablaTitulos.classList.remove("colorYellow");
     }
+
+    if (ColorInfo) {
+      ColorInfo.classList.remove("colorYellow");
+    }
+
     body.style.color = "black";
     body.style.backgroundColor = "white";
     LogoPrincipal.style.filter = "none";
@@ -180,6 +186,7 @@ export function AccesibilidadContextProvider(props) {
   useEffect(() => {
     let contrasteAlto = localStorage.getItem("contraste");
 
+    const ColorInfo = document.getElementById("acercaDe");
     const ColordatosTabla = document.getElementById("ColordatosTabla");
     const ColordatosTablaTitulos = document.getElementById(
       "ColordatosTablaTitulos"
@@ -221,12 +228,16 @@ export function AccesibilidadContextProvider(props) {
       if (ImgAudios) {
         ImgAudios.style.filter = "grayscale(100%)";
       }
+      if (ColorInfo) {
+        ColorInfo.classList.add("colorYellow");
+      }
     }
   }, []);
 
   const altoContraste = () => {
     window.localStorage.setItem("contraste", "true");
     const ColordatosTabla = document.getElementById("ColordatosTabla");
+    const ColorInfo = document.getElementById("acercaDe");
     const ColordatosTablaTitulos = document.getElementById(
       "ColordatosTablaTitulos"
     );
@@ -246,6 +257,7 @@ export function AccesibilidadContextProvider(props) {
       classNavbar.classList.remove("classNavbar");
     }
 
+
     if (LogoPrincipal && LogoAudiolibro) {
       LogoPrincipal.style.filter = "grayscale(100%)";
       LogoAudiolibro.style.filter = "grayscale(100%)";
@@ -255,6 +267,11 @@ export function AccesibilidadContextProvider(props) {
       ColordatosTabla.classList.add("colorYellow");
       ColordatosTablaTitulos.classList.add("colorYellow");
     }
+
+    if (ColorInfo) {
+      ColorInfo.classList.add("colorYellow");
+    }
+
   };
 
   return (

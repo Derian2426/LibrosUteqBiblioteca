@@ -11,6 +11,8 @@ import config from "../configuracion";
 import { ToastContainer } from "react-toastify";
 import { LoadingDialog } from "../LoadingDialog";
 import { AccesibilidadContext } from "../context/AccesibilidadContext";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEyeSlash, faEye } from "@fortawesome/free-solid-svg-icons";
 
 const iniciarsesion = () => {
   const { setSesionExitosa } = useContext(AccesibilidadContext);
@@ -20,6 +22,7 @@ const iniciarsesion = () => {
   const [token, setToken] = useState("");
   const navigate = useNavigate();
   const Url = config.libroUrl;
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleIniciarSesion = async () => {
     try {
@@ -49,7 +52,7 @@ const iniciarsesion = () => {
       toast.warning("Error en inicio de sesión" + error, {
         autoClose: 5000,
       });
-    }finally {
+    } finally {
       setLoading(false);
     }
   };
@@ -60,9 +63,9 @@ const iniciarsesion = () => {
       <div className="containerMyStyle">
         <div className="cardMyStyle">
           <div style={{ textAlign: "center", marginBottom: "20px" }}>
-          <a href="/">
-            <img
-              id="logoAudio"
+            <a href="/">
+              <img
+                id="logoAudio"
                 className="StyleImg"
                 src="imagenes-static/LogoAudioLibros.png"
                 dir="auto"
@@ -92,14 +95,21 @@ const iniciarsesion = () => {
             <label htmlFor="validationCustom03" className="form-label mb-1">
               CONTRASEÑA:
             </label>
+            <div className="input-with-icon">
             <input
               className="form-Mycontrol"
-              type="password"
+              type={showPassword ? "text" : "password"}
               placeholder="Ingrese su contraseña"
               value={password}
               required
               onChange={(event) => setPassword(event.target.value)}
             />
+            <button
+              onClick={() => setShowPassword(!showPassword)}
+            >
+              {showPassword ? <FontAwesomeIcon icon={faEye} /> : <FontAwesomeIcon icon={faEyeSlash} />}
+            </button>
+            </div>
           </div>
           <div className="d-grid justify-content-center mt-3">
             <button

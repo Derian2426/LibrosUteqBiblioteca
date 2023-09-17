@@ -331,3 +331,59 @@ border-bottom: 2px solid #01692cef;
   color: #fafcfb;
   border-color: #f8f9fa;
 }
+
+.institution-info {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  border-top: 2px solid #E6AE2F; 
+}
+
+
+.institution-info a {
+  text-decoration: none;
+  margin: 5px;
+  color: black;
+  transition: color 0.3s;
+  font-size: 12px;
+}
+
+.institution-info a:hover {
+  color: #E6AE2F;
+}
+
+.input-with-icon {
+  position: relative;
+}
+
+.input-with-icon input {
+  padding-right: 40px;
+}
+
+.input-with-icon button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  color: grey;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.cardMyStyleInfo {
+  max-width: 500px;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 14px;
+  box-shadow: 0px 2px 15px rgba(4, 172, 4, 0.651);
+  background-color: rgba(251, 252, 251, 0.068);
+}
+.lineaHorizontal {
+  width: 100%;
+  height: 2px;
+  background-color: green;
+  margin-bottom: 15px;
+}
