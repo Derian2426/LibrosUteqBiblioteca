@@ -178,21 +178,19 @@ const audioLibro = () => {
                   {/*botones de descarga */}
                   <div className="d-flex flex-wrap justify-content-center">
                     <button
-                      className="audio-button"
+                      className="audio-button mb-2"
                       type="button"
-                      style={{ height: "25px" }}
                       onClick={obtenerPDFDesdeServidor}
                     >
                       <FontAwesomeIcon
                         icon={faDownload}
-                        style={{ marginRight: "5px" }}
+                        style={{ marginRight: "3px" }}
                       />{" "}
                       Descargar PDF
                     </button>
                     <button
-                      className="audio-button mt-2"
+                      className="audio-button mb-2"
                       type="button"
-                      style={{ height: "25px" }}
                       onClick={async () => {
                         setLoading(true);
                         await descargarAudiosZip(libro, url + "/downloadZip");
@@ -201,7 +199,7 @@ const audioLibro = () => {
                     >
                       <FontAwesomeIcon
                         icon={faDownload}
-                        style={{ marginRight: "5px" }}
+                        style={{ marginRight: "3px" }}
                       />{" "}
                       Generar ZIP de Audios
                     </button>

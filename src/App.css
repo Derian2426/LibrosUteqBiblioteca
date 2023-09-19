@@ -184,6 +184,8 @@
   }
 
   .audio-button {
+    height: 25px;
+    font-size: 1rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -195,6 +197,11 @@
     font-size: 14px;
     cursor: pointer;
     transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+  }
+  @media screen and (max-width: 600px) {
+    .audio-button {
+      font-size: 0.6rem;
+    }
   }
   
   .audio-button:hover {
@@ -347,13 +354,13 @@ border-bottom: 2px solid #01692cef;
 .institution-info a {
   text-decoration: none;
   margin: 5px;
-  color: black;
+  color: #E6AE2F;
   transition: color 0.3s;
   font-size: 14px;
 }
 
 .institution-info a:hover {
-  color: #E6AE2F;
+  color: #005F1B;
 }
 
 .input-with-icon {
