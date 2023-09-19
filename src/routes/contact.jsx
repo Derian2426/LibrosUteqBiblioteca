@@ -1,11 +1,18 @@
 import Footer from "./footer";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faLocationDot } from "@fortawesome/free-solid-svg-icons";
-
+import { faLocationDot, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function Contact() {
+  function handleRedirect() {
+    window.location.href = "/";
+  }
   return (
     <div style={{ marginTop: "80px", flex: 1}}>
+        <div>
+          <button className="StyleBotonAtras" onClick={handleRedirect}>
+            <FontAwesomeIcon icon={faArrowLeft} style={{ color: "white" }} />
+          </button>
+        </div>
       {/* Sección de Descripción */}
       <section className="container">
         <div className="row">
@@ -129,7 +136,7 @@ export default function Contact() {
               <div className="col">
                 <div className="cardMyStyleInfo">
                   <div className="card-body">
-                    <h6 className="card-title">Leonardo MatuteE</h6>
+                    <h6 className="card-title">Leonardo Matute</h6>
                     <p className="card-title">Director de Vinculación</p>
                   </div>
                 </div>
@@ -145,7 +152,7 @@ export default function Contact() {
               <div className="col">
                 <div className="cardMyStyleInfo">
                   <div className="card-body">
-                    <h6 className="card-title">STALIN CARREÑO</h6>
+                    <h6 className="card-title">Stalin Carreño</h6>
                     <p className="card-title" >Unidad de TIC</p>
                   </div>
                 </div>

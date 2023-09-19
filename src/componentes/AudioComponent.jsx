@@ -59,7 +59,6 @@ export const Capitulo = ({ index, capitulo, audioSrc }) => {
           <button
             className="audio-button"
             type="button"
-            style={{ height: "25px" }}
             onClick={handleDescargarClick}
             disabled={loading}
           >
