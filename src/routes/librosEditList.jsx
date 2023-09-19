@@ -13,7 +13,7 @@ export const LibroListEdit = () => {
   const [currentPage, setCurrentPage] = useState(0);
   const itemsPerPage = 7;
 
-  const { listaLibro } = useContext(LibroAccionesContext);
+  const { listaLibro,obtenerLibro } = useContext(LibroAccionesContext);
 
   const handlePageChange = ({ selected }) => {
     setCurrentPage(selected);
@@ -76,6 +76,7 @@ export const LibroListEdit = () => {
                   type="button"
                   data-bs-toggle="modal"
                   data-bs-target="#ModalEditarLibros"
+                  onClick={()=>obtenerLibro(dato.idLibro)}
                 >
                   <FontAwesomeIcon icon={faPenToSquare}></FontAwesomeIcon>
                 </button>

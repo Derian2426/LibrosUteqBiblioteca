@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { obtenerDatos, obtenerToken, obtenerUser } from "../peticionesHttp";
 import config from "../configuracion";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { LoadingDialog } from "../LoadingDialog";
@@ -45,7 +44,6 @@ export const DialogoRegistroLibro = () => {
   const [selectedFiles, setSelectedFiles] = useState([true]);
   const [changeText, setChangeText] = useState([false]);
   const [loading, setLoading] = useState(false);
-  const navigate = useNavigate();
 
   const handledeleteInput = (event, index) => {
     if (inputCount === 1) {

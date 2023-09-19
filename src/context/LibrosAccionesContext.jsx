@@ -4,6 +4,8 @@ import { obtenerDatos, postData } from "../peticionesHttp";
 
 export const LibroAccionesContext = createContext();
 export function LibroAccionesContextProvider(props) {
+  const [listaCapitulo, setListaCapitulo] = useState([]);
+  const [libroEdit, setLibroEdit] = useState({});
   const [listaArea, setListaArea] = useState([]);
   const [listaSubArea, setListaSubArea] = useState([]);
   const [listaSubAreaEspecifica, setListaSubAreaEspecifica] = useState([]);
@@ -65,6 +67,18 @@ export function LibroAccionesContextProvider(props) {
       })
       .catch((error) => console.error(error));
   };
+  const obtenerLibro = async (idLibro) => {
+    try {
+      const libroData = await obtenerDatos(libroUrl + "/libro/" + idLibro);
+      setLibroEdit(libroData);
+      const capituloData = await postDataJson(libroData, "/capitulo");
+      setListaCapitulo(capituloData);
+      const AutorData = await postDataJson(libroData, "/autoresLibro");
+      setListaAutor(AutorData);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <LibroAccionesContext.Provider
@@ -83,6 +97,9 @@ export function LibroAccionesContextProvider(props) {
         setListaAutor,
         obtenerDatos,
         obtenerListLibro,
+        obtenerLibro,
+        libroEdit,
+        listaCapitulo,
       }}
     >
       {props.children}
