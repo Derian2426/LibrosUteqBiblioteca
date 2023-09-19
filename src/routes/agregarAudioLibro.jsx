@@ -179,6 +179,7 @@ export const DialogoRegistroLibro = () => {
                                 libro: {
                                   idLibro,
                                   nombreLibro,
+                                  carpetaLibro:nombreLibro,
                                   fechaPublicacion,
                                   isbn,
                                   lenguaje,
@@ -487,6 +488,7 @@ export const DialogoRegistroLibro = () => {
       libro: {
         idLibro,
         nombreLibro,
+        carpetaLibro:nombreLibro,
         fechaPublicacion,
         isbn,
         lenguaje,

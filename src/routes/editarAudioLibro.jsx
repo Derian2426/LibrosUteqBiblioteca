@@ -1,5 +1,5 @@
 import React from "react";
-import { useContext, useState,useEffect } from "react";
+import { useContext, useState, useEffect } from "react";
 import { toast } from "react-toastify";
 import { LibroAccionesContext } from "../context/LibrosAccionesContext";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,8 +12,19 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { LoadingDialog } from "../LoadingDialog";
 
 export const DialogoEditLibro = () => {
-  const { listaArea, listaAutor, listaTipoAutor, listaCapitulo, libroEdit } =
-    useContext(LibroAccionesContext);
+  const {
+    listaArea,
+    listaSubAreaEspecifica,
+    setListaSubAreaEspecifica,
+    listaSubArea,
+    setListaSubArea,
+    listaAutor,
+    listaTipoAutor,
+    listaCapitulo,
+    libroEdit,
+    listTipoAutor,
+    setListTipoAutor,
+  } = useContext(LibroAccionesContext);
   const [loading, setLoading] = useState(false);
   const token = obtenerToken();
   const usuario = obtenerUser();
@@ -32,15 +43,12 @@ export const DialogoEditLibro = () => {
   const [nombreSubArea, setNombreSubArea] = useState("");
   const [idArea, setIdArea] = useState(0);
   const [nombreArea, setNombreArea] = useState("");
-  const [listaSubArea, setListaSubArea] = useState([]);
-  const [listaSubAreaEspecifica, setListaSubAreaEspecifica] = useState([]);
   const [files, setFiles] = useState([]);
   const [names, setNames] = useState([]);
   const [inputCount, setInputCount] = useState(1);
   const [capituloList, setCapituloList] = useState([]);
   const [nombre, setNombre] = useState("");
   const [idAutor, setIdAutor] = useState(0);
-  const [listTipoAutor, setListTipoAutor] = useState([]);
   const [tipoAutor, setTipoAutor] = useState("");
   const [idTAutor, setIdTAutor] = useState(0);
   const [previousRecordHasData, setPreviousRecordHasData] = useState(false);
@@ -78,6 +86,145 @@ export const DialogoEditLibro = () => {
       );
     }
   }, [libroEdit]);
+  const handleAreaChange = async (event) => {
+    const selectedArea = listaArea.find(
+      (area) => area.nombreArea === event.target.value
+    );
+    setIdArea(selectedArea ? selectedArea.idArea : 0);
+    setNombreArea(event.target.value);
+    try {
+      const data = await obtenerDatos(
+        libroUrl + `/subAreaConocimiento/${selectedArea.idArea}`
+      );
+      if (data && Object.keys(data).length > 0) {
+        setListaSubArea(data);
+      } else {
+        setListaSubArea([]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleSubAreaChange = async (event) => {
+    const selectedSubArea = listaSubArea.find(
+      (subarea) => subarea.nombreSubArea === event.target.value
+    );
+    setIdSubArea(selectedSubArea ? selectedSubArea.idSubArea : 0);
+    setNombreSubArea(event.target.value);
+    try {
+      const data = await obtenerDatos(
+        libroUrl + `/subAreaEspecificas/${selectedSubArea.idSubArea}`
+      );
+      if (data && Object.keys(data).length > 0) {
+        setListaSubAreaEspecifica(data);
+      } else {
+        setListaSubAreaEspecifica([]);
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+  const handleSubAreaEspecificaChange = async (event) => {
+    const selectedSubAreaEspecifica = listaSubAreaEspecifica.find(
+      (subareaespecifica) =>
+        subareaespecifica.nombreSubAreaEspecifica === event.target.value
+    );
+    setIdSubAreaEspecifica(
+      selectedSubAreaEspecifica
+        ? selectedSubAreaEspecifica.idSubAreaEspecifica
+        : 0
+    );
+    setNombreSubAreaEspecifica(event.target.value);
+  };
+  const handleSeleccion = async (event) => {
+    const identificador = identificadorArchivo(1, nombreLibro, "");
+    const archivoSeleccionado = event.target.files[0];
+    const extensionArchivo = "." + archivoSeleccionado.name.split(".").pop();
+    const nuevoArchivo = new File(
+      [archivoSeleccionado],
+      identificador + extensionArchivo,
+      {
+        type: archivoSeleccionado.type,
+      }
+    );
+    setPdfLibro(identificador + extensionArchivo);
+    setFiles((prevFiles) => prevFiles.concat(nuevoArchivo));
+  };
+  const identificadorArchivo = (posicion, nombreArchivo, nombreLibro) => {
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.toISOString().split("T")[0];
+    const nombreConFecha = `${posicion}.${nombreArchivo}_${fechaFormateada}_${nombreLibro}`;
+    return nombreConFecha;
+  };
+  const handleAutorChange = async (event) => {
+    const selectedAutor = listaAutor.find(
+      (autor) => autor.nombre === event.target.value
+    );
+    setIdAutor(selectedAutor ? selectedAutor.idAutor : 0);
+    setNombre(event.target.value);
+  };
+  const handleTipoAutorChange = async (event) => {
+    const selectedTipoAutor = listaTipoAutor.find(
+      (autor) => autor.tipoAutor === event.target.value
+    );
+    setIdTAutor(selectedTipoAutor ? selectedTipoAutor.idAutor : 0);
+    setTipoAutor(event.target.value);
+  };
+  const handleEliminarTipoAutor = (idAutor) => {
+    try {
+      const nuevaListaTipoAutor = listTipoAutor.filter(
+        (item) => item.autor.idAutor !== idAutor
+      );
+      setListTipoAutor(nuevaListaTipoAutor);
+      toast.success("Registro eliminado exitosamente", {
+        autoClose: 2000,
+      });
+    } catch (error) {
+      toast.error("Ocurrió un error al intentar eliminar el registro" + error, {
+        autoClose: 5000,
+      });
+    }
+  };
+  const handleSeleccionTipoAutor = () => {
+    try {
+      const autorSeleccion = {
+        idAutorLibro: 0,
+        libro: {},
+        autor: { idAutor, nombre },
+        tipoAutor: { idAutor: idTAutor, tipoAutor },
+      };
+      if (idAutor > 0) {
+        if (idTAutor > 0) {
+          const autorExistente = listTipoAutor.find(
+            (item) => item.autor.idAutor === autorSeleccion.autor.idAutor
+          );
+          if (autorExistente) {
+            toast.warning("Este autor ya ha sido seleccionado", {
+              autoClose: 5000,
+            });
+          } else {
+            setListTipoAutor([...listTipoAutor, autorSeleccion]);
+            setIdAutor(0);
+            setNombre("");
+            setTipoAutor("");
+            setIdTAutor(0);
+          }
+        } else {
+          toast.warning("No ha seleccionado un tipo de autor", {
+            autoClose: 5000,
+          });
+        }
+      } else {
+        toast.warning("No ha seleccionado un autor", {
+          autoClose: 5000,
+        });
+      }
+    } catch (error) {
+      toast.error("Ocurrió un error durante el registro" + error, {
+        autoClose: 5000,
+      });
+    }
+  };
   return (
     <div
       className="modal fade"
@@ -91,7 +238,7 @@ export const DialogoEditLibro = () => {
       <div
         className="modal-dialog modal-content"
         style={{
-          maxWidth: "950px",
+          maxWidth: "1150px",
           marginRight: "auto",
           marginLeft: "auto",
         }}
@@ -111,7 +258,7 @@ export const DialogoEditLibro = () => {
         <div
           className="Mycontainer-div mt-2"
           style={{
-            maxWidth: "1180px",
+            maxWidth: "1100px",
             padding: "10px",
             marginBottom: "10px",
           }}
@@ -176,7 +323,7 @@ export const DialogoEditLibro = () => {
                           <select
                             className="form-select"
                             value={nombreArea}
-                            // onChange={handleAreaChange}
+                            onChange={handleAreaChange}
                           >
                             <option value="">Seleccionar área</option>
                             {listaArea.map((area) => (
@@ -196,7 +343,7 @@ export const DialogoEditLibro = () => {
                           <select
                             className="form-select"
                             value={nombreSubArea}
-                            // onChange={handleSubAreaChange}
+                            onChange={handleSubAreaChange}
                           >
                             <option value="">Seleccionar sub área</option>
                             {listaSubArea.map((subarea) => (
@@ -219,7 +366,7 @@ export const DialogoEditLibro = () => {
                           <select
                             className="form-select"
                             value={nombreSubAreaEspecifica}
-                            // onChange={handleSubAreaEspecificaChange}
+                            onChange={handleSubAreaEspecificaChange}
                           >
                             <option value="">
                               Seleccionar sub área especifica
@@ -297,14 +444,13 @@ export const DialogoEditLibro = () => {
                             htmlFor="validationCustom03"
                             className="form-label mb-1"
                           >
-                            Portada del libro:
+                            {coverImage || "No hay archivos registrados."}
                           </label>
                           <input
                             className="form-control"
                             type="file"
                             accept="image/png, image/jpeg"
-                            // onChange={handleSeleccion}
-                            title={pdfLibro}
+                            onChange={handleSeleccion}
                           />
                         </div>
 
@@ -313,15 +459,128 @@ export const DialogoEditLibro = () => {
                             htmlFor="validationCustom03"
                             className="form-label mb-1"
                           >
-                            Carga PDF:
+                            {pdfLibro || "No hay archivos registrados."}
                           </label>
                           <input
                             className="form-control"
                             type="file"
                             accept=".pdf"
-                            // onChange={handleSeleccion}
+                            onChange={handleSeleccion}
                           />
                         </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* PRIMER ACORDEON "SELECCIONAR AUTORES"*/}
+
+            <div className="accordion" id="accordionExample">
+              <div className="accordion-item">
+                <h2 className="accordion-header">
+                  <button
+                    className="accordion-button"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne"
+                    aria-expanded="true"
+                    aria-controls="collapseOne"
+                    style={{ padding: "8px" }}
+                  >
+                    Seleccionar autores
+                  </button>
+                </h2>
+                <div
+                  id="collapseOne"
+                  className="accordion-collapse collapse"
+                  data-bs-parent="#accordionExample"
+                >
+                  <div style={{ padding: "5px" }}>
+                    <div className="container">
+                      <div className="row">
+                        <div className="col-md-5">
+                          <label
+                            htmlFor="validationCustom03"
+                            className="form-label mb-1"
+                          >
+                            Autores:
+                          </label>
+                          <select
+                            className="form-select"
+                            value={nombre}
+                            onChange={handleAutorChange}
+                          >
+                            <option value="">Seleccionar autor</option>
+                            {listaAutor.map((autor) => (
+                              <option key={autor.idAutor} value={autor.nombre}>
+                                {autor.nombre + " " + autor.apellido}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="col-md-4 ">
+                          <label
+                            htmlFor="validationCustom03"
+                            className="form-label mb-1"
+                          >
+                            Tipo autor:
+                          </label>
+                          <select
+                            className="form-select"
+                            value={tipoAutor}
+                            onChange={handleTipoAutorChange}
+                          >
+                            <option value="">Seleccionar tipo autor</option>
+                            {listaTipoAutor.map((tipo) => (
+                              <option key={tipo.idAutor} value={tipo.tipoAutor}>
+                                {tipo.tipoAutor}
+                              </option>
+                            ))}
+                          </select>
+                        </div>
+                        <div className="col-md-3 ">
+                          <button
+                            className="btn btn-success"
+                            type="button"
+                            onClick={handleSeleccionTipoAutor}
+                            style={{ textAlign: "right", marginTop: "25px" }}
+                          >
+                            Agregar autor
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className=" Mycontainer-div-table col-md-12 mt-2">
+                        <table className="table table-striped">
+                          <thead>
+                            <tr>
+                              <th scope="col">Autor</th>
+                              <th scope="col">Tipo</th>
+                              <th scope="col">Acciones</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {listTipoAutor.map((dato, index) => (
+                              <tr key={index}>
+                                <td>{dato.autor.nombre}</td>
+                                <td>{dato.tipoAutor.tipoAutor}</td>
+                                <td>
+                                  <button
+                                    className="btn btn-danger"
+                                    type="button"
+                                    onClick={() =>
+                                      handleEliminarTipoAutor(dato.autor.idAutor)
+                                    }
+                                  >
+                                    X
+                                  </button>
+                                </td>
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>

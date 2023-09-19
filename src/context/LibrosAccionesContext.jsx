@@ -10,6 +10,7 @@ export function LibroAccionesContextProvider(props) {
   const [listaSubArea, setListaSubArea] = useState([]);
   const [listaSubAreaEspecifica, setListaSubAreaEspecifica] = useState([]);
   const [listaLibro, setListaLibro] = useState([]);
+  const [listTipoAutor, setListTipoAutor] = useState([]);
   const [listaTipoAutor, setListaTipoAutor] = useState([]);
   const [listaAutor, setListaAutor] = useState([]);
   const libroUrl = config.libroUrl;
@@ -73,8 +74,21 @@ export function LibroAccionesContextProvider(props) {
       setLibroEdit(libroData);
       const capituloData = await postDataJson(libroData, "/capitulo");
       setListaCapitulo(capituloData);
-      const AutorData = await postDataJson(libroData, "/autoresLibro");
-      setListaAutor(AutorData);
+      const subAreas = await obtenerDatos(
+        libroUrl +
+          "/subAreaConocimiento/" +
+          libroData.subAreasEspecificas?.subAreasConocimiento?.areaConocimiento
+            ?.idArea || 0
+      );
+      setListaSubArea(subAreas);
+      const subAreasEspecificas = await obtenerDatos(
+        libroUrl +
+          "/subAreaEspecificas/" +
+          libroData.subAreasEspecificas?.subAreasConocimiento?.idSubArea || 0
+      );
+      setListaSubAreaEspecifica(subAreasEspecificas);
+      const AutorLibroData = await postDataJson(libroData, "/autoresLibro");
+      setListTipoAutor(AutorLibroData);
     } catch (error) {
       console.error(error);
     }
@@ -100,6 +114,8 @@ export function LibroAccionesContextProvider(props) {
         obtenerLibro,
         libroEdit,
         listaCapitulo,
+        listTipoAutor,
+        setListTipoAutor,
       }}
     >
       {props.children}
