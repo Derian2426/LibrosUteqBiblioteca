@@ -29,7 +29,7 @@ const busquedaLibros = () => {
   const [nombreLibro, setNombreLibro] = useState("");
   const libroUrl = config.libroUrl;
   const [currentPage, setCurrentPage] = useState(0);
-  const itemsPerPage = 2;
+  const itemsPerPage = 5;
   useEffect(() => {
     obtenerDatos(libroUrl + "/areaConocimiento")
       .then((data) => {

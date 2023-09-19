@@ -111,8 +111,6 @@ export function AccesibilidadContextProvider(props) {
     const classAgregarColorVerde = document.getElementById(
       "classAgregarColorVerde"
     );
-    console.log("que pacho aqui:", ColordatosTablaTitulos);
-    console.log("que pacho aqui 2:", ColordatosTabla);
     let gText = localStorage.getItem("TextGreen");
     if (gText === "true") {
       body.style.color = "green";
@@ -169,18 +167,31 @@ export function AccesibilidadContextProvider(props) {
 
     body.style.color = "black";
     body.style.backgroundColor = "white";
-    LogoPrincipal.style.filter = "none";
-    LogoAudiolibro.style.filter = "none";
+
+    if(LogoPrincipal){
+      LogoPrincipal.style.filter = "none";
+    }
+    if(LogoAudiolibro){
+      LogoAudiolibro.style.filter = "none";
+    }
+  
 
     if (ImgAudios) {
       ImgAudios.style.filter = "none";
     }
-    document
-      .getElementById("DesactivarClassFooter")
-      .classList.add("classFooter");
-    document
-      .getElementById("DesactivarClassNavbar")
-      .classList.add("classNavbar");
+    const classFooter = document.getElementById("DesactivarClassFooter");
+    const classNavbar = document.getElementById("DesactivarClassNavbar");
+  
+    if (classFooter) {
+      classFooter.classList.add("classFooter");
+      classFooter.classList.remove("classBlack")
+    }
+
+    if (classNavbar) {
+      classNavbar.classList.add("classNavbar");
+      classNavbar.classList.remove("classBlack")
+    }
+
   };
 
   useEffect(() => {
@@ -201,15 +212,14 @@ export function AccesibilidadContextProvider(props) {
 
       body.style.color = "#ffff00";
       body.style.backgroundColor = "#070707";
-
-      if (classFooter) {
+     
+      if (classFooter && classNavbar) {
         classFooter.classList.remove("classFooter");
-      }
-
-      if (classNavbar) {
+        classFooter.classList.add("classBlack");
         classNavbar.classList.remove("classNavbar");
+        classNavbar.classList.add("classBlack");
       }
-
+  
       if (LogoPrincipal) {
         LogoPrincipal.style.filter = "grayscale(100%)";
       }
@@ -254,7 +264,9 @@ export function AccesibilidadContextProvider(props) {
 
     if (classFooter && classNavbar) {
       classFooter.classList.remove("classFooter");
+      classFooter.classList.add("classBlack");
       classNavbar.classList.remove("classNavbar");
+      classNavbar.classList.add("classBlack");
     }
 
 
