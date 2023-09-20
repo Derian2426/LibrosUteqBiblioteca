@@ -116,6 +116,7 @@ export function LibroAccionesContextProvider(props) {
         listaCapitulo,
         listTipoAutor,
         setListTipoAutor,
+        setListaCapitulo,
       }}
     >
       {props.children}

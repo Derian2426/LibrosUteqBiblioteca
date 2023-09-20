@@ -24,6 +24,7 @@ export const DialogoEditLibro = () => {
     libroEdit,
     listTipoAutor,
     setListTipoAutor,
+    setListaCapitulo,
   } = useContext(LibroAccionesContext);
   const [loading, setLoading] = useState(false);
   const token = obtenerToken();
@@ -224,6 +225,14 @@ export const DialogoEditLibro = () => {
         autoClose: 5000,
       });
     }
+  };
+  const actualizarDatoCapitulo = (idCapitulo, nuevoTitulo) => {
+    const nuevaListaCapitulo = [...listaCapitulo];
+    const capitulo = nuevaListaCapitulo.find(
+      (c) => c.idCapitulo === idCapitulo
+    );
+    capitulo.titulo = nuevoTitulo;
+    setListaCapitulo(nuevaListaCapitulo);
   };
   return (
     <div
@@ -571,7 +580,9 @@ export const DialogoEditLibro = () => {
                                     className="btn btn-danger"
                                     type="button"
                                     onClick={() =>
-                                      handleEliminarTipoAutor(dato.autor.idAutor)
+                                      handleEliminarTipoAutor(
+                                        dato.autor.idAutor
+                                      )
                                     }
                                   >
                                     X
@@ -586,6 +597,103 @@ export const DialogoEditLibro = () => {
                   </div>
                 </div>
               </div>
+            </div>
+
+            {/* CONTENEDOR AGREGAR AUDIOS DE LOS LIBROS*/}
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <label
+                htmlFor="validationCustom03"
+                className="form-label"
+                style={{
+                  textAlign: "left",
+                  marginRight: "10px",
+                  fontSize: "16px",
+                }}
+              >
+                Agregar los capítulos del libro:
+              </label>
+              <button
+                className="btn btn-success"
+                type="button"
+                // onClick={handleAddInput}
+                style={{ textAlign: "right" }}
+              >
+                {" "}
+                Agregar nuevo capítulo
+              </button>
+            </div>
+            <div
+              className="Mycontainer-div mt-2"
+              style={{
+                maxWidth: "1160px",
+                maxHeight: "170px",
+                overflowY: "auto",
+                padding: "5px",
+              }}
+            >
+              {/* Botones adicionales */}
+              <div className="col-md-12">
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Nombre del capítulo</th>
+                      <th>Nombre del Archivo</th>
+                      <th>Archivo</th>
+                      <th>Acciones</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {listaCapitulo.map((capitulo) => (
+                      <tr key={capitulo.idCapitulo}>
+                        <td>
+                          <input
+                            className="form-control"
+                            type="text"
+                            maxLength={99}
+                            value={capitulo.titulo}
+                            onChange={(e) =>
+                              actualizarDatoCapitulo(
+                                capitulo.idCapitulo,
+                                e.target.value
+                              )
+                            }
+                          />
+                        </td>
+                        <td>{capitulo.nombreArchivo}</td>
+                        <td>
+                          <input
+                            className="form-control"
+                            type="file"
+                            accept=".mp3,.wav"
+                          />
+                        </td>
+                        <td>
+                          <button className="btn btn-danger" type="button">
+                            <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <div className="col-md-12 d-flex justify-content-end mt-2">
+              <button
+                className="btn btn-success"
+                type="submit"
+                // onClick={handleSubmit}
+              >
+                Guardar
+              </button>
             </div>
           </form>
         </div>

@@ -22,7 +22,7 @@ const Navbar = () => {
         className="navbar navbar-expand-lg fixed-top classNavbar borderNavbar"
       >
         <div className="container-fluid">
-          <a className="navbar-brand" href="/">
+          <a className="navbar-brand" href="/audiolibro">
             <img
               id="logoPrincipal"
               src="imagenes-static/a11ytools.png"
@@ -85,7 +85,7 @@ const Navbar = () => {
                   <a
                     className="nav-linkS "
                     aria-current="page"
-                    href={`/`}
+                    href={`/audiolibro`}
                     onClick={() => {
                       localStorage.removeItem("loggerUser");
                       setUsuarioSesion(false);

@@ -8,7 +8,7 @@ export default function Root() {
     <LibroContextProvider>
       <div style={{ marginTop: "80px", flex: 1 }}>
         <div className="container" style={{ textAlign: "center" }}>
-          <a href="/">
+          <a href="/audiolibro">
             <img
               id="logoAudio"
               className="StyleImg"

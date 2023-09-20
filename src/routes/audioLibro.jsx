@@ -120,7 +120,7 @@ const audioLibro = () => {
   };
 
   function handleRedirect() {
-    window.location.href = "/";
+    window.location.href = "/audiolibro";
   }
 
   return (

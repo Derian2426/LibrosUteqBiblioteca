@@ -4,7 +4,7 @@ import { faLocationDot, faArrowLeft } from "@fortawesome/free-solid-svg-icons";
 
 export default function Contact() {
   function handleRedirect() {
-    window.location.href = "/";
+    window.location.href = "/audiolibro";
   }
   return (
     <div style={{ marginTop: "80px", flex: 1}}>

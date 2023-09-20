@@ -63,7 +63,7 @@ const iniciarsesion = () => {
       <div className="containerMyStyle">
         <div className="cardMyStyle">
           <div style={{ textAlign: "center", marginBottom: "20px" }}>
-            <a href="/">
+            <a href="/audiolibro">
               <img
                 id="logoAudio"
                 className="StyleImg"

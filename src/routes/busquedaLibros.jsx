@@ -105,7 +105,7 @@ const busquedaLibros = () => {
   };
 
   function handleRedirect() {
-    window.location.href = "/";
+    window.location.href = "/audiolibro";
   }
   function realizarBusqueda() {
     let busqueda = "";
@@ -181,7 +181,7 @@ const busquedaLibros = () => {
 
         <div style={{ marginTop: "80px" }}>
           <div style={{ textAlign: "center" }}>
-            <a href="/">
+            <a href="/audiolibro">
               <img
                 id="logoAudio"
                 className="StyleImg2"
