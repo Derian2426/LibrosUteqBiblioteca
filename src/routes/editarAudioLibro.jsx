@@ -6,7 +6,6 @@ import "react-toastify/dist/ReactToastify.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { obtenerDatos, obtenerToken, obtenerUser } from "../peticionesHttp";
 import config from "../configuracion";
-import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { LoadingDialog } from "../LoadingDialog";
@@ -25,6 +24,8 @@ export const DialogoEditLibro = () => {
     listTipoAutor,
     setListTipoAutor,
     setListaCapitulo,
+    files,
+    setFiles,
   } = useContext(LibroAccionesContext);
   const [loading, setLoading] = useState(false);
   const token = obtenerToken();
@@ -44,7 +45,6 @@ export const DialogoEditLibro = () => {
   const [nombreSubArea, setNombreSubArea] = useState("");
   const [idArea, setIdArea] = useState(0);
   const [nombreArea, setNombreArea] = useState("");
-  const [files, setFiles] = useState([]);
   const [names, setNames] = useState([]);
   const [inputCount, setInputCount] = useState(1);
   const [capituloList, setCapituloList] = useState([]);
@@ -137,10 +137,14 @@ export const DialogoEditLibro = () => {
     );
     setNombreSubAreaEspecifica(event.target.value);
   };
-  const handleSeleccion = async (event) => {
+  const handleSeleccionPDF = async (event) => {
     const identificador = identificadorArchivo(1, nombreLibro, "");
     const archivoSeleccionado = event.target.files[0];
     const extensionArchivo = "." + archivoSeleccionado.name.split(".").pop();
+    const indicePDF = files.findIndex((file) => file.name.endsWith(".pdf"));
+    if (indicePDF !== -1) {
+      files.splice(indicePDF, 1);
+    }
     const nuevoArchivo = new File(
       [archivoSeleccionado],
       identificador + extensionArchivo,
@@ -149,12 +153,53 @@ export const DialogoEditLibro = () => {
       }
     );
     setPdfLibro(identificador + extensionArchivo);
-    setFiles((prevFiles) => prevFiles.concat(nuevoArchivo));
+    if (indicePDF !== -1) {
+      files.splice(indicePDF, 0, nuevoArchivo);
+      setFiles([...files]);
+    } else {
+      setFiles((prevFiles) => prevFiles.concat(nuevoArchivo));
+    }
   };
+
+  const handleSeleccionIMAGE = async (event) => {
+    const identificador = identificadorArchivo(1, nombreLibro, "");
+    const archivoSeleccionado = event.target.files[0];
+    const extensionArchivo = "." + archivoSeleccionado.name.split(".").pop();
+
+    const indiceImagen = files.findIndex(
+      (file) => file.name.endsWith(".png") || file.name.endsWith(".jpg")
+    );
+
+    if (indiceImagen !== -1) {
+      files.splice(indiceImagen, 1);
+    }
+
+    const nuevoArchivo = new File(
+      [archivoSeleccionado],
+      identificador + extensionArchivo,
+      {
+        type: archivoSeleccionado.type,
+      }
+    );
+
+    setCoverImage(identificador + extensionArchivo);
+
+    if (indiceImagen !== -1) {
+      files.splice(indiceImagen, 0, nuevoArchivo);
+      setFiles([...files]);
+    } else {
+      setFiles((prevFiles) => prevFiles.concat(nuevoArchivo));
+    }
+  };
+
   const identificadorArchivo = (posicion, nombreArchivo, nombreLibro) => {
     const fechaActual = new Date();
     const fechaFormateada = fechaActual.toISOString().split("T")[0];
-    const nombreConFecha = `${posicion}.${nombreArchivo}_${fechaFormateada}_${nombreLibro}`;
+    const horaFormateada = fechaActual
+      .toTimeString()
+      .split(" ")[0]
+      .replace(/:/g, "");
+    const nombreConFecha = `${posicion}.${nombreArchivo}_${fechaFormateada}_${horaFormateada}_${nombreLibro}`;
     return nombreConFecha;
   };
   const handleAutorChange = async (event) => {
@@ -234,6 +279,248 @@ export const DialogoEditLibro = () => {
     capitulo.titulo = nuevoTitulo;
     setListaCapitulo(nuevaListaCapitulo);
   };
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setLoading(true);
+    try {
+      setNombreLibro(nombreLibro.trim());
+      if (listTipoAutor.length > 0) {
+        if (!nombreLibro) {
+          toast.warning("Ingrese un nombre del libro", {
+            autoClose: 5000,
+          });
+        } else {
+          if (!fechaPublicacion) {
+            toast.warning("Ingrese una Fecha de Publicación", {
+              autoClose: 5000,
+            });
+          } else {
+            if (idArea < 0) {
+              toast.warning("Seleccione un area de conocimiento", {
+                autoClose: 5000,
+              });
+            } else {
+              if (idSubArea < 0) {
+                toast.warning("Ingrese una SubArea de conocimiento", {
+                  autoClose: 5000,
+                });
+              } else {
+                if (idSubAreaEspecifica < 0) {
+                  toast.warning(
+                    "Ingrese una SuArea Especifica de conocimiento",
+                    {
+                      autoClose: 5000,
+                    }
+                  );
+                } else {
+                  if (!isbn) {
+                    toast.warning("Ingrese el ISBN", {
+                      autoClose: 5000,
+                    });
+                  } else {
+                    if (!lenguaje) {
+                      toast.warning(
+                        "Ingrese una SuArea Especifica de conocimiento",
+                        {
+                          autoClose: 5000,
+                        }
+                      );
+                    } else {
+                      if (!pdfLibro) {
+                        toast.warning("Escoja un portada para su libro", {
+                          autoClose: 5000,
+                        });
+                      } else {
+                        if (!pdfLibro) {
+                          toast.warning("Escoja un PDF para su libro", {
+                            autoClose: 5000,
+                          });
+                        } else {
+                          if (
+                            listaCapitulo.length > 0 /*&& files.length > 0*/
+                          ) {
+                            if (/*!*/ previousRecordHasData) {
+                              toast.warning(
+                                "Debe agregar un archivo al registro anterior antes de agregar uno nuevo."
+                              );
+                            } else {
+                              const formData = new FormData();
+                              if (files.length > 0) {
+                                files.forEach((file) => {
+                                  formData.append("file", file);
+                                });
+                              } else {
+                                const emptyFile = new File([], "", {
+                                  type: "",
+                                });
+                                formData.append("file", emptyFile);
+                              }
+                              const capituloFileList = {
+                                libro: {
+                                  idLibro,
+                                  nombreLibro,
+                                  carpetaLibro: nombreLibro,
+                                  fechaPublicacion,
+                                  isbn,
+                                  lenguaje,
+                                  coverImage,
+                                  pdfLibro,
+                                  pdfDescarga,
+                                  subAreasEspecificas: {
+                                    idSubAreaEspecifica,
+                                    nombreSubAreaEspecifica,
+                                    subAreasConocimiento: {
+                                      idSubArea,
+                                      nombreSubArea,
+                                      areaConocimiento: {
+                                        idArea,
+                                        nombreArea,
+                                      },
+                                    },
+                                  },
+                                },
+                                capituloFileList: listaCapitulo,
+                                listTipoAutor: listTipoAutor,
+                              };
+                              const libroString =
+                                JSON.stringify(capituloFileList);
+                              formData.append("libroRequest", libroString);
+                              try {
+                                const response = await fetch(
+                                  libroUrl + "/api/libro",
+                                  {
+                                    method: "POST",
+                                    body: formData,
+                                    headers: {
+                                      Authorization: `Bearer ${token}`,
+                                    },
+                                  }
+                                );
+                                const data = await response.json();
+                                if (response.ok) {
+                                  if (data.valorEstado > 0) {
+                                    toast.success(data.iformacionEstado, {
+                                      autoClose: 5000,
+                                    });
+                                    // vaciarCampos();
+                                    // obtenerListLibro();
+                                  } else {
+                                    toast.error(data.iformacionEstado, {
+                                      autoClose: 5000,
+                                    });
+                                  }
+                                } else {
+                                  toast.error(data.iformacionEstado, {
+                                    autoClose: 5000,
+                                  });
+                                }
+                              } catch (error) {
+                                console.log(error);
+                                toast.error(
+                                  "No se pudo registrar el libro vuelva a intentarlo mas tarde",
+                                  {
+                                    autoClose: 5000,
+                                  }
+                                );
+                                return (window.location.href =
+                                  "#/registrarlibros");
+                              } finally {
+                                setLoading(false);
+                              }
+                            }
+                          } else {
+                            toast.warning(
+                              "Agrege al menos un audio para el registro",
+                              {
+                                autoClose: 5000,
+                              }
+                            );
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      } else {
+        toast.warning("Seleccione autores", {
+          autoClose: 5000,
+        });
+      }
+    } catch (error) {
+      toast.error("Ocurrio un error!!", {
+        autoClose: 5000,
+      });
+      setLoading(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+  const agregarNuevoCapitulo = () => {
+    const ultimoCapitulo = listaCapitulo[listaCapitulo.length - 1];
+    if (ultimoCapitulo.titulo != "" && ultimoCapitulo.nombreArchivo != "") {
+      console.log(listaCapitulo);
+      const nuevoCapitulo = {
+        idCapitulo: 0,
+        titulo: "",
+        nombreArchivo: "",
+        rutaArchivo: "",
+        ordenArchivo: capituloList.length + 1,
+        numeroDescarga: "",
+        fechaCreacion: fechaPublicacion,
+        usuario: usuario,
+        libro: {
+          idLibro,
+          nombreLibro,
+          carpetaLibro: nombreLibro,
+          fechaPublicacion,
+          isbn,
+          lenguaje,
+          coverImage,
+          pdfLibro,
+          pdfDescarga,
+          subAreasEspecificas: {
+            idSubAreaEspecifica,
+            nombreSubAreaEspecifica,
+            subAreasConocimiento: {
+              idSubArea,
+              nombreSubArea,
+              areaConocimiento: {
+                idArea,
+                nombreArea,
+              },
+            },
+          },
+        },
+      };
+      const archivoVacio = new File([], "", {
+        type: "application/octet-stream",
+      });
+      setFiles((prevFiles) => [...prevFiles, archivoVacio]);
+      setListaCapitulo([...listaCapitulo, nuevoCapitulo]);
+    } else {
+      toast.error(
+        "Ingrese datos en el capitulo anterior para poder registrar otro.",
+        {
+          autoClose: 5000,
+        }
+      );
+    }
+  };
+  const eliminarCapitulo = (id, indice) => {
+    const nuevosArchivos = [...files];
+    nuevosArchivos.splice(indice, 1);
+    setFiles(nuevosArchivos);
+    const nuevaListaCapitulos = listaCapitulo.filter(
+      (capitulo) => capitulo.idCapitulo !== id
+    );
+    setListaCapitulo(nuevaListaCapitulos);
+    console.log(files);
+  };
+
   return (
     <div
       className="modal fade"
@@ -459,7 +746,7 @@ export const DialogoEditLibro = () => {
                             className="form-control"
                             type="file"
                             accept="image/png, image/jpeg"
-                            onChange={handleSeleccion}
+                            onChange={handleSeleccionIMAGE}
                           />
                         </div>
 
@@ -474,7 +761,7 @@ export const DialogoEditLibro = () => {
                             className="form-control"
                             type="file"
                             accept=".pdf"
-                            onChange={handleSeleccion}
+                            onChange={handleSeleccionPDF}
                           />
                         </div>
                       </div>
@@ -622,7 +909,7 @@ export const DialogoEditLibro = () => {
               <button
                 className="btn btn-success"
                 type="button"
-                // onClick={handleAddInput}
+                onClick={agregarNuevoCapitulo}
                 style={{ textAlign: "right" }}
               >
                 {" "}
@@ -650,7 +937,7 @@ export const DialogoEditLibro = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {listaCapitulo.map((capitulo) => (
+                    {listaCapitulo.map((capitulo, index) => (
                       <tr key={capitulo.idCapitulo}>
                         <td>
                           <input
@@ -672,10 +959,23 @@ export const DialogoEditLibro = () => {
                             className="form-control"
                             type="file"
                             accept=".mp3,.wav"
+                            onChange={(event) =>
+                              handleSeleccionArchivoMp4(
+                                event,
+                                names[index],
+                                index
+                              )
+                            }
                           />
                         </td>
                         <td>
-                          <button className="btn btn-danger" type="button">
+                          <button
+                            onClick={() =>
+                              eliminarCapitulo(capitulo.idCapitulo, index)
+                            }
+                            className="btn btn-danger"
+                            type="button"
+                          >
                             <FontAwesomeIcon icon={faTrash}></FontAwesomeIcon>
                           </button>
                         </td>
@@ -689,8 +989,8 @@ export const DialogoEditLibro = () => {
             <div className="col-md-12 d-flex justify-content-end mt-2">
               <button
                 className="btn btn-success"
-                type="submit"
-                // onClick={handleSubmit}
+                type="button"
+                onClick={handleSubmit}
               >
                 Guardar
               </button>

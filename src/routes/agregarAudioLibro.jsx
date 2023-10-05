@@ -179,7 +179,7 @@ export const DialogoRegistroLibro = () => {
                                 libro: {
                                   idLibro,
                                   nombreLibro,
-                                  carpetaLibro:nombreLibro,
+                                  carpetaLibro: nombreLibro.trim(),
                                   fechaPublicacion,
                                   isbn,
                                   lenguaje,
@@ -403,6 +403,23 @@ export const DialogoRegistroLibro = () => {
     const identificador = identificadorArchivo(1, nombreLibro, "");
     const archivoSeleccionado = event.target.files[0];
     const extensionArchivo = "." + archivoSeleccionado.name.split(".").pop();
+
+    const indicePDF = files.findIndex((file) => file.name.endsWith(".pdf"));
+    const indiceImagen = files.findIndex(
+      (file) => file.name.endsWith(".png") || file.name.endsWith(".jpg")
+    );
+
+    if (extensionArchivo === ".pdf" && indicePDF !== -1) {
+      files.splice(indicePDF, 1);
+    }
+
+    if (
+      (extensionArchivo === ".png" || extensionArchivo === ".jpg") &&
+      indiceImagen !== -1
+    ) {
+      files.splice(indiceImagen, 1);
+    }
+
     const nuevoArchivo = new File(
       [archivoSeleccionado],
       identificador + extensionArchivo,
@@ -410,8 +427,19 @@ export const DialogoRegistroLibro = () => {
         type: archivoSeleccionado.type,
       }
     );
+
     setPdfLibro(identificador + extensionArchivo);
-    setFiles((prevFiles) => prevFiles.concat(nuevoArchivo));
+
+    if (indicePDF !== -1 || indiceImagen !== -1) {
+      files.splice(
+        indicePDF !== -1 ? indicePDF : indiceImagen,
+        0,
+        nuevoArchivo
+      );
+      setFiles([...files]);
+    } else {
+      setFiles((prevFiles) => prevFiles.concat(nuevoArchivo));
+    }
   };
 
   const identificadorArchivo = (posicion, nombreArchivo, nombreLibro) => {
@@ -488,7 +516,7 @@ export const DialogoRegistroLibro = () => {
       libro: {
         idLibro,
         nombreLibro,
-        carpetaLibro:nombreLibro,
+        carpetaLibro: nombreLibro,
         fechaPublicacion,
         isbn,
         lenguaje,

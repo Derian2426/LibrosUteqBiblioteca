@@ -13,6 +13,7 @@ export function LibroAccionesContextProvider(props) {
   const [listTipoAutor, setListTipoAutor] = useState([]);
   const [listaTipoAutor, setListaTipoAutor] = useState([]);
   const [listaAutor, setListaAutor] = useState([]);
+  const [files, setFiles] = useState([]);
   const libroUrl = config.libroUrl;
   useEffect(() => {
     obtenerDatos(libroUrl + "/areaConocimiento")
@@ -74,6 +75,13 @@ export function LibroAccionesContextProvider(props) {
       setLibroEdit(libroData);
       const capituloData = await postDataJson(libroData, "/capitulo");
       setListaCapitulo(capituloData);
+      const listaDeArchivosVacios = capituloData.map(() => {
+        const archivoVacio = new File([], "", {
+          type: "application/octet-stream",
+        });
+        return archivoVacio;
+      });
+      setFiles(listaDeArchivosVacios);
       const subAreas = await obtenerDatos(
         libroUrl +
           "/subAreaConocimiento/" +
@@ -92,6 +100,12 @@ export function LibroAccionesContextProvider(props) {
     } catch (error) {
       console.error(error);
     }
+  };
+  const identificadorArchivo = (posicion, nombreArchivo, nombreLibro) => {
+    const fechaActual = new Date();
+    const fechaFormateada = fechaActual.toISOString().split("T")[0];
+    const nombreConFecha = `${posicion}.${nombreArchivo}_${fechaFormateada}_${nombreLibro}`;
+    return nombreConFecha;
   };
 
   return (
@@ -117,6 +131,8 @@ export function LibroAccionesContextProvider(props) {
         listTipoAutor,
         setListTipoAutor,
         setListaCapitulo,
+        setFiles,
+        files,
       }}
     >
       {props.children}
