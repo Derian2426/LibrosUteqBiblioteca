@@ -14,6 +14,7 @@ export function LibroAccionesContextProvider(props) {
   const [listaTipoAutor, setListaTipoAutor] = useState([]);
   const [listaAutor, setListaAutor] = useState([]);
   const [files, setFiles] = useState([]);
+  const [tamanioListFile, setTamanioListFile] = useState([]);
   const libroUrl = config.libroUrl;
   useEffect(() => {
     obtenerDatos(libroUrl + "/areaConocimiento")
@@ -82,6 +83,7 @@ export function LibroAccionesContextProvider(props) {
         return archivoVacio;
       });
       setFiles(listaDeArchivosVacios);
+      setTamanioListFile(listaDeArchivosVacios.length);
       const subAreas = await obtenerDatos(
         libroUrl +
           "/subAreaConocimiento/" +
@@ -97,6 +99,7 @@ export function LibroAccionesContextProvider(props) {
       setListaSubAreaEspecifica(subAreasEspecificas);
       const AutorLibroData = await postDataJson(libroData, "/autoresLibro");
       setListTipoAutor(AutorLibroData);
+      console.log(listaDeArchivosVacios);
     } catch (error) {
       console.error(error);
     }
@@ -133,6 +136,7 @@ export function LibroAccionesContextProvider(props) {
         setListaCapitulo,
         setFiles,
         files,
+        tamanioListFile,
       }}
     >
       {props.children}

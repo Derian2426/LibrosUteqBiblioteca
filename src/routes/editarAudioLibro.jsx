@@ -26,6 +26,7 @@ export const DialogoEditLibro = () => {
     setListaCapitulo,
     files,
     setFiles,
+    tamanioListFile,
   } = useContext(LibroAccionesContext);
   const [loading, setLoading] = useState(false);
   const token = obtenerToken();
@@ -45,16 +46,11 @@ export const DialogoEditLibro = () => {
   const [nombreSubArea, setNombreSubArea] = useState("");
   const [idArea, setIdArea] = useState(0);
   const [nombreArea, setNombreArea] = useState("");
-  const [names, setNames] = useState([]);
-  const [inputCount, setInputCount] = useState(1);
-  const [capituloList, setCapituloList] = useState([]);
   const [nombre, setNombre] = useState("");
   const [idAutor, setIdAutor] = useState(0);
   const [tipoAutor, setTipoAutor] = useState("");
   const [idTAutor, setIdTAutor] = useState(0);
-  const [previousRecordHasData, setPreviousRecordHasData] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState([true]);
-  const [changeText, setChangeText] = useState([false]);
+  const [filesIP, setFilesIP] = useState([]);
   useEffect(() => {
     if (libroEdit) {
       setidLibro(libroEdit.idLibro || 0);
@@ -87,6 +83,26 @@ export const DialogoEditLibro = () => {
       );
     }
   }, [libroEdit]);
+
+  const vaciarCampos = () => {
+    setIdAutor(0);
+    setNombre("");
+    setIdTAutor(0);
+    setTipoAutor("");
+    setNombreLibro("");
+    setIdArea(0);
+    setNombreArea("");
+    setNombreSubArea("");
+    setIdSubArea(0);
+    setNombreSubAreaEspecifica("");
+    setIdSubAreaEspecifica(0);
+    setIsbn("");
+    setFechaPublicacion("");
+    setLenguaje("");
+    setPdfLibro("");
+    setFilesIP([]);
+  };
+
   const handleAreaChange = async (event) => {
     const selectedArea = listaArea.find(
       (area) => area.nombreArea === event.target.value
@@ -141,9 +157,9 @@ export const DialogoEditLibro = () => {
     const identificador = identificadorArchivo(1, nombreLibro, "");
     const archivoSeleccionado = event.target.files[0];
     const extensionArchivo = "." + archivoSeleccionado.name.split(".").pop();
-    const indicePDF = files.findIndex((file) => file.name.endsWith(".pdf"));
+    const indicePDF = filesIP.findIndex((file) => file.name.endsWith(".pdf"));
     if (indicePDF !== -1) {
-      files.splice(indicePDF, 1);
+      filesIP.splice(indicePDF, 1);
     }
     const nuevoArchivo = new File(
       [archivoSeleccionado],
@@ -154,10 +170,10 @@ export const DialogoEditLibro = () => {
     );
     setPdfLibro(identificador + extensionArchivo);
     if (indicePDF !== -1) {
-      files.splice(indicePDF, 0, nuevoArchivo);
-      setFiles([...files]);
+      filesIP.splice(indicePDF, 0, nuevoArchivo);
+      setFilesIP([...filesIP]);
     } else {
-      setFiles((prevFiles) => prevFiles.concat(nuevoArchivo));
+      setFilesIP((prevFiles) => prevFiles.concat(nuevoArchivo));
     }
   };
 
@@ -166,12 +182,12 @@ export const DialogoEditLibro = () => {
     const archivoSeleccionado = event.target.files[0];
     const extensionArchivo = "." + archivoSeleccionado.name.split(".").pop();
 
-    const indiceImagen = files.findIndex(
+    const indiceImagen = filesIP.findIndex(
       (file) => file.name.endsWith(".png") || file.name.endsWith(".jpg")
     );
 
     if (indiceImagen !== -1) {
-      files.splice(indiceImagen, 1);
+      filesIP.splice(indiceImagen, 1);
     }
 
     const nuevoArchivo = new File(
@@ -185,10 +201,10 @@ export const DialogoEditLibro = () => {
     setCoverImage(identificador + extensionArchivo);
 
     if (indiceImagen !== -1) {
-      files.splice(indiceImagen, 0, nuevoArchivo);
-      setFiles([...files]);
+      filesIP.splice(indiceImagen, 0, nuevoArchivo);
+      setFilesIP([...filesIP]);
     } else {
-      setFiles((prevFiles) => prevFiles.concat(nuevoArchivo));
+      setFilesIP((prevFiles) => prevFiles.concat(nuevoArchivo));
     }
   };
 
@@ -271,13 +287,56 @@ export const DialogoEditLibro = () => {
       });
     }
   };
-  const actualizarDatoCapitulo = (idCapitulo, nuevoTitulo) => {
+  const actualizarDatoCapitulo = (index, nuevoTitulo) => {
     const nuevaListaCapitulo = [...listaCapitulo];
-    const capitulo = nuevaListaCapitulo.find(
-      (c) => c.idCapitulo === idCapitulo
-    );
+    const capitulo = nuevaListaCapitulo[index];
     capitulo.titulo = nuevoTitulo;
+    if (files[index].size > 0 || capitulo.nombreArchivo === "") {
+      capitulo.nombreArchivo =
+        identificadorArchivo(index + 1, nuevoTitulo, "") + ".mp3";
+      // alert("hay archivo");
+    }
+    const archivoOriginal = files[index];
+    const archivoModificado = new File(
+      [archivoOriginal],
+      capitulo.nombreArchivo
+    );
+    files[index] = archivoModificado;
     setListaCapitulo(nuevaListaCapitulo);
+  };
+
+  const handleSeleccionArchivoMp4 = (event, index) => {
+    if (
+      listaCapitulo[index].titulo != "" &&
+      listaCapitulo[index].nombreArchivo != ""
+    ) {
+      const nuevaListaCapitulo = [...listaCapitulo];
+      const capitulo = nuevaListaCapitulo[index];
+      capitulo.nombreArchivo =
+        identificadorArchivo(index + 1, capitulo.titulo, "") + ".mp3";
+      const archivoOriginal = event.target.files[0];
+      const tipoMIME = archivoOriginal.type;
+      const archivoModificado = new File(
+        [archivoOriginal],
+        listaCapitulo[index].nombreArchivo,
+        { type: tipoMIME }
+      );
+      const newFiles = [...files];
+      newFiles[index] = archivoModificado;
+      setFiles((prevFiles) => [
+        ...prevFiles.slice(0, index),
+        archivoModificado,
+        ...prevFiles.slice(index + 1),
+      ]);
+      setListaCapitulo(nuevaListaCapitulo);
+    } else {
+      toast.warning(
+        "Agregue el nombre del capítulo antes de seleccionar el archivo",
+        {
+          autoClose: 5000,
+        }
+      );
+    }
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -339,14 +398,28 @@ export const DialogoEditLibro = () => {
                           if (
                             listaCapitulo.length > 0 /*&& files.length > 0*/
                           ) {
-                            if (/*!*/ previousRecordHasData) {
+                            const ultimoAudio = files[files.length - 1];
+                            const verificarUltimo =
+                              tamanioListFile === files.length;
+                            if (
+                              (listaCapitulo[files.length - 1].nombreArchivo ===
+                                "" &&
+                                listaCapitulo[files.length - 1].titulo ===
+                                  "") ||
+                              (ultimoAudio.size <= 0 && !verificarUltimo)
+                            ) {
                               toast.warning(
                                 "Debe agregar un archivo al registro anterior antes de agregar uno nuevo."
                               );
                             } else {
+                              console.log(files);
+                              console.log(filesIP);
                               const formData = new FormData();
-                              if (files.length > 0) {
-                                files.forEach((file) => {
+                              const combinedFiles = files.concat(filesIP);
+
+                              console.log(combinedFiles);
+                              if (combinedFiles.length > 0) {
+                                combinedFiles.forEach((file) => {
                                   formData.append("file", file);
                                 });
                               } else {
@@ -402,8 +475,11 @@ export const DialogoEditLibro = () => {
                                     toast.success(data.iformacionEstado, {
                                       autoClose: 5000,
                                     });
-                                    // vaciarCampos();
-                                    // obtenerListLibro();
+                                    var closeButton =
+                                      document.getElementById("closeButton");
+                                    closeButton.click();
+                                    // window.location.href = "#/acercade";
+                                    // window.location.href = "#/registrarlibros";
                                   } else {
                                     toast.error(data.iformacionEstado, {
                                       autoClose: 5000,
@@ -459,16 +535,21 @@ export const DialogoEditLibro = () => {
       setLoading(false);
     }
   };
-  const agregarNuevoCapitulo = () => {
+  const agregarNuevoCapitulo = (posicion) => {
     const ultimoCapitulo = listaCapitulo[listaCapitulo.length - 1];
-    if (ultimoCapitulo.titulo != "" && ultimoCapitulo.nombreArchivo != "") {
-      console.log(listaCapitulo);
+    const ultimoAudio = files[files.length - 1];
+    const verificarUltimo = tamanioListFile === files.length;
+    if (
+      ultimoCapitulo.titulo != "" &&
+      ultimoCapitulo.nombreArchivo != "" &&
+      (ultimoAudio.size > 0 || verificarUltimo || files.length - 1 === 0)
+    ) {
       const nuevoCapitulo = {
         idCapitulo: 0,
         titulo: "",
         nombreArchivo: "",
         rutaArchivo: "",
-        ordenArchivo: capituloList.length + 1,
+        ordenArchivo: posicion,
         numeroDescarga: "",
         fechaCreacion: fechaPublicacion,
         usuario: usuario,
@@ -511,14 +592,19 @@ export const DialogoEditLibro = () => {
     }
   };
   const eliminarCapitulo = (id, indice) => {
-    const nuevosArchivos = [...files];
-    nuevosArchivos.splice(indice, 1);
-    setFiles(nuevosArchivos);
-    const nuevaListaCapitulos = listaCapitulo.filter(
-      (capitulo) => capitulo.idCapitulo !== id
-    );
-    setListaCapitulo(nuevaListaCapitulos);
-    console.log(files);
+    if (listaCapitulo.length > 1) {
+      const nuevosArchivos = [...files];
+      nuevosArchivos.splice(indice, 1);
+      setFiles(nuevosArchivos);
+      const nuevaListaCapitulos = listaCapitulo.filter(
+        (capitulo) => capitulo.idCapitulo !== id
+      );
+      setListaCapitulo(nuevaListaCapitulos);
+    } else {
+      toast.warning("El libro debe contener al menos un capítulo.", {
+        autoClose: 5000,
+      });
+    }
   };
 
   return (
@@ -544,6 +630,7 @@ export const DialogoEditLibro = () => {
             Modificar libro
           </label>
           <button
+            id="closeButton"
             type="button"
             className="btn-close"
             data-bs-dismiss="modal"
@@ -909,7 +996,7 @@ export const DialogoEditLibro = () => {
               <button
                 className="btn btn-success"
                 type="button"
-                onClick={agregarNuevoCapitulo}
+                onClick={() => agregarNuevoCapitulo(listaCapitulo.length + 1)}
                 style={{ textAlign: "right" }}
               >
                 {" "}
@@ -946,10 +1033,7 @@ export const DialogoEditLibro = () => {
                             maxLength={99}
                             value={capitulo.titulo}
                             onChange={(e) =>
-                              actualizarDatoCapitulo(
-                                capitulo.idCapitulo,
-                                e.target.value
-                              )
+                              actualizarDatoCapitulo(index, e.target.value)
                             }
                           />
                         </td>
@@ -960,11 +1044,7 @@ export const DialogoEditLibro = () => {
                             type="file"
                             accept=".mp3,.wav"
                             onChange={(event) =>
-                              handleSeleccionArchivoMp4(
-                                event,
-                                names[index],
-                                index
-                              )
+                              handleSeleccionArchivoMp4(event, index)
                             }
                           />
                         </td>
