@@ -37,7 +37,9 @@ export const obtenerDatos = async (url) => {
         Authorization: `Bearer ${token}`,
       },
     })
-    .then((response) => response.data);
+    .then((response) => response.data).catch((error)=>{
+      console.error("Error:", error);
+    });
 };
 
 export const postData = async (url, jsonData) => {

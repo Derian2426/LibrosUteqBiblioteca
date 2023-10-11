@@ -53,7 +53,7 @@ const Navbar = () => {
                   aria-current="page"
                   href={`#/acercade`}
                 >
-                  Acerca de
+                   Acerca de
                 </a>
               </li>
               <div className="vr"></div>

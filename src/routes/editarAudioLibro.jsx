@@ -412,12 +412,8 @@ export const DialogoEditLibro = () => {
                                 "Debe agregar un archivo al registro anterior antes de agregar uno nuevo."
                               );
                             } else {
-                              console.log(files);
-                              console.log(filesIP);
                               const formData = new FormData();
                               const combinedFiles = files.concat(filesIP);
-
-                              console.log(combinedFiles);
                               if (combinedFiles.length > 0) {
                                 combinedFiles.forEach((file) => {
                                   formData.append("file", file);
@@ -1025,7 +1021,7 @@ export const DialogoEditLibro = () => {
                   </thead>
                   <tbody>
                     {listaCapitulo.map((capitulo, index) => (
-                      <tr key={capitulo.idCapitulo}>
+                      <tr key={index}>
                         <td>
                           <input
                             className="form-control"

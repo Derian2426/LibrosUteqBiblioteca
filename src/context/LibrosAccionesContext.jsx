@@ -99,7 +99,6 @@ export function LibroAccionesContextProvider(props) {
       setListaSubAreaEspecifica(subAreasEspecificas);
       const AutorLibroData = await postDataJson(libroData, "/autoresLibro");
       setListTipoAutor(AutorLibroData);
-      console.log(listaDeArchivosVacios);
     } catch (error) {
       console.error(error);
     }
