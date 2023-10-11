@@ -132,7 +132,7 @@ const audioLibro = () => {
       </div>
       <LoadingDialog loading={loading} />
       <div style={{ textAlign: "center" }}>
-        <a href="/">
+        <a href="/audiolibro">
           <img
             id="logoAudio"
             src="imagenes-static/LogoAudioLibros.png"
