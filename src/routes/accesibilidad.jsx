@@ -172,7 +172,7 @@ const accesibilidad = () => {
 
                     <a
                       className="btn btn-outline-warning"
-                      href="https://chrome.google.com/webstore/detail/zoom-page-we/bcdjhkphgmiapajkphennjfgoehpodpk"
+                      href="https://fyc.uteq.edu.ec/a11ytools/accesibilidad"
                       target="_blank"
                     >
                       <FontAwesomeIcon icon={faCubesStacked} 
